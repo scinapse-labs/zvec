@@ -816,6 +816,7 @@ TEST(CollectionSchemaTest, Validate) {
   }
 }
 
+#if RABITQ_SUPPORTED
 TEST(FieldSchemaTest, HnswRabitqIndexValidationMetricTypes) {
   // Test supported combinations: FP32 + (L2/IP/COSINE)
 
@@ -865,6 +866,7 @@ TEST(FieldSchemaTest, HnswRabitqIndexValidationMetricTypes) {
         << status.message();
   }
 }
+#endif
 
 TEST(FieldSchemaTest, HnswRabitqIndexValidation_UnsupportedDataTypes) {
   // Test unsupported data types with HNSW_RABITQ index

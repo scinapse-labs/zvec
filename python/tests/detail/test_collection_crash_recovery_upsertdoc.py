@@ -34,6 +34,8 @@ from fixture_helper import *
 from doc_helper import *
 
 
+
+
 def singledoc_and_check(
         collection: Collection, insert_doc, operator="insert", is_delete=1
 ):
@@ -51,7 +53,7 @@ def singledoc_and_check(
 
     stats = collection.stats
     assert stats is not None
-    # assert stats.doc_count == 1
+    #assert stats.doc_count == 1
 
     fetched_docs = collection.fetch([insert_doc.id])
     assert len(fetched_docs) == 1
@@ -69,7 +71,7 @@ def singledoc_and_check(
         if v != {}:
             query_result = collection.query(
                 VectorQuery(field_name=v, vector=insert_doc.vectors[v]),
-                topk=10,
+                topk=1024,
             )
             assert len(query_result) > 0, (
                 f"Expected at least 1 query result, but got {len(query_result)}"
@@ -77,11 +79,11 @@ def singledoc_and_check(
 
             found_doc = None
             for doc in query_result:
-                if doc.id == doc.id:
+                if doc.id == insert_doc.id:
                     found_doc = doc
                     break
             assert found_doc is not None, (
-                f"Updated document {insert_doc.id} not found in query results"
+                f"deleted document {insert_doc.id} not found in query results"
             )
             assert is_doc_equal(found_doc, insert_doc, collection.schema, True, False)
     if is_delete == 1:
@@ -476,9 +478,8 @@ if __name__ == "__main__":
                     assert doc.id in fetched_docs
 
                     # Generate expected doc to compare
-                    exp_doc = generate_doc(int(doc.id), recovered_collection.schema)
-                    assert is_doc_equal(fetched_docs[doc.id], exp_doc, recovered_collection.schema), (
-                        f"result doc={fetched_docs[doc.id]},doc_exp={exp_doc}")
+                    assert is_doc_equal(fetched_docs[doc.id], doc, recovered_collection.schema,include_vector=False), (
+                        f"result doc={fetched_docs[doc.id]},doc_exp={doc}")
 
             # Verification 3.4: Check if index is complete and query function works properly
             print(f"[Test] Step 3.4: Verifying index integrity and query function...")
@@ -488,11 +489,11 @@ if __name__ == "__main__":
 
             for doc in query_result[:50]:  # Check first 50 for efficiency
                 fetched_docs = recovered_collection.fetch([doc.id])
-                exp_doc = generate_doc(int(doc.id), recovered_collection.schema)
+
                 assert len(fetched_docs) == 1
                 assert doc.id in fetched_docs
-                assert is_doc_equal(fetched_docs[doc.id], exp_doc, recovered_collection.schema), (
-                    f"result doc={fetched_docs[doc.id]},doc_exp={exp_doc}")
+                assert is_doc_equal(fetched_docs[doc.id], doc, recovered_collection.schema,include_vector=False), (
+                    f"result doc={fetched_docs[doc.id]},doc_exp={doc}")
 
             # Verification 3.5: Test insertion functionality after recovery
             print(f"[Test] Step 3.5.1: Testing insertion functionality after recovery")

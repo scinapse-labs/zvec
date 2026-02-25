@@ -4119,18 +4119,17 @@ Status SegmentImpl::recover() {
   }
 
   const auto added_docs = recovered_doc_count[0] +  // INSERT
-                          recovered_doc_count[1] +  // UPDATE
-                          recovered_doc_count[2];   // UPSERT
+                          recovered_doc_count[1] +  // UPSERT
+                          recovered_doc_count[2];   // UPDATE
   mem_block.max_doc_id_ += added_docs;
 
   LOG_INFO(
-      "Recover from wal finished. total_recovered_doc_count[%zu] "
-      "insert[%zu] update[%zu] upsert[%zu] "
-      "delete[%zu] path[%s]",
+      "Recover from wal finished. total_recovered_doc_count[%zu] insert[%zu] "
+      "upsert[%zu] update[%zu] delete[%zu] path[%s]",
       (size_t)total_recovered_doc_count,
       (size_t)recovered_doc_count[0],  // INSERT
-      (size_t)recovered_doc_count[1],  // UPDATE
-      (size_t)recovered_doc_count[2],  // UPSERT
+      (size_t)recovered_doc_count[1],  // UPSERT
+      (size_t)recovered_doc_count[2],  // UPDATE
       (size_t)recovered_doc_count[3],  // DELETE
       wal_file_path.c_str());
 

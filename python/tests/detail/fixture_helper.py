@@ -143,10 +143,13 @@ def full_schema_new(request) -> CollectionSchema:
                                                  n_list=200,
                                                  n_iters=20,
                                                  use_soar=True,),
-                                   IVFIndexParam(metric_type=MetricType.COSINE,
-                                                 n_list=150,
-                                                 n_iters=15,
-                                                 use_soar=False, )
+        (True, True, IVFIndexParam(metric_type=MetricType.COSINE, n_list=150, n_iters=15, use_soar=False, )),
+
+        (True, True, HnswIndexParam(metric_type=MetricType.COSINE, m=24, ef_construction=150, )),
+        (True, True, HnswIndexParam(metric_type=MetricType.L2, m=32, ef_construction=200, )),
+        (True, True, FlatIndexParam(metric_type=MetricType.COSINE, )),
+        (True, True, FlatIndexParam(metric_type=MetricType.L2, )),
+
     ]:
         for k, v in DEFAULT_VECTOR_FIELD_NAME.items():
             if v in ["vector_fp16_field", "vector_fp32_field"]:
@@ -159,22 +162,22 @@ def full_schema_new(request) -> CollectionSchema:
                     )
                 )
             elif v in ["vector_int8_field"] and vector_index_param in [
-                                   IVFIndexParam(metric_type=MetricType.L2,
-                                                 n_list=200,
-                                                 n_iters=20,
-                                                 use_soar=True,),
-                                   IVFIndexParam(metric_type=MetricType.COSINE,
-                                                 n_list=150,
-                                                 n_iters=15,
-                                                 use_soar=False, )] :
-                    vectors.append(
-                        VectorSchema(
-                            v,
-                            k,
-                            dimension=DEFAULT_VECTOR_DIMENSION,
-                            index_param=vector_index_param,
-                        )
+                IVFIndexParam(metric_type=MetricType.L2,
+                              n_list=200,
+                              n_iters=20,
+                              use_soar=True,
+                                    ),
+                (True, True, HnswIndexParam(metric_type=MetricType.L2, m=32, ef_construction=200, )),
+                (True, True, FlatIndexParam(metric_type=MetricType.L2, )),
+    ]:
+                vectors.append(
+                    VectorSchema(
+                        v,
+                        k,
+                        dimension=DEFAULT_VECTOR_DIMENSION,
+                        index_param=vector_index_param,
                     )
+                )
             else:
                 vectors.append(
                     VectorSchema(
@@ -186,7 +189,7 @@ def full_schema_new(request) -> CollectionSchema:
                 )
     else:
         for k, v in DEFAULT_VECTOR_FIELD_NAME.items():
-            if v in ["vector_fp16_field", "vector_fp32_field","vector_int8_field"]:
+            if v in ["vector_fp16_field", "vector_fp32_field"]:
                 vectors.append(
                     VectorSchema(
                         v,
@@ -204,7 +207,6 @@ def full_schema_new(request) -> CollectionSchema:
                        index_param=HnswIndexParam(),
                    )
                )
-
 
     return CollectionSchema(
         name="full_collection_new",

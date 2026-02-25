@@ -31,9 +31,15 @@ message(STATUS "BUILD_TOOLS:${BUILD_TOOLS}")
 option(USE_OSS_MIRROR "Use OSS mirror for faster third-party downloads" ON)
 message(STATUS "USE_OSS_MIRROR:${USE_OSS_MIRROR}")
 
+option(BUILD_EXAMPLES "Build examples" ON)
+message(STATUS "BUILD_EXAMPLES:${BUILD_EXAMPLES}")
+
 cc_directory(thirdparty)
 cc_directories(src)
 cc_directories(tests)
+if(BUILD_EXAMPLES)
+    cc_directories(examples)
+endif()
 
 if(BUILD_TOOLS)
     cc_directories(tools)

@@ -143,6 +143,11 @@ int HnswRabitqBuilder::init(const IndexMeta &meta,
     LOG_ERROR("%s not set", PARAM_HNSW_RABITQ_GENERAL_DIMENSION.c_str());
     return IndexError_InvalidArgument;
   }
+  if (dimension < kMinRabitqDimSize || dimension > kMaxRabitqDimSize) {
+    LOG_ERROR("Invalid dimension: %u, must be in [%d, %d]", dimension,
+              kMinRabitqDimSize, kMaxRabitqDimSize);
+    return IndexError_InvalidArgument;
+  }
   entity_.update_rabitq_params_and_vector_size(dimension);
 
   entity_.set_ef_construction(ef_construction_);

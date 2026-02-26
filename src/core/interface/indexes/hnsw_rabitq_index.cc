@@ -15,6 +15,7 @@
 #include <memory>
 #include <string>
 #include <zvec/core/interface/index.h>
+#include "zvec/core/framework/index_error.h"
 
 #if RABITQ_SUPPORTED
 #include "algorithm/hnsw-rabitq/hnsw_rabitq_params.h"
@@ -34,6 +35,12 @@ int HNSWRabitqIndex::CreateAndInitStreamer(const BaseIndexParam &param) {
   if (is_sparse_) {
     LOG_ERROR("Sparse index is not supported");
     return core::IndexError_Runtime;
+  }
+
+  if (param.dimension < core::kMinRabitqDimSize ||
+      param.dimension > core::kMaxRabitqDimSize) {
+    LOG_ERROR("Unsupported dimension: %d", param.dimension);
+    return core::IndexError_Unsupported;
   }
 
   // validate parameters

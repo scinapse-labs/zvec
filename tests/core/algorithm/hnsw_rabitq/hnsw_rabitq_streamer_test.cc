@@ -532,5 +532,87 @@ TEST_F(HnswRabitqStreamerTest, TestCreateIterator) {
   // }
 }
 
+TEST_F(HnswRabitqStreamerTest, TestDimensions) {
+  std::vector<size_t> dimensions = {1,    2,    4,    8,    16,   32,   33,
+                                    63,   64,   128,  256,  512,  1024, 2047,
+                                    2048, 2049, 4095, 4096, 4097, 8192, 16384};
+  size_t doc_cnt = 100;
+
+  for (size_t test_dim : dimensions) {
+    std::cout << "Testing dimension: " << test_dim << std::endl;
+
+    IndexMeta index_meta(IndexMeta::DataType::DT_FP32, test_dim);
+    index_meta.set_metric("SquaredEuclidean", 0, ailego::Params());
+
+    auto holder =
+        make_shared<MultiPassIndexProvider<IndexMeta::DataType::DT_FP32>>(
+            test_dim);
+    IndexStreamer::Pointer streamer =
+        std::make_shared<HnswRabitqStreamer>(holder);
+
+    ailego::Params params;
+    params.set("proxima.hnsw_rabitq.streamer.max_neighbor_count", 16U);
+    params.set("proxima.hnsw_rabitq.streamer.upper_neighbor_count", 8U);
+    params.set("proxima.hnsw_rabitq.streamer.scaling_factor", 5U);
+    params.set("proxima.hnsw_rabitq.general.dimension", test_dim);
+
+    int ret = streamer->init(index_meta, params);
+
+    // dimension <= 63 or >= 4096: init() should return -31
+    if (test_dim <= 63 || test_dim >= 4096) {
+      ASSERT_EQ(-31, ret) << "expected init to fail with -31, dim=" << test_dim;
+      std::cout << "Dimension " << test_dim
+                << " correctly rejected with ret=" << ret << std::endl;
+      continue;
+    }
+
+    // Valid dimensions: verify full streaming build succeeds
+    ASSERT_EQ(0, ret) << "init failed, dim=" << test_dim;
+
+    for (size_t i = 0; i < doc_cnt; i++) {
+      NumericalVector<float> vec(test_dim);
+      for (size_t j = 0; j < test_dim; ++j) {
+        vec[j] = static_cast<float>(i * test_dim + j) / 1000.0f;
+      }
+      ASSERT_TRUE(holder->emplace(i, std::move(vec))) << "dim=" << test_dim;
+    }
+
+    RabitqConverter converter;
+    converter.init(index_meta, ailego::Params());
+    ASSERT_EQ(0, converter.train(holder))
+        << "converter train failed, dim=" << test_dim;
+    std::shared_ptr<IndexReformer> index_reformer;
+    ASSERT_EQ(0, converter.to_reformer(&index_reformer)) << "dim=" << test_dim;
+    auto reformer = std::dynamic_pointer_cast<RabitqReformer>(index_reformer);
+
+    // Recreate streamer with reformer
+    streamer = std::make_shared<HnswRabitqStreamer>(holder, reformer);
+    ASSERT_EQ(0, streamer->init(index_meta, params))
+        << "init with reformer failed, dim=" << test_dim;
+
+    auto storage = IndexFactory::CreateStorage("MMapFileStorage");
+    ASSERT_NE(nullptr, storage);
+    ailego::Params stg_params;
+    ASSERT_EQ(0, storage->init(stg_params));
+    std::string storage_path =
+        dir_ + "/TestDimensions_" + std::to_string(test_dim);
+    ASSERT_EQ(0, storage->open(storage_path, true))
+        << "storage open failed, dim=" << test_dim;
+    ASSERT_EQ(0, streamer->open(storage))
+        << "streamer open failed, dim=" << test_dim;
+
+    auto context = streamer->create_context();
+    IndexQueryMeta query_meta(IndexMeta::DataType::DT_FP32, test_dim);
+    for (auto it = holder->create_iterator(); it->is_valid(); it->next()) {
+      ASSERT_EQ(0,
+                streamer->add_impl(it->key(), it->data(), query_meta, context))
+          << "add failed, dim=" << test_dim << ", key=" << it->key();
+    }
+    ASSERT_EQ(0, streamer->flush(0UL)) << "flush failed, dim=" << test_dim;
+
+    std::cout << "Dimension " << test_dim << " passed" << std::endl;
+  }
+}
+
 }  // namespace core
 }  // namespace zvec

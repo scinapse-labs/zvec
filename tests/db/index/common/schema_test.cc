@@ -930,3 +930,72 @@ TEST(FieldSchemaTest, HnswRabitqIndexValidation_UnsupportedDataTypes) {
         << status.message();
   }
 }
+
+TEST(FieldSchemaTest, HnswRabitqIndexValidation_UnsupportedDimension) {
+  // Dimension less than 64 is not supported
+  {
+    auto index_params = std::make_shared<HnswRabitqIndexParams>(
+        MetricType::L2, 7, 256, 16, 200, 0);
+    FieldSchema field("vector_field", DataType::VECTOR_FP32, 63, false,
+                      index_params);
+    auto status = field.validate();
+    EXPECT_FALSE(status.ok())
+        << "Dimension 63 should not be supported with HNSW_RABITQ";
+    EXPECT_NE(
+        status.message().find("HNSW_RABITQ index only support dimension in"),
+        std::string::npos)
+        << "Error message should mention dimension range, got: "
+        << status.message();
+  }
+
+  // Dimension equal to 1 is not supported
+  {
+    auto index_params = std::make_shared<HnswRabitqIndexParams>(
+        MetricType::L2, 7, 256, 16, 200, 0);
+    FieldSchema field("vector_field", DataType::VECTOR_FP32, 1, false,
+                      index_params);
+    auto status = field.validate();
+    EXPECT_FALSE(status.ok())
+        << "Dimension 1 should not be supported with HNSW_RABITQ";
+  }
+
+  // Dimension greater than 4095 is not supported
+  {
+    auto index_params = std::make_shared<HnswRabitqIndexParams>(
+        MetricType::L2, 7, 256, 16, 200, 0);
+    FieldSchema field("vector_field", DataType::VECTOR_FP32, 4096, false,
+                      index_params);
+    auto status = field.validate();
+    EXPECT_FALSE(status.ok())
+        << "Dimension 4096 should not be supported with HNSW_RABITQ";
+    EXPECT_NE(
+        status.message().find("HNSW_RABITQ index only support dimension in"),
+        std::string::npos)
+        << "Error message should mention dimension range, got: "
+        << status.message();
+  }
+
+  // Boundary: dimension 64 should be supported
+  {
+    auto index_params = std::make_shared<HnswRabitqIndexParams>(
+        MetricType::L2, 7, 256, 16, 200, 0);
+    FieldSchema field("vector_field", DataType::VECTOR_FP32, 64, false,
+                      index_params);
+    auto status = field.validate();
+    EXPECT_TRUE(status.ok())
+        << "Dimension 64 should be supported, but got error: "
+        << status.message();
+  }
+
+  // Boundary: dimension 4095 should be supported
+  {
+    auto index_params = std::make_shared<HnswRabitqIndexParams>(
+        MetricType::L2, 7, 256, 16, 200, 0);
+    FieldSchema field("vector_field", DataType::VECTOR_FP32, 4095, false,
+                      index_params);
+    auto status = field.validate();
+    EXPECT_TRUE(status.ok())
+        << "Dimension 4095 should be supported, but got error: "
+        << status.message();
+  }
+}

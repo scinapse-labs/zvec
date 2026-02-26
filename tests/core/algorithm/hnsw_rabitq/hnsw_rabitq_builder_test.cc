@@ -142,6 +142,65 @@ TEST_F(HnswRabitqBuilderTest, TestLoad) {
   ASSERT_LE(result.size(), 10UL);
 }
 
+TEST_F(HnswRabitqBuilderTest, TestDimensions) {
+  std::vector<size_t> dimensions = {1,    2,    4,    8,    16,   32,   33,
+                                    63,   64,   128,  256,  512,  1024, 2047,
+                                    2048, 2049, 4095, 4096, 4097, 8192, 16384};
+  size_t doc_cnt = 100;
+
+  for (size_t test_dim : dimensions) {
+    std::cout << "Testing dimension: " << test_dim << std::endl;
+
+    IndexMeta index_meta(IndexMeta::DataType::DT_FP32, test_dim);
+    index_meta.set_metric("SquaredEuclidean", 0, ailego::Params());
+
+    IndexBuilder::Pointer builder =
+        IndexFactory::CreateBuilder("HnswRabitqBuilder");
+    ASSERT_NE(builder, nullptr) << "dim=" << test_dim;
+
+    ailego::Params params;
+    params.set("proxima.rabitq.num_clusters", 16UL);
+    params.set("proxima.rabitq.total_bits", 2UL);
+    params.set("proxima.hnsw_rabitq.general.dimension", test_dim);
+
+    int ret = builder->init(index_meta, params);
+
+    // dimension <= 63 or >= 4096: init() should return -31
+    if (test_dim <= 63 || test_dim >= 4096) {
+      ASSERT_EQ(-31, ret) << "expected init to fail with -31, dim=" << test_dim;
+      std::cout << "Dimension " << test_dim
+                << " correctly rejected with ret=" << ret << std::endl;
+      continue;
+    }
+
+    // Valid dimensions: verify full build succeeds
+    ASSERT_EQ(0, ret) << "init failed, dim=" << test_dim;
+
+    auto holder =
+        make_shared<MultiPassIndexProvider<IndexMeta::DataType::DT_FP32>>(
+            test_dim);
+    for (size_t i = 0; i < doc_cnt; i++) {
+      NumericalVector<float> vec(test_dim);
+      for (size_t j = 0; j < test_dim; ++j) {
+        vec[j] = static_cast<float>(i * test_dim + j) / 1000.0f;
+      }
+      ASSERT_TRUE(holder->emplace(i, std::move(vec))) << "dim=" << test_dim;
+    }
+
+    ret = builder->train(holder);
+    ASSERT_EQ(0, ret) << "train failed, dim=" << test_dim;
+
+    ret = builder->build(holder);
+    ASSERT_EQ(0, ret) << "build failed, dim=" << test_dim;
+
+    auto &stats = builder->stats();
+    ASSERT_EQ(doc_cnt, stats.built_count()) << "dim=" << test_dim;
+
+    std::cout << "Dimension " << test_dim << " passed, built "
+              << stats.built_count() << " docs" << std::endl;
+  }
+}
+
 TEST_F(HnswRabitqBuilderTest, TestMemquota) {
   IndexBuilder::Pointer builder =
       IndexFactory::CreateBuilder("HnswRabitqBuilder");

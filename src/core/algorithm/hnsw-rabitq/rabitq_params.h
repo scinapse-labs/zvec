@@ -30,10 +30,13 @@ static const std::string PARAM_RABITQ_SAMPLE_COUNT(
     "proxima.rabitq.sample_count");
 
 // Default values
-static constexpr size_t kDefaultNumClusters = 16;
+constexpr size_t kDefaultNumClusters = 16;
 // 4-bit, 5-bit, and 7-bit quantization typically achieve 90%, 95%, and 99%
 // recall, respectively—without accessing raw vectors for reranking
-static constexpr size_t kDefaultRabitqTotalBits = 7;
+constexpr size_t kDefaultRabitqTotalBits = 7;
+
+constexpr int kMinRabitqDimSize = 64;
+constexpr int kMaxRabitqDimSize = 4095;
 
 
 }  // namespace core

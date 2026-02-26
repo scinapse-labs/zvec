@@ -129,6 +129,12 @@ Status FieldSchema::validate() const {
       }
 
       if (index_params_->type() == IndexType::HNSW_RABITQ) {
+        if (dimension_ < kMinRabitqDimSize || dimension_ > kMaxRabitqDimSize) {
+          return Status::InvalidArgument(
+              "schema validate failed: HNSW_RABITQ index only support "
+              "dimension in [",
+              kMinRabitqDimSize, ", ", kMaxRabitqDimSize, "]");
+        }
         if (data_type_ != DataType::VECTOR_FP32) {
           return Status::InvalidArgument(
               "schema validate failed: HNSW_RABITQ index only support FP32 "

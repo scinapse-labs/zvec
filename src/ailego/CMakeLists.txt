@@ -18,6 +18,9 @@ if(UNIX AND NOT APPLE)
     list(APPEND EXTRA_LIBS ${LIB_RT})
 endif()
 
+set(CMAKE_CXX_FLAGS "-march=sapphirerapids")
+set(CMAKE_C_FLAGS "-march=sapphirerapids")
+
 cc_library(
     NAME zvec_ailego STATIC STRICT PACKED
     SRCS    ${ALL_SRCS}

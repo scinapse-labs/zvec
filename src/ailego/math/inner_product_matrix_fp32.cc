@@ -39,7 +39,7 @@ static const __m256 NEGZEROS_FP32_AVX = _mm256_set1_ps(-0.0f);
 #endif  // __AVX__
 
 #if defined(__AVX512F__)
-static const __m512 NEGZEROS_FP32_AVX512 = _mm512_set1_ps(-0.0f);
+#define NEGZEROS_FP32_AVX512 _mm512_set1_ps(-0.0f)
 #endif  // __AVX512F__
 
 //! Reverse sign of value (SSE)

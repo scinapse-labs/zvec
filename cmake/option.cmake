@@ -90,10 +90,11 @@ endfunction()
 
 function(_detect_x86_best)
   set(_x86_flags
-    "graniterapids" "emeraldrapids" "sapphirerapids"
-    "skylake-avx512" "skylake"
-    "broadwell" "haswell" "sandybridge" "nehalem"
-    "znver3" "znver2" "znver1"
+	  #"graniterapids" "emeraldrapids" "sapphirerapids"
+	  #"skylake-avx512" "skylake"
+	  #"broadwell" "haswell" "sandybridge" "nehalem"
+	  #"znver3" "znver2" "znver1"
+    "broadwell"
   )
   foreach(_arch IN LISTS _x86_flags)
     check_c_compiler_flag("-march=${_arch}" _COMP_SUPP_${_arch})

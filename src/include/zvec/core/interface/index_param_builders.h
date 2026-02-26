@@ -334,6 +334,21 @@ class IVFQueryParamBuilder
   }
 };
 
+// HNSW-Rabitq builder (adds ef_search field)
+class HNSWRabitqQueryParamBuilder
+    : public BaseIndexQueryParamBuilder<HNSWRabitqQueryParam,
+                                        HNSWRabitqQueryParamBuilder> {
+ public:
+  HNSWRabitqQueryParamBuilder &with_ef_search(int ef_search) {
+    m_param.ef_search = ef_search;
+    return *this;
+  }
+
+  HNSWRabitqQueryParam::Pointer build() {
+    return std::make_shared<HNSWRabitqQueryParam>(std::move(m_param));
+  }
+};
+
 // Example Usage:
 // // First, build the required nested params
 // auto nested_hnsw = HNSWQueryParamBuilder().with_ef_search(64).build();

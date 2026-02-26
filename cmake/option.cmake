@@ -30,6 +30,9 @@ option(ENABLE_ARMV8.6A "Enable ARMv8.6-a architecture" OFF)
 ## OpenMP option
 option(ENABLE_OPENMP "Enable OpenMP support" OFF)
 
+## Custom march flag for math directories
+option(MATH_MARCH_FLAG "Custom -march flag for ailego math directories (e.g., -march=native)" "")
+
 set(ARCH_OPTIONS
   ENABLE_NEHALEM ENABLE_SANDYBRIDGE ENABLE_HASWELL ENABLE_BROADWELL ENABLE_SKYLAKE
   ENABLE_SKYLAKE_AVX512 ENABLE_SAPPHIRERAPIDS ENABLE_EMERALDRAPIDS ENABLE_GRANITERAPIDS
@@ -90,10 +93,11 @@ endfunction()
 
 function(_detect_x86_best)
   set(_x86_flags
-    "graniterapids" "emeraldrapids" "sapphirerapids"
-    "skylake-avx512" "skylake"
-    "broadwell" "haswell" "sandybridge" "nehalem"
-    "znver3" "znver2" "znver1"
+    # "graniterapids" "emeraldrapids" "sapphirerapids"
+    # "skylake-avx512" "skylake"
+    # "broadwell" "haswell" "sandybridge" "nehalem"
+    # "znver3" "znver2" "znver1"
+    "sse2"
   )
   foreach(_arch IN LISTS _x86_flags)
     check_c_compiler_flag("-march=${_arch}" _COMP_SUPP_${_arch})

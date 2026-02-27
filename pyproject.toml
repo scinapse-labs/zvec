@@ -116,6 +116,7 @@ sdist.include = [
 [tool.scikit-build.cmake.define]
 BUILD_TOOLS = "OFF"
 BUILD_PYTHON_BINDINGS = "ON"
+CMAKE_VERBOSE_MAKEFILE = "ON"
 
 # Setuptools config for test pypi
 [tool.setuptools_scm]
@@ -165,7 +166,8 @@ archs = ["auto"]
 test-command = "cd {project} && pytest python/tests -v --tb=short"
 manylinux-x86_64-image = "manylinux_2_28"
 manylinux-aarch64-image = "manylinux_2_28"
-skip = "*musllinux*"
+skip = ["*-manylinux_i686", "*-musllinux*"]
+environment = { CMAKE_ARGS = "-DENABLE_HASWELL=ON" }
 
 [tool.cibuildwheel.macos]
 archs = ["arm64"]

@@ -1,3 +1,7 @@
+set(ROCKSDB_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/rocksdb-8.1.1)
+set(ROCKSDB_PATCH ${CMAKE_CURRENT_SOURCE_DIR}/rocksdb.avx2.patch)
+apply_patch_once("rocksdb_fix" "${ROCKSDB_SRC_DIR}" "${ROCKSDB_PATCH}")
+
 set(ROCKSDB_BUILD_SHARED OFF CACHE BOOL "Disable install in rocksdb" FORCE)
 
 set(WITH_TESTS OFF CACHE BOOL "Disable testing in rocksdb" FORCE)

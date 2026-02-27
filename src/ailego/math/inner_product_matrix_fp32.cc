@@ -912,11 +912,16 @@ void MinusInnerProductMatrix<float, 2, 2>::Compute(const ValueType *m,
                                                    size_t dim, float *out) {
 #if defined(__ARM_NEON)
   ACCUM_FP32_2X2_NEON(m, q, dim, out, vnegq_f32)
-#elif defined(__AVX__)
-  ACCUM_FP32_2X2_AVX(m, q, dim, out, NEGATE_FP32_SSE)
+#else
+#if defined(__AVX__)
+  if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX) {
+    ACCUM_FP32_2X2_AVX(m, q, dim, out, NEGATE_FP32_SSE)
+    return;
+  }
 #else
   ACCUM_FP32_2X2_SSE(m, q, dim, out, NEGATE_FP32_SSE)
 #endif  // __AVX__
+#endif
 }
 
 //! Compute the distance between matrix and query (FP32, M=4, N=1)
@@ -925,11 +930,16 @@ void MinusInnerProductMatrix<float, 4, 1>::Compute(const ValueType *m,
                                                    size_t dim, float *out) {
 #if defined(__ARM_NEON)
   ACCUM_FP32_4X1_NEON(m, q, dim, out, vnegq_f32)
-#elif defined(__AVX__)
-  ACCUM_FP32_4X1_AVX(m, q, dim, out, NEGATE_FP32_SSE)
+#else
+#if defined(__AVX__)
+  if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX) {
+    ACCUM_FP32_4X1_AVX(m, q, dim, out, NEGATE_FP32_SSE)
+    return;
+  }
 #else
   ACCUM_FP32_4X1_SSE(m, q, dim, out, NEGATE_FP32_SSE)
-#endif  // __AVX__
+#endif // __AVX__ 
+#endif 
 }
 
 //! Compute the distance between matrix and query (FP32, M=4, N=2)
@@ -938,11 +948,16 @@ void MinusInnerProductMatrix<float, 4, 2>::Compute(const ValueType *m,
                                                    size_t dim, float *out) {
 #if defined(__ARM_NEON)
   ACCUM_FP32_4X2_NEON(m, q, dim, out, vnegq_f32)
-#elif defined(__AVX__)
-  ACCUM_FP32_4X2_AVX(m, q, dim, out, NEGATE_FP32_SSE)
+#else
+#if defined(__AVX__)
+  if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX) {
+    ACCUM_FP32_4X2_AVX(m, q, dim, out, NEGATE_FP32_SSE)
+    return;
+  }
 #else
   ACCUM_FP32_4X2_SSE(m, q, dim, out, NEGATE_FP32_SSE)
 #endif  // __AVX__
+#endif
 }
 
 //! Compute the distance between matrix and query (FP32, M=4, N=4)

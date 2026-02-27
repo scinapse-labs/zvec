@@ -94,7 +94,7 @@ function(_detect_x86_best)
 	  #"skylake-avx512" "skylake"
 	  #"broadwell" "haswell" "sandybridge" "nehalem"
 	  #"znver3" "znver2" "znver1"
-    "broadwell"
+    "x86-64"
   )
   foreach(_arch IN LISTS _x86_flags)
     check_c_compiler_flag("-march=${_arch}" _COMP_SUPP_${_arch})

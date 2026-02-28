@@ -70,13 +70,14 @@ jobs:
 
   # Build and test matrix (parallel execution)
   build-and-test:
-    name: Build & Test (${{ matrix.platform }})
+    name: Build & Test (${{ matrix.platform }}, py${{ matrix.python-version }})
     needs: lint
     runs-on: ${{ matrix.os }}
     
     strategy:
       fail-fast: false
       matrix:
+        python-version: ['3.10']
         include:
           - os: macos-15
             platform: macos-arm64
@@ -86,9 +87,7 @@ jobs:
             arch_flag: ""  # ARM64 uses auto-detection
           - os: ubuntu-24.04
             platform: linux-x64
-            # FIXME: ENABLE_ZEN3 is hardcoded for the current GitHub-hosted runner (AMD EPYC 7T83).
-            # This should be removed once #101 is resolved.
-            arch_flag: "--config-settings='cmake.define.ENABLE_ZEN3=\"ON\"'"
+            arch_flag: ""  # Use native CPU microarchitecture
 
     steps:
       - name: Checkout code
@@ -99,7 +98,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: '3.10'
+          python-version: ${{ matrix.python-version }}
           cache: 'pip'
           cache-dependency-path: 'pyproject.toml'
 

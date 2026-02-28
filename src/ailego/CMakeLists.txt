@@ -30,6 +30,10 @@ file(GLOB_RECURSE MATH_FILES_AVX2
     ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx2.c
     ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx2.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx2.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx.c
 )
 
 file(GLOB_RECURSE MATH_FILES_AVX512

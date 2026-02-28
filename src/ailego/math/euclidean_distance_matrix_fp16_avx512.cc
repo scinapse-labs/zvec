@@ -22,9 +22,7 @@ namespace ailego {
 #define ACCUM_FP32_STEP_SSE SSD_FP32_SSE
 #define ACCUM_FP32_STEP_AVX SSD_FP32_AVX
 #define ACCUM_FP32_STEP_AVX512 SSD_FP32_AVX512
-#define ACCUM_FP32_STEP_NEON SSD_FP32_NEON
 #define ACCUM_FP16_STEP_GENERAL SSD_FP16_GENERAL
-#define ACCUM_FP16_STEP_NEON SSD_FP16_NEON
 
 //! Calculate sum of squared difference (SSE)
 #define SSD_FP32_SSE(xmm_m, xmm_q, xmm_sum)        \
@@ -52,20 +50,6 @@ namespace ailego {
   {                                 \
     float x = m - q;                \
     sum += (x * x);                 \
-  }
-
-//! Calculate sum of squared difference (NEON)
-#define SSD_FP16_NEON(v_m, v_q, v_sum)     \
-  {                                        \
-    float16x8_t v_d = vsubq_f16(v_m, v_q); \
-    v_sum = vfmaq_f16(v_sum, v_d, v_d);    \
-  }
-
-//! Calculate sum of squared difference (NEON)
-#define SSD_FP32_NEON(v_m, v_q, v_sum)     \
-  {                                        \
-    float32x4_t v_d = vsubq_f32(v_m, v_q); \
-    v_sum = vfmaq_f32(v_sum, v_d, v_d);    \
   }
 
 #if defined(__AVX512FP16__)
@@ -135,6 +119,162 @@ float SquaredEuclideanDistanceAVX512(const Float16 *lhs, const Float16 *rhs, siz
   ACCUM_FP16_1X1_AVX512(lhs, rhs, size, &score, 0ull, )    
 
   return score;                                          
+}
+
+//! SquaredEuclideanDistance
+float SquaredEuclideanDistanceAVX512_16X1(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_16X1_AVX512(lhs, rhs, size, &score, )
+  
+  return score;
+}
+
+float SquaredEuclideanDistanceAVX512_16X2(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_16X2_AVX512(lhs, rhs, size, &score, )
+  
+  return score;
+}
+
+float SquaredEuclideanDistanceAVX512_16X4(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_16X4_AVX512(lhs, rhs, size, &score, )
+  
+  return score;
+}
+
+float SquaredEuclideanDistanceAVX512_16X8(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_16X8_AVX512(lhs, rhs, size, &score, )
+  
+  return score;
+}
+
+float SquaredEuclideanDistanceAVX512_16X16(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_16X16_AVX512(lhs, rhs, size, &score, )
+  
+  return score;
+}
+
+float SquaredEuclideanDistanceAVX512_32X1(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_32X1_AVX512(lhs, rhs, size, &score, )
+  
+  return score;
+}
+
+float SquaredEuclideanDistanceAVX512_32X2(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_32X2_AVX512(lhs, rhs, size, &score, )
+  
+  return score;
+}
+
+float SquaredEuclideanDistanceAVX512_32X4(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_32X4_AVX512(lhs, rhs, size, &score, )
+  
+  return score;
+}
+
+float SquaredEuclideanDistanceAVX512_32X8(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_32X8_AVX512(lhs, rhs, size, &score, )
+  
+  return score;
+}
+
+float SquaredEuclideanDistanceAVX512_32X16(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_32X16_AVX512(lhs, rhs, size, &score, )
+  
+  return score;
+}
+
+float SquaredEuclideanDistanceAVX512_32X32(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_32X32_AVX512(lhs, rhs, size, &score, )
+  
+  return score;
+}
+
+//! EuclideanDistance
+float EuclideanDistanceAVX512_16X1(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_16X1_AVX512(lhs, rhs, size, &score, _mm512_sqrt_ps)
+  
+  return score;
+}
+
+float EuclideanDistanceAVX512_16X2(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_16X2_AVX512(lhs, rhs, size, &score, _mm512_sqrt_ps)
+  
+  return score;
+}
+
+float EuclideanDistanceAVX512_16X4(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_16X4_AVX512(lhs, rhs, size, &score, _mm512_sqrt_ps)
+  
+  return score;
+}
+
+float EuclideanDistanceAVX512_16X8(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_16X8_AVX512(lhs, rhs, size, &score, _mm512_sqrt_ps)
+  
+  return score;
+}
+
+float EuclideanDistanceAVX512_16X16(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_16X16_AVX512(lhs, rhs, size, &score, _mm512_sqrt_ps)
+  
+  return score;
+}
+
+float EuclideanDistanceAVX512_32X1(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_32X1_AVX512(lhs, rhs, size, &score, _mm512_sqrt_ps)
+  
+  return score;
+}
+
+float EuclideanDistanceAVX512_32X2(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_32X2_AVX512(lhs, rhs, size, &score, _mm512_sqrt_ps)
+  
+  return score;
+}
+
+float EuclideanDistanceAVX512_32X4(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_32X4_AVX512(lhs, rhs, size, &score, _mm512_sqrt_ps)
+  
+  return score;
+}
+
+float EuclideanDistanceAVX512_32X8(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_32X8_AVX512(lhs, rhs, size, &score, _mm512_sqrt_ps)
+  
+  return score;
+}
+
+float EuclideanDistanceAVX512_32X16(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_32X16_AVX512(lhs, rhs, size, &score, _mm512_sqrt_ps)
+  
+  return score;
+}
+
+float EuclideanDistanceAVX512_32X32(const Float16 *lhs, const Float16 *rhs, size_t size){
+  float score;
+  ACCUM_FP16_32X32_AVX512(lhs, rhs, size, &score, _mm512_sqrt_ps)
+  
+  return score;
 }
 #endif
 }  // namespace ailego

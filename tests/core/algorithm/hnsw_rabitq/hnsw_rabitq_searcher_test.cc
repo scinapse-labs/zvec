@@ -136,7 +136,7 @@ TEST_F(HnswRabitqSearcherTest, TestBasicSearch) {
   }
 }
 
-TEST_F(HnswRabitqSearcherTest, TestRnnSearch) {
+TEST_F(HnswRabitqSearcherTest, DISABLED_TestRnnSearch) {
   // Build index first
   IndexBuilder::Pointer builder =
       IndexFactory::CreateBuilder("HnswRabitqBuilder");

@@ -19,7 +19,7 @@
 #include <zvec/ailego/container/params.h>
 #include <zvec/ailego/parallel/thread_pool.h>
 #include <zvec/ailego/utility/string_helper.h>
-#include "algorithm/hnsw-rabitq/rabitq_reformer.h"
+#include "algorithm/hnsw_rabitq/rabitq_reformer.h"
 #include "zvec/core/framework/index_cluster.h"
 #include "zvec/core/framework/index_error.h"
 #include "zvec/core/framework/index_factory.h"

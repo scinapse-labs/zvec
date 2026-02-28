@@ -12,9 +12,9 @@ cc_directory(mixed_reducer)
 git_version(GIT_SRCS_VER ${CMAKE_CURRENT_SOURCE_DIR})
 file(GLOB_RECURSE ALL_CORE_SRCS *.cc *.c *.h)
 
-# Remove hnsw-rabitq files if not supported
+# Remove hnsw_rabitq files if not supported
 if(NOT RABITQ_SUPPORTED)
-  list(FILTER ALL_CORE_SRCS EXCLUDE REGEX ".*hnsw-rabitq.*")
+  list(FILTER ALL_CORE_SRCS EXCLUDE REGEX ".*hnsw_rabitq.*")
 endif()
 
 cc_library(

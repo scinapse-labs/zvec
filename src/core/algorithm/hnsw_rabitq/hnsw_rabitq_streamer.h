@@ -15,7 +15,7 @@
 
 #include <memory>
 #include <ailego/parallel/lock.h>
-#include "algorithm/hnsw-rabitq/rabitq_reformer.h"
+#include "algorithm/hnsw_rabitq/rabitq_reformer.h"
 #include "zvec/core/framework/index_framework.h"
 #include "zvec/core/framework/index_provider.h"
 #include "zvec/core/framework/index_reformer.h"

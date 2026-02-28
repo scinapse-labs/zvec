@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License
 
-#include "core/algorithm/hnsw-rabitq/hnsw_rabitq_dist_calculator.h"
+#include "core/algorithm/hnsw_rabitq/hnsw_rabitq_dist_calculator.h"
 #include "zvec/core/framework/index_error.h"
 
 namespace zvec::core {

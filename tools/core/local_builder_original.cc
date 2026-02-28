@@ -20,9 +20,9 @@
 #include <zvec/ailego/container/params.h>
 #include <zvec/ailego/utility/time_helper.h>
 #if RABITQ_SUPPORTED
-#include "algorithm/hnsw-rabitq/hnsw_rabitq_streamer.h"
-#include "algorithm/hnsw-rabitq/rabitq_converter.h"
-#include "algorithm/hnsw-rabitq/rabitq_reformer.h"
+#include "algorithm/hnsw_rabitq/hnsw_rabitq_streamer.h"
+#include "algorithm/hnsw_rabitq/rabitq_converter.h"
+#include "algorithm/hnsw_rabitq/rabitq_reformer.h"
 #endif
 #include "zvec/core/framework/index_dumper.h"
 #include "zvec/core/framework/index_factory.h"

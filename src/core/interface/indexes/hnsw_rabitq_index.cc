@@ -18,9 +18,9 @@
 #include "zvec/core/framework/index_error.h"
 
 #if RABITQ_SUPPORTED
-#include "algorithm/hnsw-rabitq/hnsw_rabitq_params.h"
-#include "algorithm/hnsw-rabitq/hnsw_rabitq_streamer.h"
-#include "algorithm/hnsw-rabitq/rabitq_params.h"
+#include "algorithm/hnsw_rabitq/hnsw_rabitq_params.h"
+#include "algorithm/hnsw_rabitq/hnsw_rabitq_streamer.h"
+#include "algorithm/hnsw_rabitq/rabitq_params.h"
 #endif
 
 namespace zvec::core_interface {

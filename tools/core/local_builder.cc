@@ -21,8 +21,8 @@
 #include <zvec/ailego/utility/time_helper.h>
 #include "algorithm/flat/flat_utility.h"
 #if RABITQ_SUPPORTED
-#include "algorithm/hnsw-rabitq/hnsw_rabitq_streamer.h"
-#include "algorithm/hnsw-rabitq/rabitq_converter.h"
+#include "algorithm/hnsw_rabitq/hnsw_rabitq_streamer.h"
+#include "algorithm/hnsw_rabitq/rabitq_converter.h"
 #endif
 #include "algorithm/hnsw/hnsw_params.h"
 #include "zvec/ailego/logger/logger.h"

@@ -9,7 +9,7 @@ cc_directory(hnsw)
 cc_directory(hnsw_sparse)
 if(RABITQ_SUPPORTED)
   message(STATUS "BUILD RABITQ")
-  cc_directory(hnsw-rabitq)
+  cc_directory(hnsw_rabitq)
 else()
   message(STATUS "NOT BUILD RABITQ")
   # Empty stub library for unsupported platforms

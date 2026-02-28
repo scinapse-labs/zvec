@@ -38,7 +38,7 @@
 #include <zvec/db/status.h>
 #include <zvec/db/type.h>
 #if RABITQ_SUPPORTED
-#include "core/algorithm/hnsw-rabitq/rabitq_params.h"
+#include "core/algorithm/hnsw_rabitq/rabitq_params.h"
 #endif
 #include "db/common/constants.h"
 #include "db/common/file_helper.h"

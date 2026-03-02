@@ -102,14 +102,16 @@ TEST(DistanceMatrix, GeneralRepeatedQuadraticInjection) {
   const uint32_t count = std::uniform_int_distribution<uint32_t>(1, 1000)(gen);
   std::uniform_int_distribution<int8_t> dist(-127, 127);
   for (size_t i = 0; i < count; ++i) {
-    int8_t vec1[dim];
-    int8_t vec2[dim];
+    std::vector<int8_t> vec1(dim);
+    std::vector<int8_t> vec2(dim);
     for (size_t d = 0; d < dim; ++d) {
       vec1[d] = dist(gen);
       vec2[d] = dist(gen);
     }
-    ASSERT_NEAR(ConvertAndComputeByMips(vec1, vec2, dim, m_val, e2),
-                MipsSquaredEuclidean(vec1, vec2, dim, m_val, e2), epsilon);
+    ASSERT_NEAR(
+        ConvertAndComputeByMips(vec1.data(), vec2.data(), dim, m_val, e2),
+        MipsSquaredEuclidean(vec1.data(), vec2.data(), dim, m_val, e2),
+        epsilon);
   }
 }
 
@@ -561,14 +563,15 @@ TEST(DistanceMatrix, GeneralSphericalInjection) {
   const uint32_t count = std::uniform_int_distribution<uint32_t>(1, 1000)(gen);
   std::uniform_int_distribution<int8_t> dist(-127, 127);
   for (size_t i = 0; i < count; ++i) {
-    int8_t vec1[dim];
-    int8_t vec2[dim];
+    std::vector<int8_t> vec1(dim);
+    std::vector<int8_t> vec2(dim);
     for (size_t d = 0; d < dim; ++d) {
       vec1[d] = dist(gen);
       vec2[d] = dist(gen);
     }
-    ASSERT_NEAR(ConvertAndComputeByMips(vec1, vec2, dim, e2),
-                MipsSquaredEuclidean(vec1, vec2, dim, e2), epsilon);
+    ASSERT_NEAR(ConvertAndComputeByMips(vec1.data(), vec2.data(), dim, e2),
+                MipsSquaredEuclidean(vec1.data(), vec2.data(), dim, e2),
+                epsilon);
   }
 }
 

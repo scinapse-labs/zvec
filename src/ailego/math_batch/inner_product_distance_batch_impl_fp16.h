@@ -40,7 +40,7 @@ compute_one_to_many_avx512fp16_fp16(
   for (; dim + 32 <= dimensionality; dim += 32) {
     __m512h q = _mm512_loadu_ph(query + dim);
 
-    __m512h data_regs[dp_batch];
+    std::vector<__m512h> data_regs(dp_batch);
     for (size_t i = 0; i < dp_batch; ++i) {
       data_regs[i] = _mm512_loadu_ph(ptrs[i] + dim);
     }

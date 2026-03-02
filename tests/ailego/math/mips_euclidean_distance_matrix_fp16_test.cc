@@ -101,19 +101,20 @@ TEST(DistanceMatrix, GeneralRepeatedQuadraticInjection) {
   const uint32_t count = std::uniform_int_distribution<uint32_t>(1, 1000)(gen);
   std::uniform_real_distribution<float> dist(-1.0, 1.0);
   for (size_t i = 0; i < count; ++i) {
-    Float16 vec1[dim];
-    Float16 vec2[dim];
+    std::vector<Float16> vec1(dim);
+    std::vector<Float16> vec2(dim);
     for (size_t d = 0; d < dim; ++d) {
       vec1[d] = dist(gen);
       vec2[d] = dist(gen);
     }
     float norm1{0.0}, norm2{0.0};
-    SquaredNorm2Matrix<Float16, 1>::Compute(vec1, dim, &norm1);
-    SquaredNorm2Matrix<Float16, 1>::Compute(vec2, dim, &norm2);
+    SquaredNorm2Matrix<Float16, 1>::Compute(vec1.data(), dim, &norm1);
+    SquaredNorm2Matrix<Float16, 1>::Compute(vec2.data(), dim, &norm2);
     const float e2 = u_val * u_val / std::max(norm1, norm2);
-    ASSERT_NEAR(ConvertAndComputeByMips(vec1, vec2, dim, m_val, e2),
-                MipsSquaredEuclideanDistance(vec1, vec2, dim, m_val, e2),
-                epsilon);
+    ASSERT_NEAR(
+        ConvertAndComputeByMips(vec1.data(), vec2.data(), dim, m_val, e2),
+        MipsSquaredEuclideanDistance(vec1.data(), vec2.data(), dim, m_val, e2),
+        epsilon);
   }
 }
 
@@ -580,18 +581,19 @@ TEST(DistanceMatrix, GeneralSphericalInjection) {
   const uint32_t count = std::uniform_int_distribution<uint32_t>(1, 1000)(gen);
   std::uniform_real_distribution<float> dist(-1.0, 1.0);
   for (size_t i = 0; i < count; ++i) {
-    Float16 vec1[dim];
-    Float16 vec2[dim];
+    std::vector<Float16> vec1(dim);
+    std::vector<Float16> vec2(dim);
     for (size_t d = 0; d < dim; ++d) {
       vec1[d] = dist(gen);
       vec2[d] = dist(gen);
     }
     float norm1{0.0}, norm2{0.0};
-    SquaredNorm2Matrix<Float16, 1>::Compute(vec1, dim, &norm1);
-    SquaredNorm2Matrix<Float16, 1>::Compute(vec2, dim, &norm2);
+    SquaredNorm2Matrix<Float16, 1>::Compute(vec1.data(), dim, &norm1);
+    SquaredNorm2Matrix<Float16, 1>::Compute(vec2.data(), dim, &norm2);
     const float e2 = u_val * u_val / std::max(norm1, norm2);
-    ASSERT_NEAR(ConvertAndComputeByMips(vec1, vec2, dim, e2),
-                MipsSquaredEuclidean(vec1, vec2, dim, e2), epsilon);
+    ASSERT_NEAR(ConvertAndComputeByMips(vec1.data(), vec2.data(), dim, e2),
+                MipsSquaredEuclidean(vec1.data(), vec2.data(), dim, e2),
+                epsilon);
   }
 }
 

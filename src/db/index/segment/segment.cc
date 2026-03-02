@@ -3939,6 +3939,14 @@ VectorColumnIndexer::Ptr SegmentImpl::create_vector_indexer(
     memory_vector_block_ids_[field_name] = block_id;
   }
 
+  if (FileHelper::FileExists(index_file_path)) {
+    LOG_WARN(
+        "Index file[%s] already exists (possible crash residue); cleaning and "
+        "overwriting.",
+        index_file_path.c_str());
+    FileHelper::RemoveFile(index_file_path);
+  }
+
   auto vector_indexer =
       std::make_shared<VectorColumnIndexer>(index_file_path, field);
   vector_column_params::ReadOptions options{true, true};
@@ -3958,6 +3966,13 @@ Status SegmentImpl::init_memory_components() {
   // create and open memory forward block
   auto mem_path = FileHelper::MakeForwardBlockPath(seg_path_, mem_block.id_,
                                                    !options_.enable_mmap_);
+  if (FileHelper::FileExists(mem_path)) {
+    LOG_WARN(
+        "ForwardBlock file[%s] already exists (possible crash residue); "
+        "cleaning and overwriting.",
+        mem_path.c_str());
+    FileHelper::RemoveFile(mem_path);
+  }
   memory_store_ = std::make_shared<MemForwardStore>(
       collection_schema_, mem_path,
       options_.enable_mmap_ ? FileFormat::IPC : FileFormat::PARQUET,

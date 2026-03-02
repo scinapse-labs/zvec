@@ -24,7 +24,7 @@ float MinusInnerProductNEON(const Float16 *lhs,const Float16 *rhs, size_t size);
 #endif
 
 #if defined(__AVX__)
-float InnerProductAVX(const Float16 *lhs, const Float16 *rhs, size_t size);
+void InnerProductAVX(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 void InnerProductAVX_2X1(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 void InnerProductAVX_2X2(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 void InnerProductAVX_4X1(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
@@ -46,7 +46,7 @@ void InnerProductAVX_32X8(const Float16 *lhs, const Float16 *rhs, size_t size, f
 void InnerProductAVX_32X16(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 void InnerProductAVX_32X32(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 
-float MinusInnerProductAVX(const Float16 *lhs, const Float16 *rhs, size_t size);
+void MinusInnerProductAVX(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 void MinusInnerProductAVX_2X1(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 void MinusInnerProductAVX_2X2(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 void MinusInnerProductAVX_4X1(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
@@ -74,7 +74,7 @@ float InnerProductSparseInSegmentAVX(uint32_t m_sparse_count, const uint16_t *m_
 #endif
 
 #if defined(__AVX512F__)
-float InnerProductAVX512(const Float16 *lhs, const Float16 *rhs, size_t size);
+void InnerProductAVX512(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 void InnerProductAVX512_16X1(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 void InnerProductAVX512_16X2(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 void InnerProductAVX512_16X4(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
@@ -87,7 +87,7 @@ void InnerProductAVX512_32X8(const Float16 *lhs, const Float16 *rhs, size_t size
 void InnerProductAVX512_32X16(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 void InnerProductAVX512_32X32(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 
-float MinusInnerProductAVX512(const Float16 *lhs, const Float16 *rhs, size_t size);
+void MinusInnerProductAVX512(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 void MinusInnerProductAVX512_16X1(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 void MinusInnerProductAVX512_16X2(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
 void MinusInnerProductAVX512_16X4(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
@@ -125,11 +125,11 @@ void InnerProductMatrix<Float16, 1, 1>::Compute(const ValueType *m,
 #endif  //__AVX512FP16__
 #if defined(__AVX512F__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX512F) {
-    *out = InnerProductAVX512(m, q, dim);
+    InnerProductAVX512(m, q, dim, out);
     return;
   }
 #endif  //__AVX512F__
-  *out = InnerProductAVX(m, q, dim);
+  InnerProductAVX(m, q, dim, out);
 #endif  //__ARM_NEON
 }
 
@@ -148,12 +148,12 @@ void MinusInnerProductMatrix<Float16, 1, 1>::Compute(const ValueType *m,
 #endif  //__AVX512FP16__
 #if defined(__AVX512F__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX512F) {
-    *out = MinusInnerProductAVX512(m, q, dim);
+    MinusInnerProductAVX512(m, q, dim, out);
     return;
   }
 #endif  //__AVX512F__
 
-  *out = MinusInnerProductAVX(m, q, dim);
+  MinusInnerProductAVX(m, q, dim, out);
 
 #endif  //__ARM_NEON
 }

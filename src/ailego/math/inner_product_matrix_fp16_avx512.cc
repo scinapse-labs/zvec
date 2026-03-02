@@ -852,7 +852,7 @@ void InnerProductAVX512_32X32(const Float16 *lhs, const Float16 *rhs, size_t siz
   ACCUM_FP16_32X32_AVX512(lhs, rhs, size, out, )
 }
 
-float MinusInnerProductAVX512(const Float16 *lhs,const Float16 *rhs, size_t size, float *out)  {
+void MinusInnerProductAVX512(const Float16 *lhs,const Float16 *rhs, size_t size, float *out)  {
   ACCUM_FP16_1X1_AVX512(lhs, rhs, size, out, 0ull, NEGATE_FP32_GENERAL)
 }
 

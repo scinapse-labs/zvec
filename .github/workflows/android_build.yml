@@ -14,7 +14,7 @@ on:
 
 jobs:
   build-android:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04-arm
     strategy:
       fail-fast: false
       matrix:
@@ -31,8 +31,6 @@ jobs:
           path: |
             ~/.ccache
           key: ${{ runner.os }}-dependencies-cache-${{ hashFiles('**/CMakeLists.txt', 'thirdparty/**') }}-stl-fix
-          restore-keys: |
-            ${{ runner.os }}-dependencies-cache-
 
       - name: Install dependencies
         run: |

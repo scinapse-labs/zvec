@@ -14,6 +14,8 @@
 
 #pragma once
 
+#if defined(__AVX2__)
+
 inline float sum4(__m128 v) {
   v = _mm_add_ps(v, _mm_castsi128_ps(_mm_srli_si128(_mm_castps_si128(v), 8)));
   return v[0] + v[1];
@@ -24,3 +26,5 @@ inline __m128 sum_top_bottom_avx(__m256 v) {
   const __m128 low = _mm256_castps256_ps128(v);
   return _mm_add_ps(high, low);
 }
+
+#endif

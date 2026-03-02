@@ -26,7 +26,7 @@
 
 namespace zvec::ailego::DistanceBatch {
 
-//SquaredEuclideanDistanceBatch 
+// SquaredEuclideanDistanceBatch
 template <typename T, size_t BatchSize, size_t PrefetchStep, typename = void>
 struct SquaredEuclideanDistanceBatch;
 
@@ -39,7 +39,8 @@ struct SquaredEuclideanDistanceBatchImpl {
       const ValueType *query, const ValueType **ptrs,
       std::array<const ValueType *, BatchSize> &prefetch_ptrs, size_t dim,
       float *sums) {
-    return compute_one_to_many_squared_euclidean_fallback(query, ptrs, prefetch_ptrs, dim, sums);
+    return compute_one_to_many_squared_euclidean_fallback(
+        query, ptrs, prefetch_ptrs, dim, sums);
   }
 };
 
@@ -52,18 +53,21 @@ struct SquaredEuclideanDistanceBatchImpl<float, BatchSize> {
       float *sums) {
 #if defined(__AVX512F__)
     if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX2) {
-      return compute_one_to_many_squared_euclidean_avx512f_fp32<ValueType, BatchSize>(
+      return compute_one_to_many_squared_euclidean_avx512f_fp32<ValueType,
+                                                                BatchSize>(
           query, ptrs, prefetch_ptrs, dim, sums);
     }
 #endif
 
 #if defined(__AVX2__)
     if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX2) {
-      return compute_one_to_many_squared_euclidean_avx2_fp32<ValueType, BatchSize>(
+      return compute_one_to_many_squared_euclidean_avx2_fp32<ValueType,
+                                                             BatchSize>(
           query, ptrs, prefetch_ptrs, dim, sums);
     }
 #endif
-    return compute_one_to_many_squared_euclidean_fallback(query, ptrs, prefetch_ptrs, dim, sums);
+    return compute_one_to_many_squared_euclidean_fallback(
+        query, ptrs, prefetch_ptrs, dim, sums);
   }
 };
 
@@ -76,11 +80,13 @@ struct SquaredEuclideanDistanceBatchImpl<int8_t, BatchSize> {
       float *sums) {
 #if defined(__AVX2__)
     if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX2) {
-      return compute_one_to_many_squared_euclidean_avx2_int8<ValueType, BatchSize>(
+      return compute_one_to_many_squared_euclidean_avx2_int8<ValueType,
+                                                             BatchSize>(
           query, ptrs, prefetch_ptrs, dim, sums);
     }
 #endif
-    return compute_one_to_many_squared_euclidean_fallback(query, ptrs, prefetch_ptrs, dim, sums);
+    return compute_one_to_many_squared_euclidean_fallback(
+        query, ptrs, prefetch_ptrs, dim, sums);
   }
 };
 
@@ -93,23 +99,27 @@ struct SquaredEuclideanDistanceBatchImpl<ailego::Float16, BatchSize> {
       float *sums) {
 #if defined(__AVX512FP16__)
     if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX512_FP16) {
-      return compute_one_to_many_squared_euclidean_avx512fp16_fp16<ValueType, BatchSize>(
+      return compute_one_to_many_squared_euclidean_avx512fp16_fp16<ValueType,
+                                                                   BatchSize>(
           query, ptrs, prefetch_ptrs, dim, sums);
     }
 #endif
 #if defined(__AVX512F__)
     if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX512F) {
-      return compute_one_to_many_squared_euclidean_avx512f_fp16<ValueType, BatchSize>(
+      return compute_one_to_many_squared_euclidean_avx512f_fp16<ValueType,
+                                                                BatchSize>(
           query, ptrs, prefetch_ptrs, dim, sums);
     }
 #endif
 #if defined(__AVX2__)
     if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX2) {
-      return compute_one_to_many_squared_euclidean_avx2_fp16<ValueType, BatchSize>(
+      return compute_one_to_many_squared_euclidean_avx2_fp16<ValueType,
+                                                             BatchSize>(
           query, ptrs, prefetch_ptrs, dim, sums);
     }
 #endif
-    return compute_one_to_many_squared_euclidean_fallback(query, ptrs, prefetch_ptrs, dim, sums);
+    return compute_one_to_many_squared_euclidean_fallback(
+        query, ptrs, prefetch_ptrs, dim, sums);
   }
 };
 
@@ -130,8 +140,10 @@ struct SquaredEuclideanDistanceBatch {
           prefetch_ptrs[j] = nullptr;
         }
       }
-      SquaredEuclideanDistanceBatchImpl<ValueType, BatchSize>::compute_one_to_many(
-          query, &vecs[i], prefetch_ptrs, dim, &results[i]);
+      SquaredEuclideanDistanceBatchImpl<
+          ValueType, BatchSize>::compute_one_to_many(query, &vecs[i],
+                                                     prefetch_ptrs, dim,
+                                                     &results[i]);
     }
     for (; i < num_vecs; ++i) {  // TODO: unroll by 1, 2, 4, 8, etc.
       std::array<const ValueType *, 1> prefetch_ptrs{nullptr};
@@ -141,7 +153,7 @@ struct SquaredEuclideanDistanceBatch {
   }
 };
 
-//EuclideanDistanceBatch 
+// EuclideanDistanceBatch
 template <typename T, size_t BatchSize, size_t PrefetchStep, typename = void>
 struct EuclideanDistanceBatch;
 
@@ -152,9 +164,10 @@ struct EuclideanDistanceBatch {
   static inline void ComputeBatch(const ValueType **vecs,
                                   const ValueType *query, size_t num_vecs,
                                   size_t dim, float *results) {
-    SquaredEuclideanDistanceBatch<T, BatchSize, PrefetchStep>::ComputeBatch(vecs, query, num_vecs, dim, results);
+    SquaredEuclideanDistanceBatch<T, BatchSize, PrefetchStep>::ComputeBatch(
+        vecs, query, num_vecs, dim, results);
 
-    for (size_t i=0; i<num_vecs; ++i) {
+    for (size_t i = 0; i < num_vecs; ++i) {
       results[i] = std::sqrt(results[i]);
     }
   }

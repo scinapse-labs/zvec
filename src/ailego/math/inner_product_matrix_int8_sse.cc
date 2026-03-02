@@ -45,7 +45,7 @@ static const __m128i ONES_INT16_SSE = _mm_set1_epi32(0x00010001);
 
 #if defined(__SSE4_1__)
 //! Inner Product
-static inline float InnerProductSSE(const int8_t *lhs, const int8_t *rhs,
+float InnerProductSSE(const int8_t *lhs, const int8_t *rhs,
                                     size_t size) {
   const int8_t *last = lhs + size;
   const int8_t *last_aligned = lhs + ((size >> 5) << 5);
@@ -255,7 +255,7 @@ void InnerProductSSE_32X32(const int8_t *lhs, const int8_t *rhs, size_t size, fl
   ACCUM_INT8_32X32_SSE(lhs, rhs, size, out, _mm_cvtepi32_ps)
 }
 
-float MinusInnerProductSSE(const int8_t *lhs, const int8_t *rhs, size_t size, float *out){
+float MinusInnerProductSSE(const int8_t *lhs, const int8_t *rhs, size_t size){
   return -InnerProductSSE(lhs, rhs, size);
 }
 

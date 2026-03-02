@@ -28,7 +28,7 @@ namespace ailego {
 
 #if defined(__ARM_NEON)
 //! Compute the Inner Product between p and q, and each Squared L2-Norm value
-static inline float InnerProductAndSquaredNormNEON(const float *lhs,
+float InnerProductAndSquaredNormNEON(const float *lhs,
                                                    const float *rhs,
                                                    size_t size, float *sql,
                                                    float *sqr) {

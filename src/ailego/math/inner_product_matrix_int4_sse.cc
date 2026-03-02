@@ -96,7 +96,7 @@ static const __m128i INT4_LOOKUP_SSE =
 
 #if defined(__SSE4_1__)
 //! Inner Product
-static inline float InnerProductSSE(const uint8_t *lhs, const uint8_t *rhs,
+float InnerProductSSE(const uint8_t *lhs, const uint8_t *rhs,
                                     size_t size) {
   const uint8_t *last = lhs + size;
   const uint8_t *last_aligned = lhs + ((size >> 4) << 4);

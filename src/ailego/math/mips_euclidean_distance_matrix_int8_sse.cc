@@ -57,7 +57,7 @@ static const __m128i ONES_INT16_SSE = _mm_set1_epi32(0x00010001);
 
 #if defined(__SSE4_1__)
 //! Compute the Inner Product between p and q, and each Squared L2-Norm value
-static inline float InnerProductAndSquaredNormSSE(const int8_t *lhs,
+float InnerProductAndSquaredNormSSE(const int8_t *lhs,
                                                   const int8_t *rhs,
                                                   size_t size, float *sql,
                                                   float *sqr) {

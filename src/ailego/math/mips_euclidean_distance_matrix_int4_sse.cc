@@ -79,7 +79,7 @@ static const __m128i INT4_LOOKUP_SSE =
 
 #if defined(__SSE4_1__)
 //! Compute the Inner Product between p and q, and each Squared L2-Norm value
-static inline float InnerProductAndSquaredNormSSE(const uint8_t *lhs,
+float InnerProductAndSquaredNormSSE(const uint8_t *lhs,
                                                   const uint8_t *rhs,
                                                   size_t size, float *sql,
                                                   float *sqr) {

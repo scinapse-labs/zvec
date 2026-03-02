@@ -56,7 +56,7 @@ static float MipsSquaredEuclidean(const FixedVector<int8_t, N> &lhs,
 static float ConvertAndComputeByMips(const int8_t *lhs, const int8_t *rhs,
                                      size_t dim, size_t m_value, float e2) {
   float squ = 0.0f;
-  float lhs_vec[dim + m_value];
+  std::vector<float> lhs_vec(dim + m_value);
   const float eta = std::sqrt(e2);
   for (size_t i = 0; i < dim; ++i) {
     float val = lhs[i] * eta;
@@ -67,7 +67,7 @@ static float ConvertAndComputeByMips(const int8_t *lhs, const int8_t *rhs,
     lhs_vec[i] = 0.5f - squ;
     squ *= squ;
   }
-  float rhs_vec[dim + m_value];
+  std::vector<float> rhs_vec(dim + m_value);
   squ = 0.0f;
   for (size_t i = 0; i < dim; ++i) {
     float val = rhs[i] * eta;
@@ -78,7 +78,8 @@ static float ConvertAndComputeByMips(const int8_t *lhs, const int8_t *rhs,
     rhs_vec[i] = 0.5f - squ;
     squ *= squ;
   }
-  return ailego::Distance::SquaredEuclidean(lhs_vec, rhs_vec, dim + m_value);
+  return ailego::Distance::SquaredEuclidean(lhs_vec.data(), rhs_vec.data(),
+                                            dim + m_value);
 }
 
 template <size_t N>
@@ -417,7 +418,7 @@ void MipsRepeatedQuadraticInjectionBenchMark(void) {
                   dimension / 4, query_size);
 
   ElapsedTime elapsed_time;
-  float results[batch_size * query_size];
+  std::vector<float> results(batch_size * query_size);
 
   std::cout << "# (" << IntelIntrinsics() << ") INT8 " << dimension << "d, "
             << batch_size << " * " << query_size << " * " << block_size
@@ -446,7 +447,7 @@ void MipsRepeatedQuadraticInjectionBenchMark(void) {
     const int8_t *matrix_batch = &matrix2[i * batch_size * dimension];
 
     MipsSquaredEuclideanDistanceMatrix<int8_t, batch_size, query_size>::Compute(
-        matrix_batch, &query2[0], dimension, m_val, e2, results);
+        matrix_batch, &query2[0], dimension, m_val, e2, results.data());
   }
   std::cout
       << "* N Batched MipsSquaredErclidean(RepeatedQuadraticInjection) (us) \t"
@@ -517,7 +518,7 @@ static float MipsSquaredEuclidean(const FixedVector<int8_t, N> &lhs,
 static float ConvertAndComputeByMips(const int8_t *lhs, const int8_t *rhs,
                                      size_t dim, float e2) {
   float squ = 0.0f;
-  float lhs_vec[dim + 1];
+  std::vector<float> lhs_vec(dim + 1);
   const float eta = std::sqrt(e2);
   for (size_t i = 0; i < dim; ++i) {
     float val = lhs[i] * eta;
@@ -525,20 +526,21 @@ static float ConvertAndComputeByMips(const int8_t *lhs, const int8_t *rhs,
     squ += val * val;
   }
   float norm2;
-  ailego::SquaredNorm2Matrix<float, 1>::Compute(lhs_vec, dim, &norm2);
+  ailego::SquaredNorm2Matrix<float, 1>::Compute(lhs_vec.data(), dim, &norm2);
   lhs_vec[dim] = std::sqrt(1 - norm2);
 
-  float rhs_vec[dim + 1];
+  std::vector<float> rhs_vec(dim + 1);
   squ = 0.0f;
   for (size_t i = 0; i < dim; ++i) {
     float val = rhs[i] * eta;
     rhs_vec[i] = val;
     squ += val * val;
   }
-  ailego::SquaredNorm2Matrix<float, 1>::Compute(rhs_vec, dim, &norm2);
+  ailego::SquaredNorm2Matrix<float, 1>::Compute(rhs_vec.data(), dim, &norm2);
   rhs_vec[dim] = std::sqrt(1 - norm2);
   std::cout << "squ: " << squ << std::endl;
-  return ailego::Distance::SquaredEuclidean(lhs_vec, rhs_vec, dim + 1);
+  return ailego::Distance::SquaredEuclidean(lhs_vec.data(), rhs_vec.data(),
+                                            dim + 1);
 }
 
 template <size_t N>
@@ -878,7 +880,7 @@ void MipsSphericalInjectionBenchMark(void) {
   }
   const float e2 = 0.98f / squared_l2_norm;
   ElapsedTime elapsed_time;
-  float results[batch_size * query_size];
+  std::vector<float> results(batch_size * query_size);
 
   std::cout << "# (" << IntelIntrinsics() << ") INT8 " << dimension << "d, "
             << batch_size << " * " << query_size << " * " << block_size

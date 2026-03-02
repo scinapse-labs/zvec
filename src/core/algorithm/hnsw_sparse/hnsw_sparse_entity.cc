@@ -407,12 +407,12 @@ int64_t HnswSparseEntity::dump_upper_neighbors(
       if (dumper->write(buffer.data(), sizeof(node_id_t) * buffer.size()) !=
           sizeof(node_id_t) * buffer.size()) {
         LOG_ERROR("Dump graph neighbor id=%u failed, size %lu", id,
-                  sizeof(buffer));
+                  sizeof(node_id_t) * buffer.size());
         return IndexError_WriteData;
       }
       crc = ailego::Crc32c::Hash(buffer.data(),
                                  sizeof(node_id_t) * buffer.size(), crc);
-      offset += sizeof(buffer);
+      offset += sizeof(node_id_t) * buffer.size();
     }
   }
   size_t padding_size = 0;

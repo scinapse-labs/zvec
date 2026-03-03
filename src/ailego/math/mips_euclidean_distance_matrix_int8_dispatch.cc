@@ -75,5 +75,6 @@ void MipsSquaredEuclideanDistanceMatrix<int8_t, 1, 1>::Compute(
   *out = sum;
 }
 
+
 }  // namespace ailego
 }  // namespace zvec

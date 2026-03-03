@@ -145,5 +145,6 @@ float MipsSquaredEuclideanSparseDistanceMatrix<float>::
                                          q_sparse_index, q_sparse_value);
 #endif
 }
+
 }  // namespace ailego
 }  // namespace zvec

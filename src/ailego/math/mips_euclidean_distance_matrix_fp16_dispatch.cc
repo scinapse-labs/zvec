@@ -45,14 +45,10 @@ void MipsSquaredEuclideanDistanceMatrix<Float16, 1, 1>::Compute(
 #if defined(__AVX512F__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX512F) {
     sum = InnerProductAndSquaredNormAVX512(p, q, dim, &u2, &v2);
-
-    *out = ComputeSphericalInjection(sum, u2, v2, e2);
-    return;
   } else
 #endif
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX) {
     sum = InnerProductAndSquaredNormAVX(p, q, dim, &u2, &v2);
-    return;
   }
 
   *out = ComputeSphericalInjection(sum, u2, v2, e2); 

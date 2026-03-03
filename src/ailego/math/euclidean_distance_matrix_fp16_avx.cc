@@ -132,7 +132,7 @@ void SquaredEuclideanDistanceAVX_32X32(const Float16 *lhs, const Float16 *rhs, s
 }
 
 //! EuclideanDistance
-void EuclideanDistanceAVX_1X1(const Float16 *lhs, const Float16 *rhs, size_t size, float *out) {
+void EuclideanDistanceAVX(const Float16 *lhs, const Float16 *rhs, size_t size, float *out) {
   ACCUM_FP16_1X1_AVX(lhs, rhs, size, out, 0ull, std::sqrt)
 }
 

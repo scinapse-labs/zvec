@@ -58,7 +58,7 @@ static const __m128i ONES_INT16_SSE = _mm_set1_epi32(0x00010001);
 
 #if defined(__SSE4_1__)
 //! Squared Euclidean Distance
-static inline float SquaredEuclideanDistanceSSE(const int8_t *lhs,
+float SquaredEuclideanDistanceSSE(const int8_t *lhs,
                                                 const int8_t *rhs,
                                                 size_t size) {
   const int8_t *last = lhs + size;
@@ -195,7 +195,6 @@ static inline float SquaredEuclideanDistanceSSE(const int8_t *lhs,
   }
   return result;
 }
-
 
 //! SquaredEuclideanDistance
 float SquaredEuclideanDistanceSSE_2X1(const int8_t *lhs, const int8_t *rhs, size_t size) {

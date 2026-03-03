@@ -213,7 +213,9 @@ def distance_recall(
     if is_sparse:
         return dp_distance_sparse(vec1, vec2, data_type, quantize_type)
     else:
-        if data_type in [DataType.VECTOR_FP32, DataType.VECTOR_FP16,DataType.VECTOR_INT8]:
+        if data_type in [DataType.VECTOR_FP32, DataType.VECTOR_FP16]:
+            return distance_dense(vec1, vec2, metric, data_type, quantize_type)
+        elif data_type in [DataType.VECTOR_INT8] and metric in [MetricType.L2,MetricType.IP]:
             return distance_dense(vec1, vec2, metric, data_type, quantize_type)
         else:
             return dp_distance_dense(vec1, vec2, data_type, quantize_type)

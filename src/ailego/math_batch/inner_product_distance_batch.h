@@ -26,7 +26,7 @@ template <typename T, size_t BatchSize, size_t PrefetchStep, typename = void>
 struct InnerProductDistanceBatch;
 
 template <typename ValueType, size_t BatchSize>
-static void compute_one_to_many_fallback(
+static void compute_one_to_many_inner_product_fallback(
     const ValueType *query, const ValueType **ptrs,
     std::array<const ValueType *, BatchSize> &prefetch_ptrs, size_t dim,
     float *sums) {
@@ -46,7 +46,7 @@ struct InnerProductDistanceBatchImpl {
       const ValueType *query, const ValueType **ptrs,
       std::array<const ValueType *, BatchSize> &prefetch_ptrs, size_t dim,
       float *sums) {
-    return compute_one_to_many_fallback(query, ptrs, prefetch_ptrs, dim, sums);
+    return compute_one_to_many_inner_product_fallback(query, ptrs, prefetch_ptrs, dim, sums);
   }
   static DistanceBatchQueryPreprocessFunc GetQueryPreprocessFunc() {
     return nullptr;
@@ -84,6 +84,35 @@ struct InnerProductDistanceBatch {
     return InnerProductDistanceBatchImpl<ValueType,
                                          1>::GetQueryPreprocessFunc();
   }
+};
+
+template <>
+struct InnerProductDistanceBatchImpl<ailego::Float16, 1> {
+  using ValueType = ailego::Float16;
+  static void compute_one_to_many(
+      const ailego::Float16 *query, const ailego::Float16 **ptrs,
+      std::array<const ailego::Float16 *, 1> &prefetch_ptrs, size_t dim,
+      float *sums);
+};
+
+template <>
+struct InnerProductDistanceBatchImpl<float, 1> {
+  using ValueType = float;
+  static void compute_one_to_many(
+      const float *query, const float **ptrs,
+      std::array<const float *, 1> &prefetch_ptrs, size_t dim,
+      float *sums);
+};
+
+template <>
+struct InnerProductDistanceBatchImpl<int8_t, 1> {
+  using ValueType = int8_t;
+  static void compute_one_to_many(
+      const int8_t *query, const int8_t **ptrs,
+      std::array<const int8_t *, 1> &prefetch_ptrs, size_t dim,
+      float *sums);
+
+  static DistanceBatchQueryPreprocessFunc GetQueryPreprocessFunc();
 };
 
 template <>

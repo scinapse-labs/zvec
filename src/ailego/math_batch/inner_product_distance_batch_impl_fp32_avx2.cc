@@ -36,7 +36,7 @@ inline __m128 sum_top_bottom_avx(__m256 v) {
 
 template <typename ValueType, size_t dp_batch>
 static std::enable_if_t<std::is_same_v<ValueType, float>, void>
-compute_one_to_many_avx2_fp32(
+compute_one_to_many_inner_product_avx2_fp32(
     const ValueType *query, const ValueType **ptrs,
     std::array<const ValueType *, dp_batch> &prefetch_ptrs,
     size_t dimensionality, float *results) {
@@ -111,10 +111,17 @@ compute_one_to_many_avx2_fp32(
   }
 }
 
-void compute_one_to_many_avx2_fp32_12(const float *query, const float **ptrs,
+void compute_one_to_many_inner_product_avx2_fp32_1(const float *query, const float **ptrs,
+    std::array<const float *, 1> &prefetch_ptrs,
+    size_t dim, float *sums) {
+  return compute_one_to_many_inner_product_avx2_fp32<float, 1>(
+        query, ptrs, prefetch_ptrs, dim, sums);
+}
+
+void compute_one_to_many_inner_product_avx2_fp32_12(const float *query, const float **ptrs,
     std::array<const float *, 12> &prefetch_ptrs,
     size_t dim, float *sums) {
-  return compute_one_to_many_avx2_fp32<float, 12>(
+  return compute_one_to_many_inner_product_avx2_fp32<float, 12>(
         query, ptrs, prefetch_ptrs, dim, sums);
 }
 

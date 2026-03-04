@@ -71,7 +71,7 @@ void SquaredEuclideanDistanceNEON(const float *lhs, const float *rhs, size_t siz
     case 1:
       SSD_FP32_GENERAL(lhs[0], rhs[0], result)
   }
-  return result;
+  *out = result;
 }
 
 #endif  // __ARM_NEON

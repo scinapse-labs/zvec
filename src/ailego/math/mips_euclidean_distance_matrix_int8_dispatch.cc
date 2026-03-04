@@ -26,6 +26,7 @@ float InnerProductAndSquaredNormAVX2(const int8_t *lhs, const int8_t *rhs, size_
 float InnerProductAndSquaredNormSSE(const int8_t *lhs, const int8_t *rhs, size_t size, float *sql, float *sqr);
 #endif
 
+#if defined(__SSE4_1__)
 //! Compute the distance between matrix and query by SphericalInjection
 void MipsSquaredEuclideanDistanceMatrix<int8_t, 1, 1>::Compute(
     const ValueType *p, const ValueType *q, size_t dim, float e2, float *out) {
@@ -74,7 +75,7 @@ void MipsSquaredEuclideanDistanceMatrix<int8_t, 1, 1>::Compute(
   }
   *out = sum;
 }
-
+#endif // __SSE4_1__
 
 }  // namespace ailego
 }  // namespace zvec

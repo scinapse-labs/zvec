@@ -23,7 +23,8 @@ namespace ailego {
 
 //! Calculate Fused-Multiply-Add (NEON)
 #define FMA_FP32_NEON(v_m, v_q, v_sum) v_sum = vfmaq_f32(v_sum, v_m, v_q);
-
+//! Calculate Fused-Multiply-Add (GENERAL)
+#define FMA_FP32_GENERAL(m, q, sum) sum += (m * q);
 #if defined(__ARM_NEON)
 //! Inner Product
 float InnerProductNEON(const float *lhs, const float *rhs,

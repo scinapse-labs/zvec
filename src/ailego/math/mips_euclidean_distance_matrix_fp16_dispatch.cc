@@ -19,7 +19,7 @@ namespace zvec {
 namespace ailego {
 
 #if defined(__ARM_NEON)
-float SquaredEuclideanDistanceNEON(const Float16 *lhs, const Float16 *rhs, size_t size, float *sql, float *sqr);
+float InnerProductAndSquaredNormNEON(const Float16 *lhs, const Float16 *rhs, size_t size, float *sql, float *sqr);
 #endif
 
 #if defined(__AVX512F__)
@@ -41,16 +41,16 @@ void MipsSquaredEuclideanDistanceMatrix<Float16, 1, 1>::Compute(
 
 #if defined(__ARM_NEON)
   sum = InnerProductAndSquaredNormNEON(p, q, dim, &u2, &v2);
-#endif
-#if defined(__AVX512F__)
+// #endif
+#elif defined(__AVX512F__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX512F) {
     sum = InnerProductAndSquaredNormAVX512(p, q, dim, &u2, &v2);
   } else
-#endif
+#else
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX) {
     sum = InnerProductAndSquaredNormAVX(p, q, dim, &u2, &v2);
   }
-
+#endif
   *out = ComputeSphericalInjection(sum, u2, v2, e2); 
 }
 
@@ -64,15 +64,16 @@ void MipsSquaredEuclideanDistanceMatrix<Float16, 1, 1>::Compute(
 
 #if defined(__ARM_NEON)
   sum = InnerProductAndSquaredNormNEON(p, q, dim, &u2, &v2);
-#endif
-#if defined(__AVX512F__)
+// #endif
+#elif defined(__AVX512F__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX512F) {
     sum = InnerProductAndSquaredNormAVX512(p, q, dim, &u2, &v2);
   } else
-#endif
+#else
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX) {
     sum = InnerProductAndSquaredNormAVX(p, q, dim, &u2, &v2);
   }
+#endif
 
   sum = e2 * (u2 + v2 - 2 * sum);
   u2 *= e2;

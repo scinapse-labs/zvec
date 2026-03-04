@@ -19,7 +19,7 @@ namespace zvec {
 namespace ailego {
 
 #if defined(__ARM_NEON)
-float SquaredEuclideanDistanceNEON(const float *lhs, const float *rhs, size_t size);
+void SquaredEuclideanDistanceNEON(const float *lhs, const float *rhs, size_t size, float *out);
 #endif
 
 #if defined(__AVX512F__)
@@ -47,12 +47,12 @@ void SquaredEuclideanDistanceMatrix<float, 1, 1>::Compute(const ValueType *m,
                                                           size_t dim,
                                                           float *out) {
 #if defined(__ARM_NEON)
-  *out = SquaredEuclideanDistanceNEON(m, q, dim);
+  SquaredEuclideanDistanceNEON(m, q, dim, out);
 #else
 #if defined(__AVX512F__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX512F) {
     if (dim > 15) {
-      *out = SquaredEuclideanDistanceAVX512(m, q, dim);
+      SquaredEuclideanDistanceAVX512(m, q, dim, out);
       return;
     }
   }
@@ -80,7 +80,8 @@ void EuclideanDistanceMatrix<float, 1, 1>::Compute(const ValueType *m,
                                                    const ValueType *q,
                                                    size_t dim, float *out) {
 #if defined(__ARM_NEON)
-  *out = std::sqrt(SquaredEuclideanDistanceNEON(m, q, dim));
+  SquaredEuclideanDistanceNEON(m, q, dim, out);
+  *out = std::sqrt(*out);
 #else
 #if defined(__AVX512F__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX512F) {

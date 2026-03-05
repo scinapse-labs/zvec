@@ -52,7 +52,7 @@ void SquaredEuclideanDistanceMatrix<float, 1, 1>::Compute(const ValueType *m,
 #if defined(__AVX512F__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX512F) {
     if (dim > 15) {
-      SquaredEuclideanDistanceAVX512(m, q, dim, out);
+      *out = std::sqrt(SquaredEuclideanDistanceAVX512(m, q, dim));
       return;
     }
   }

@@ -774,18 +774,6 @@ struct MinusInnerProductMatrix<Float16, 1, 1> {
                       float *out);
 };
 
-/*! Minus Inner Product Matrix (FP16, M=16, N=1)
- */
-template <>
-struct MinusInnerProductMatrix<Float16, 16, 1> {
-  //! Type of value
-  using ValueType = Float16;
-
-  //! Compute the distance between matrix and query
-  static void Compute(const ValueType *m, const ValueType *q, size_t dim,
-                      float *out);
-};
-
 #endif  // (__F16C__ && __AVX__) || (__ARM_NEON && __aarch64__)
 
 #if defined(__SSE4_1__)

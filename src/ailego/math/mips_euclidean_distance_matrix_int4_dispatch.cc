@@ -40,11 +40,10 @@ void MipsSquaredEuclideanDistanceMatrix<uint8_t, 1, 1>::Compute(
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX2) {
     sum = InnerProductAndSquaredNormAVX(p, q, dim >> 1, &u2, &v2);
   } else 
-#else
+#endif
   {
     sum = InnerProductAndSquaredNormSSE(p, q, dim >> 1, &u2, &v2);
   }
-#endif
 
   *out = ComputeSphericalInjection(sum, u2, v2, e2);
 }
@@ -61,11 +60,10 @@ void MipsSquaredEuclideanDistanceMatrix<uint8_t, 1, 1>::Compute(
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX2) {
     sum = InnerProductAndSquaredNormAVX(p, q, dim >> 1, &u2, &v2);
   } else
-#else
+#endif
   {
     sum = InnerProductAndSquaredNormSSE(p, q, dim >> 1, &u2, &v2);
   }
-#endif
 
   sum = e2 * (u2 + v2 - 2 * sum);
   u2 *= e2;

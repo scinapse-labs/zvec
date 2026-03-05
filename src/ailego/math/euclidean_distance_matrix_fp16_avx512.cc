@@ -54,9 +54,8 @@ namespace ailego {
 
 #if defined(__AVX512FP16__)
 //! Squared Euclidean Distance
-float SquaredEuclideanDistanceAVX512FP16(const Float16 *lhs,
-                                                const Float16 *rhs,
-                                                size_t size) {
+float SquaredEuclideanDistanceAVX512FP16(const Float16 *lhs, const Float16 *rhs,
+                                         size_t size) {
   const Float16 *last = lhs + size;
   const Float16 *last_aligned = lhs + ((size >> 6) << 6);
 
@@ -114,101 +113,128 @@ float SquaredEuclideanDistanceAVX512FP16(const Float16 *lhs,
 #endif
 
 #if defined(__AVX512F__)
-void SquaredEuclideanDistanceAVX512(const Float16 *lhs, const Float16 *rhs, size_t size, float *out) {
-  ACCUM_FP16_1X1_AVX512(lhs, rhs, size, out, 0ull, )                                            
+void SquaredEuclideanDistanceAVX512(const Float16 *lhs, const Float16 *rhs,
+                                    size_t size, float *out) {
+  ACCUM_FP16_1X1_AVX512(lhs, rhs, size, out, 0ull, )
 }
 
 //! SquaredEuclideanDistance
-void SquaredEuclideanDistanceAVX512_16X1(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void SquaredEuclideanDistanceAVX512_16X1(const Float16 *lhs, const Float16 *rhs,
+                                         size_t size, float *out) {
   ACCUM_FP16_16X1_AVX512(lhs, rhs, size, out, )
 }
 
-void SquaredEuclideanDistanceAVX512_16X2(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void SquaredEuclideanDistanceAVX512_16X2(const Float16 *lhs, const Float16 *rhs,
+                                         size_t size, float *out) {
   ACCUM_FP16_16X2_AVX512(lhs, rhs, size, out, )
 }
 
-void SquaredEuclideanDistanceAVX512_16X4(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void SquaredEuclideanDistanceAVX512_16X4(const Float16 *lhs, const Float16 *rhs,
+                                         size_t size, float *out) {
   ACCUM_FP16_16X4_AVX512(lhs, rhs, size, out, )
 }
 
-void SquaredEuclideanDistanceAVX512_16X8(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void SquaredEuclideanDistanceAVX512_16X8(const Float16 *lhs, const Float16 *rhs,
+                                         size_t size, float *out) {
   ACCUM_FP16_16X8_AVX512(lhs, rhs, size, out, )
 }
 
-void SquaredEuclideanDistanceAVX512_16X16(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void SquaredEuclideanDistanceAVX512_16X16(const Float16 *lhs,
+                                          const Float16 *rhs, size_t size,
+                                          float *out) {
   ACCUM_FP16_16X16_AVX512(lhs, rhs, size, out, )
 }
 
-void SquaredEuclideanDistanceAVX512_32X1(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void SquaredEuclideanDistanceAVX512_32X1(const Float16 *lhs, const Float16 *rhs,
+                                         size_t size, float *out) {
   ACCUM_FP16_32X1_AVX512(lhs, rhs, size, out, )
 }
 
-void SquaredEuclideanDistanceAVX512_32X2(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void SquaredEuclideanDistanceAVX512_32X2(const Float16 *lhs, const Float16 *rhs,
+                                         size_t size, float *out) {
   ACCUM_FP16_32X2_AVX512(lhs, rhs, size, out, )
 }
 
-void SquaredEuclideanDistanceAVX512_32X4(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void SquaredEuclideanDistanceAVX512_32X4(const Float16 *lhs, const Float16 *rhs,
+                                         size_t size, float *out) {
   ACCUM_FP16_32X4_AVX512(lhs, rhs, size, out, )
 }
 
-void SquaredEuclideanDistanceAVX512_32X8(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void SquaredEuclideanDistanceAVX512_32X8(const Float16 *lhs, const Float16 *rhs,
+                                         size_t size, float *out) {
   ACCUM_FP16_32X8_AVX512(lhs, rhs, size, out, )
 }
 
-void SquaredEuclideanDistanceAVX512_32X16(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void SquaredEuclideanDistanceAVX512_32X16(const Float16 *lhs,
+                                          const Float16 *rhs, size_t size,
+                                          float *out) {
   ACCUM_FP16_32X16_AVX512(lhs, rhs, size, out, )
 }
 
-void SquaredEuclideanDistanceAVX512_32X32(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void SquaredEuclideanDistanceAVX512_32X32(const Float16 *lhs,
+                                          const Float16 *rhs, size_t size,
+                                          float *out) {
   ACCUM_FP16_32X32_AVX512(lhs, rhs, size, out, )
 }
 
 //! EuclideanDistance
-void EuclideanDistanceAVX512_1X1(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void EuclideanDistanceAVX512_1X1(const Float16 *lhs, const Float16 *rhs,
+                                 size_t size, float *out) {
   ACCUM_FP16_1X1_AVX512(lhs, rhs, size, out, 0ull, std::sqrt)
 }
 
-void EuclideanDistanceAVX512_16X1(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void EuclideanDistanceAVX512_16X1(const Float16 *lhs, const Float16 *rhs,
+                                  size_t size, float *out) {
   ACCUM_FP16_16X1_AVX512(lhs, rhs, size, out, _mm512_sqrt_ps)
 }
 
-void EuclideanDistanceAVX512_16X2(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void EuclideanDistanceAVX512_16X2(const Float16 *lhs, const Float16 *rhs,
+                                  size_t size, float *out) {
   ACCUM_FP16_16X2_AVX512(lhs, rhs, size, out, _mm512_sqrt_ps)
 }
 
-void EuclideanDistanceAVX512_16X4(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void EuclideanDistanceAVX512_16X4(const Float16 *lhs, const Float16 *rhs,
+                                  size_t size, float *out) {
   ACCUM_FP16_16X4_AVX512(lhs, rhs, size, out, _mm512_sqrt_ps)
 }
 
-void EuclideanDistanceAVX512_16X8(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void EuclideanDistanceAVX512_16X8(const Float16 *lhs, const Float16 *rhs,
+                                  size_t size, float *out) {
   ACCUM_FP16_16X8_AVX512(lhs, rhs, size, out, _mm512_sqrt_ps)
 }
 
-void EuclideanDistanceAVX512_16X16(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void EuclideanDistanceAVX512_16X16(const Float16 *lhs, const Float16 *rhs,
+                                   size_t size, float *out) {
   ACCUM_FP16_16X16_AVX512(lhs, rhs, size, out, _mm512_sqrt_ps)
 }
 
-void EuclideanDistanceAVX512_32X1(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void EuclideanDistanceAVX512_32X1(const Float16 *lhs, const Float16 *rhs,
+                                  size_t size, float *out) {
   ACCUM_FP16_32X1_AVX512(lhs, rhs, size, out, _mm512_sqrt_ps)
 }
 
-void EuclideanDistanceAVX512_32X2(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void EuclideanDistanceAVX512_32X2(const Float16 *lhs, const Float16 *rhs,
+                                  size_t size, float *out) {
   ACCUM_FP16_32X2_AVX512(lhs, rhs, size, out, _mm512_sqrt_ps)
 }
 
-void EuclideanDistanceAVX512_32X4(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void EuclideanDistanceAVX512_32X4(const Float16 *lhs, const Float16 *rhs,
+                                  size_t size, float *out) {
   ACCUM_FP16_32X4_AVX512(lhs, rhs, size, out, _mm512_sqrt_ps)
 }
 
-void EuclideanDistanceAVX512_32X8(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void EuclideanDistanceAVX512_32X8(const Float16 *lhs, const Float16 *rhs,
+                                  size_t size, float *out) {
   ACCUM_FP16_32X8_AVX512(lhs, rhs, size, out, _mm512_sqrt_ps)
 }
 
-void EuclideanDistanceAVX512_32X16(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void EuclideanDistanceAVX512_32X16(const Float16 *lhs, const Float16 *rhs,
+                                   size_t size, float *out) {
   ACCUM_FP16_32X16_AVX512(lhs, rhs, size, out, _mm512_sqrt_ps)
 }
 
-void EuclideanDistanceAVX512_32X32(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void EuclideanDistanceAVX512_32X32(const Float16 *lhs, const Float16 *rhs,
+                                   size_t size, float *out) {
   ACCUM_FP16_32X32_AVX512(lhs, rhs, size, out, _mm512_sqrt_ps)
 }
 #endif

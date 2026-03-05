@@ -29,39 +29,71 @@ float InnerProductAVX2_8X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
 float InnerProductAVX2_8X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
 float InnerProductAVX2_8X4(const uint8_t *lhs, const uint8_t *rhs, size_t size);
 float InnerProductAVX2_8X8(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float InnerProductAVX2_16X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float InnerProductAVX2_16X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float InnerProductAVX2_16X4(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float InnerProductAVX2_16X8(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float InnerProductAVX2_16X16(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float InnerProductAVX2_32X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float InnerProductAVX2_32X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float InnerProductAVX2_32X4(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float InnerProductAVX2_32X8(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float InnerProductAVX2_32X16(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float InnerProductAVX2_32X32(const uint8_t *lhs, const uint8_t *rhs, size_t size);
+float InnerProductAVX2_16X1(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size);
+float InnerProductAVX2_16X2(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size);
+float InnerProductAVX2_16X4(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size);
+float InnerProductAVX2_16X8(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size);
+float InnerProductAVX2_16X16(const uint8_t *lhs, const uint8_t *rhs,
+                             size_t size);
+float InnerProductAVX2_32X1(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size);
+float InnerProductAVX2_32X2(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size);
+float InnerProductAVX2_32X4(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size);
+float InnerProductAVX2_32X8(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size);
+float InnerProductAVX2_32X16(const uint8_t *lhs, const uint8_t *rhs,
+                             size_t size);
+float InnerProductAVX2_32X32(const uint8_t *lhs, const uint8_t *rhs,
+                             size_t size);
 
-float MinusInnerProductAVX2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_2X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_2X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_4X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_4X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_4X4(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_8X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_8X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_8X4(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_8X8(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_16X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_16X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_16X4(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_16X8(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_16X16(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_32X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_32X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_32X4(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_32X8(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_32X16(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2_32X32(const uint8_t *lhs, const uint8_t *rhs, size_t size);
+float MinusInnerProductAVX2(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size);
+float MinusInnerProductAVX2_2X1(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductAVX2_2X2(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductAVX2_4X1(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductAVX2_4X2(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductAVX2_4X4(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductAVX2_8X1(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductAVX2_8X2(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductAVX2_8X4(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductAVX2_8X8(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductAVX2_16X1(const uint8_t *lhs, const uint8_t *rhs,
+                                 size_t size);
+float MinusInnerProductAVX2_16X2(const uint8_t *lhs, const uint8_t *rhs,
+                                 size_t size);
+float MinusInnerProductAVX2_16X4(const uint8_t *lhs, const uint8_t *rhs,
+                                 size_t size);
+float MinusInnerProductAVX2_16X8(const uint8_t *lhs, const uint8_t *rhs,
+                                 size_t size);
+float MinusInnerProductAVX2_16X16(const uint8_t *lhs, const uint8_t *rhs,
+                                  size_t size);
+float MinusInnerProductAVX2_32X1(const uint8_t *lhs, const uint8_t *rhs,
+                                 size_t size);
+float MinusInnerProductAVX2_32X2(const uint8_t *lhs, const uint8_t *rhs,
+                                 size_t size);
+float MinusInnerProductAVX2_32X4(const uint8_t *lhs, const uint8_t *rhs,
+                                 size_t size);
+float MinusInnerProductAVX2_32X8(const uint8_t *lhs, const uint8_t *rhs,
+                                 size_t size);
+float MinusInnerProductAVX2_32X16(const uint8_t *lhs, const uint8_t *rhs,
+                                  size_t size);
+float MinusInnerProductAVX2_32X32(const uint8_t *lhs, const uint8_t *rhs,
+                                  size_t size);
 #endif
 
 #if defined(__SSE4_1__)
@@ -79,35 +111,58 @@ float InnerProductSSE_16X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
 float InnerProductSSE_16X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
 float InnerProductSSE_16X4(const uint8_t *lhs, const uint8_t *rhs, size_t size);
 float InnerProductSSE_16X8(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float InnerProductSSE_16X16(const uint8_t *lhs, const uint8_t *rhs, size_t size);
+float InnerProductSSE_16X16(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size);
 float InnerProductSSE_32X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
 float InnerProductSSE_32X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
 float InnerProductSSE_32X4(const uint8_t *lhs, const uint8_t *rhs, size_t size);
 float InnerProductSSE_32X8(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float InnerProductSSE_32X16(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float InnerProductSSE_32X32(const uint8_t *lhs, const uint8_t *rhs, size_t size);
+float InnerProductSSE_32X16(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size);
+float InnerProductSSE_32X32(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size);
 
 float MinusInnerProductSSE(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_2X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_2X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_4X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_4X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_4X4(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_8X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_8X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_8X4(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_8X8(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_16X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_16X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_16X4(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_16X8(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_16X16(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_32X1(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_32X2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_32X4(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_32X8(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_32X16(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductSSE_32X32(const uint8_t *lhs, const uint8_t *rhs, size_t size);
+float MinusInnerProductSSE_2X1(const uint8_t *lhs, const uint8_t *rhs,
+                               size_t size);
+float MinusInnerProductSSE_2X2(const uint8_t *lhs, const uint8_t *rhs,
+                               size_t size);
+float MinusInnerProductSSE_4X1(const uint8_t *lhs, const uint8_t *rhs,
+                               size_t size);
+float MinusInnerProductSSE_4X2(const uint8_t *lhs, const uint8_t *rhs,
+                               size_t size);
+float MinusInnerProductSSE_4X4(const uint8_t *lhs, const uint8_t *rhs,
+                               size_t size);
+float MinusInnerProductSSE_8X1(const uint8_t *lhs, const uint8_t *rhs,
+                               size_t size);
+float MinusInnerProductSSE_8X2(const uint8_t *lhs, const uint8_t *rhs,
+                               size_t size);
+float MinusInnerProductSSE_8X4(const uint8_t *lhs, const uint8_t *rhs,
+                               size_t size);
+float MinusInnerProductSSE_8X8(const uint8_t *lhs, const uint8_t *rhs,
+                               size_t size);
+float MinusInnerProductSSE_16X1(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductSSE_16X2(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductSSE_16X4(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductSSE_16X8(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductSSE_16X16(const uint8_t *lhs, const uint8_t *rhs,
+                                 size_t size);
+float MinusInnerProductSSE_32X1(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductSSE_32X2(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductSSE_32X4(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductSSE_32X8(const uint8_t *lhs, const uint8_t *rhs,
+                                size_t size);
+float MinusInnerProductSSE_32X16(const uint8_t *lhs, const uint8_t *rhs,
+                                 size_t size);
+float MinusInnerProductSSE_32X32(const uint8_t *lhs, const uint8_t *rhs,
+                                 size_t size);
 #endif
 
 #if defined(__SSE4_1__)

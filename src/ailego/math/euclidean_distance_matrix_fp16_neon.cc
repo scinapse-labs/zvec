@@ -45,8 +45,9 @@ namespace ailego {
   }
 
 #if defined(__ARM_NEON)
-void SquaredEuclideanDistanceNEON(const Float16 *lhs, const Float16 *rhs, size_t size, float *out) {
-  ACCUM_FP16_1X1_NEON(lhs, rhs, size, out, 0ull, )                                        
+void SquaredEuclideanDistanceNEON(const Float16 *lhs, const Float16 *rhs,
+                                  size_t size, float *out) {
+  ACCUM_FP16_1X1_NEON(lhs, rhs, size, out, 0ull, )
 }
 #endif
 

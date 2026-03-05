@@ -19,97 +19,179 @@ namespace zvec {
 namespace ailego {
 
 #if defined(__AVX2__)
-float SquaredEuclideanDistanceAVX2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_2X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_2X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_4X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_4X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_4X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_8X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_8X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_8X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_8X8(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_16X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_16X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_16X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_16X8(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_16X16(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_32X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_32X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_32X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_32X8(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_32X16(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceAVX2_32X32(const int8_t *lhs, const int8_t *rhs, size_t size);
+float SquaredEuclideanDistanceAVX2(const int8_t *lhs, const int8_t *rhs,
+                                   size_t size);
+float SquaredEuclideanDistanceAVX2_2X1(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceAVX2_2X2(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceAVX2_4X1(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceAVX2_4X2(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceAVX2_4X4(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceAVX2_8X1(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceAVX2_8X2(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceAVX2_8X4(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceAVX2_8X8(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceAVX2_16X1(const int8_t *lhs, const int8_t *rhs,
+                                        size_t size);
+float SquaredEuclideanDistanceAVX2_16X2(const int8_t *lhs, const int8_t *rhs,
+                                        size_t size);
+float SquaredEuclideanDistanceAVX2_16X4(const int8_t *lhs, const int8_t *rhs,
+                                        size_t size);
+float SquaredEuclideanDistanceAVX2_16X8(const int8_t *lhs, const int8_t *rhs,
+                                        size_t size);
+float SquaredEuclideanDistanceAVX2_16X16(const int8_t *lhs, const int8_t *rhs,
+                                         size_t size);
+float SquaredEuclideanDistanceAVX2_32X1(const int8_t *lhs, const int8_t *rhs,
+                                        size_t size);
+float SquaredEuclideanDistanceAVX2_32X2(const int8_t *lhs, const int8_t *rhs,
+                                        size_t size);
+float SquaredEuclideanDistanceAVX2_32X4(const int8_t *lhs, const int8_t *rhs,
+                                        size_t size);
+float SquaredEuclideanDistanceAVX2_32X8(const int8_t *lhs, const int8_t *rhs,
+                                        size_t size);
+float SquaredEuclideanDistanceAVX2_32X16(const int8_t *lhs, const int8_t *rhs,
+                                         size_t size);
+float SquaredEuclideanDistanceAVX2_32X32(const int8_t *lhs, const int8_t *rhs,
+                                         size_t size);
 
 float EuclideanDistanceAVX2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_2X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_2X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_4X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_4X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_4X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_8X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_8X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_8X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_8X8(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_16X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_16X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_16X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_16X8(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_16X16(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_32X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_32X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_32X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_32X8(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_32X16(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceAVX2_32X32(const int8_t *lhs, const int8_t *rhs, size_t size);
+float EuclideanDistanceAVX2_2X1(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceAVX2_2X2(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceAVX2_4X1(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceAVX2_4X2(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceAVX2_4X4(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceAVX2_8X1(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceAVX2_8X2(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceAVX2_8X4(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceAVX2_8X8(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceAVX2_16X1(const int8_t *lhs, const int8_t *rhs,
+                                 size_t size);
+float EuclideanDistanceAVX2_16X2(const int8_t *lhs, const int8_t *rhs,
+                                 size_t size);
+float EuclideanDistanceAVX2_16X4(const int8_t *lhs, const int8_t *rhs,
+                                 size_t size);
+float EuclideanDistanceAVX2_16X8(const int8_t *lhs, const int8_t *rhs,
+                                 size_t size);
+float EuclideanDistanceAVX2_16X16(const int8_t *lhs, const int8_t *rhs,
+                                  size_t size);
+float EuclideanDistanceAVX2_32X1(const int8_t *lhs, const int8_t *rhs,
+                                 size_t size);
+float EuclideanDistanceAVX2_32X2(const int8_t *lhs, const int8_t *rhs,
+                                 size_t size);
+float EuclideanDistanceAVX2_32X4(const int8_t *lhs, const int8_t *rhs,
+                                 size_t size);
+float EuclideanDistanceAVX2_32X8(const int8_t *lhs, const int8_t *rhs,
+                                 size_t size);
+float EuclideanDistanceAVX2_32X16(const int8_t *lhs, const int8_t *rhs,
+                                  size_t size);
+float EuclideanDistanceAVX2_32X32(const int8_t *lhs, const int8_t *rhs,
+                                  size_t size);
 #endif
 
 #if defined(__SSE4_1__)
-float SquaredEuclideanDistanceSSE(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_2X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_2X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_4X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_4X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_4X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_8X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_8X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_8X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_8X8(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_16X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_16X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_16X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_16X8(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_16X16(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_32X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_32X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_32X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_32X8(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_32X16(const int8_t *lhs, const int8_t *rhs, size_t size);
-float SquaredEuclideanDistanceSSE_32X32(const int8_t *lhs, const int8_t *rhs, size_t size);
+float SquaredEuclideanDistanceSSE(const int8_t *lhs, const int8_t *rhs,
+                                  size_t size);
+float SquaredEuclideanDistanceSSE_2X1(const int8_t *lhs, const int8_t *rhs,
+                                      size_t size);
+float SquaredEuclideanDistanceSSE_2X2(const int8_t *lhs, const int8_t *rhs,
+                                      size_t size);
+float SquaredEuclideanDistanceSSE_4X1(const int8_t *lhs, const int8_t *rhs,
+                                      size_t size);
+float SquaredEuclideanDistanceSSE_4X2(const int8_t *lhs, const int8_t *rhs,
+                                      size_t size);
+float SquaredEuclideanDistanceSSE_4X4(const int8_t *lhs, const int8_t *rhs,
+                                      size_t size);
+float SquaredEuclideanDistanceSSE_8X1(const int8_t *lhs, const int8_t *rhs,
+                                      size_t size);
+float SquaredEuclideanDistanceSSE_8X2(const int8_t *lhs, const int8_t *rhs,
+                                      size_t size);
+float SquaredEuclideanDistanceSSE_8X4(const int8_t *lhs, const int8_t *rhs,
+                                      size_t size);
+float SquaredEuclideanDistanceSSE_8X8(const int8_t *lhs, const int8_t *rhs,
+                                      size_t size);
+float SquaredEuclideanDistanceSSE_16X1(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceSSE_16X2(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceSSE_16X4(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceSSE_16X8(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceSSE_16X16(const int8_t *lhs, const int8_t *rhs,
+                                        size_t size);
+float SquaredEuclideanDistanceSSE_32X1(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceSSE_32X2(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceSSE_32X4(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceSSE_32X8(const int8_t *lhs, const int8_t *rhs,
+                                       size_t size);
+float SquaredEuclideanDistanceSSE_32X16(const int8_t *lhs, const int8_t *rhs,
+                                        size_t size);
+float SquaredEuclideanDistanceSSE_32X32(const int8_t *lhs, const int8_t *rhs,
+                                        size_t size);
 
 
 float EuclideanDistanceSSE(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_2X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_2X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_4X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_4X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_4X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_8X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_8X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_8X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_8X8(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_16X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_16X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_16X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_16X8(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_16X16(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_32X1(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_32X2(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_32X4(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_32X8(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_32X16(const int8_t *lhs, const int8_t *rhs, size_t size);
-float EuclideanDistanceSSE_32X32(const int8_t *lhs, const int8_t *rhs, size_t size);
-#endif 
+float EuclideanDistanceSSE_2X1(const int8_t *lhs, const int8_t *rhs,
+                               size_t size);
+float EuclideanDistanceSSE_2X2(const int8_t *lhs, const int8_t *rhs,
+                               size_t size);
+float EuclideanDistanceSSE_4X1(const int8_t *lhs, const int8_t *rhs,
+                               size_t size);
+float EuclideanDistanceSSE_4X2(const int8_t *lhs, const int8_t *rhs,
+                               size_t size);
+float EuclideanDistanceSSE_4X4(const int8_t *lhs, const int8_t *rhs,
+                               size_t size);
+float EuclideanDistanceSSE_8X1(const int8_t *lhs, const int8_t *rhs,
+                               size_t size);
+float EuclideanDistanceSSE_8X2(const int8_t *lhs, const int8_t *rhs,
+                               size_t size);
+float EuclideanDistanceSSE_8X4(const int8_t *lhs, const int8_t *rhs,
+                               size_t size);
+float EuclideanDistanceSSE_8X8(const int8_t *lhs, const int8_t *rhs,
+                               size_t size);
+float EuclideanDistanceSSE_16X1(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceSSE_16X2(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceSSE_16X4(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceSSE_16X8(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceSSE_16X16(const int8_t *lhs, const int8_t *rhs,
+                                 size_t size);
+float EuclideanDistanceSSE_32X1(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceSSE_32X2(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceSSE_32X4(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceSSE_32X8(const int8_t *lhs, const int8_t *rhs,
+                                size_t size);
+float EuclideanDistanceSSE_32X16(const int8_t *lhs, const int8_t *rhs,
+                                 size_t size);
+float EuclideanDistanceSSE_32X32(const int8_t *lhs, const int8_t *rhs,
+                                 size_t size);
+#endif
 
 
 #if defined(__SSE4_1__)

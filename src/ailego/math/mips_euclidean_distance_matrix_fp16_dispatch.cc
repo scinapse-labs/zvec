@@ -19,15 +19,18 @@ namespace zvec {
 namespace ailego {
 
 #if defined(__ARM_NEON)
-float SquaredEuclideanDistanceNEON(const Float16 *lhs, const Float16 *rhs, size_t size, float *sql, float *sqr);
+float SquaredEuclideanDistanceNEON(const Float16 *lhs, const Float16 *rhs,
+                                   size_t size, float *sql, float *sqr);
 #endif
 
 #if defined(__AVX512F__)
-float InnerProductAndSquaredNormAVX512(const Float16 *lhs, const Float16 *rhs, size_t size, float *sql, float *sqr);
+float InnerProductAndSquaredNormAVX512(const Float16 *lhs, const Float16 *rhs,
+                                       size_t size, float *sql, float *sqr);
 #endif
 
 #if defined(__AVX__)
-float InnerProductAndSquaredNormAVX(const Float16 *lhs, const Float16 *rhs, size_t size, float *sql, float *sqr);
+float InnerProductAndSquaredNormAVX(const Float16 *lhs, const Float16 *rhs,
+                                    size_t size, float *sql, float *sqr);
 #endif
 
 #if (defined(__F16C__) && defined(__AVX__)) || \

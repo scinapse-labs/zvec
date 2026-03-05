@@ -37,8 +37,7 @@ static const __m128 NEGZEROS_FP32_SSE = _mm_set1_ps(-0.0f);
 
 #if defined(__SSE__)
 //! Inner Product
-float InnerProductSSE(const float *lhs, const float *rhs,
-                                    size_t size) {
+float InnerProductSSE(const float *lhs, const float *rhs, size_t size) {
   const float *last = lhs + size;
   const float *last_aligned = lhs + ((size >> 3) << 3);
 
@@ -365,161 +364,201 @@ float MinusInnerProductSparseMatrix<float>::ComputeInnerProductSparseInSegment(
 }
 
 //! InnerProduct
-void InnerProductSSE_2X1(const float *lhs, const float *rhs, size_t size, float *out) {
-  ACCUM_FP32_2X1_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_2X1(const float *lhs, const float *rhs, size_t size,
+                         float *out) {
+  ACCUM_FP32_2X1_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_2X2(const float *lhs, const float *rhs, size_t size, float *out) {
-  ACCUM_FP32_2X2_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_2X2(const float *lhs, const float *rhs, size_t size,
+                         float *out) {
+  ACCUM_FP32_2X2_SSE(lhs, rhs, size, out, )
 }
-void InnerProductSSE_4X1(const float *lhs, const float *rhs, size_t size, float *out) {
-  ACCUM_FP32_4X1_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_4X1(const float *lhs, const float *rhs, size_t size,
+                         float *out) {
+  ACCUM_FP32_4X1_SSE(lhs, rhs, size, out, )
 }
-void InnerProductSSE_4X2(const float *lhs, const float *rhs, size_t size, float *out) {
-  ACCUM_FP32_4X2_SSE(lhs, rhs, size, out,  )
-}
-
-void InnerProductSSE_4X4(const float *lhs, const float *rhs, size_t size, float *out) {
-  ACCUM_FP32_4X4_SSE(lhs, rhs, size, out,  )
-}
-
-void InnerProductSSE_8X1(const float *lhs, const float *rhs, size_t size, float *out) {
-  ACCUM_FP32_8X1_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_4X2(const float *lhs, const float *rhs, size_t size,
+                         float *out) {
+  ACCUM_FP32_4X2_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_8X2(const float *lhs, const float *rhs, size_t size, float *out) {
-  ACCUM_FP32_8X2_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_4X4(const float *lhs, const float *rhs, size_t size,
+                         float *out) {
+  ACCUM_FP32_4X4_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_8X4(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_8X4_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_8X1(const float *lhs, const float *rhs, size_t size,
+                         float *out) {
+  ACCUM_FP32_8X1_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_8X8(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_8X8_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_8X2(const float *lhs, const float *rhs, size_t size,
+                         float *out) {
+  ACCUM_FP32_8X2_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_16X1(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_16X1_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_8X4(const float *lhs, const float *rhs, size_t size,
+                         float *out) {
+  ACCUM_FP32_8X4_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_16X2(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_16X2_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_8X8(const float *lhs, const float *rhs, size_t size,
+                         float *out) {
+  ACCUM_FP32_8X8_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_16X4(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_16X4_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_16X1(const float *lhs, const float *rhs, size_t size,
+                          float *out) {
+  ACCUM_FP32_16X1_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_16X8(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_16X8_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_16X2(const float *lhs, const float *rhs, size_t size,
+                          float *out) {
+  ACCUM_FP32_16X2_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_16X16(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_16X16_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_16X4(const float *lhs, const float *rhs, size_t size,
+                          float *out) {
+  ACCUM_FP32_16X4_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_32X1(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_32X1_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_16X8(const float *lhs, const float *rhs, size_t size,
+                          float *out) {
+  ACCUM_FP32_16X8_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_32X2(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_32X2_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_16X16(const float *lhs, const float *rhs, size_t size,
+                           float *out) {
+  ACCUM_FP32_16X16_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_32X4(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_32X4_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_32X1(const float *lhs, const float *rhs, size_t size,
+                          float *out) {
+  ACCUM_FP32_32X1_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_32X8(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_32X8_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_32X2(const float *lhs, const float *rhs, size_t size,
+                          float *out) {
+  ACCUM_FP32_32X2_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_32X16(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_32X16_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_32X4(const float *lhs, const float *rhs, size_t size,
+                          float *out) {
+  ACCUM_FP32_32X4_SSE(lhs, rhs, size, out, )
 }
 
-void InnerProductSSE_32X32(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_32X32_SSE(lhs, rhs, size, out,  )
+void InnerProductSSE_32X8(const float *lhs, const float *rhs, size_t size,
+                          float *out) {
+  ACCUM_FP32_32X8_SSE(lhs, rhs, size, out, )
+}
+
+void InnerProductSSE_32X16(const float *lhs, const float *rhs, size_t size,
+                           float *out) {
+  ACCUM_FP32_32X16_SSE(lhs, rhs, size, out, )
+}
+
+void InnerProductSSE_32X32(const float *lhs, const float *rhs, size_t size,
+                           float *out) {
+  ACCUM_FP32_32X32_SSE(lhs, rhs, size, out, )
 }
 
 //! MinusInnerProduct
-void MinusInnerProductSSE_2X1(const float *lhs, const float *rhs, size_t size, float *out) {
-  ACCUM_FP32_2X1_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_2X1(const float *lhs, const float *rhs, size_t size,
+                              float *out) {
+  ACCUM_FP32_2X1_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_2X2(const float *lhs, const float *rhs, size_t size, float *out) {
-  ACCUM_FP32_2X2_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_2X2(const float *lhs, const float *rhs, size_t size,
+                              float *out) {
+  ACCUM_FP32_2X2_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
-void MinusInnerProductSSE_4X1(const float *lhs, const float *rhs, size_t size, float *out) {
-  ACCUM_FP32_4X1_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_4X1(const float *lhs, const float *rhs, size_t size,
+                              float *out) {
+  ACCUM_FP32_4X1_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
-void MinusInnerProductSSE_4X2(const float *lhs, const float *rhs, size_t size, float *out) {
-  ACCUM_FP32_4X2_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
-}
-
-void MinusInnerProductSSE_4X4(const float *lhs, const float *rhs, size_t size, float *out) {
-  ACCUM_FP32_4X4_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
-}
-
-void MinusInnerProductSSE_8X1(const float *lhs, const float *rhs, size_t size, float *out) {
-  ACCUM_FP32_8X1_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_4X2(const float *lhs, const float *rhs, size_t size,
+                              float *out) {
+  ACCUM_FP32_4X2_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_8X2(const float *lhs, const float *rhs, size_t size, float *out) {
-  ACCUM_FP32_8X2_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_4X4(const float *lhs, const float *rhs, size_t size,
+                              float *out) {
+  ACCUM_FP32_4X4_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_8X4(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_8X4_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_8X1(const float *lhs, const float *rhs, size_t size,
+                              float *out) {
+  ACCUM_FP32_8X1_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_8X8(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_8X8_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_8X2(const float *lhs, const float *rhs, size_t size,
+                              float *out) {
+  ACCUM_FP32_8X2_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_16X1(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_16X1_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_8X4(const float *lhs, const float *rhs, size_t size,
+                              float *out) {
+  ACCUM_FP32_8X4_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_16X2(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_16X2_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_8X8(const float *lhs, const float *rhs, size_t size,
+                              float *out) {
+  ACCUM_FP32_8X8_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_16X4(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_16X4_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_16X1(const float *lhs, const float *rhs, size_t size,
+                               float *out) {
+  ACCUM_FP32_16X1_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_16X8(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_16X8_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_16X2(const float *lhs, const float *rhs, size_t size,
+                               float *out) {
+  ACCUM_FP32_16X2_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_16X16(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_16X16_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_16X4(const float *lhs, const float *rhs, size_t size,
+                               float *out) {
+  ACCUM_FP32_16X4_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_32X1(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_32X1_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_16X8(const float *lhs, const float *rhs, size_t size,
+                               float *out) {
+  ACCUM_FP32_16X8_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_32X2(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_32X2_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_16X16(const float *lhs, const float *rhs, size_t size,
+                                float *out) {
+  ACCUM_FP32_16X16_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_32X4(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_32X4_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_32X1(const float *lhs, const float *rhs, size_t size,
+                               float *out) {
+  ACCUM_FP32_32X1_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_32X8(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_32X8_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_32X2(const float *lhs, const float *rhs, size_t size,
+                               float *out) {
+  ACCUM_FP32_32X2_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_32X16(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_32X16_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_32X4(const float *lhs, const float *rhs, size_t size,
+                               float *out) {
+  ACCUM_FP32_32X4_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
-void MinusInnerProductSSE_32X32(const float *lhs, const float *rhs, size_t size, float *out){
-  ACCUM_FP32_32X32_SSE(lhs, rhs, size, out,  NEGATE_FP32_SSE)
+void MinusInnerProductSSE_32X8(const float *lhs, const float *rhs, size_t size,
+                               float *out) {
+  ACCUM_FP32_32X8_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
+}
+
+void MinusInnerProductSSE_32X16(const float *lhs, const float *rhs, size_t size,
+                                float *out) {
+  ACCUM_FP32_32X16_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
+}
+
+void MinusInnerProductSSE_32X32(const float *lhs, const float *rhs, size_t size,
+                                float *out) {
+  ACCUM_FP32_32X32_SSE(lhs, rhs, size, out, NEGATE_FP32_SSE)
 }
 
 }  // namespace ailego

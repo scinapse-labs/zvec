@@ -21,11 +21,13 @@ namespace zvec {
 namespace ailego {
 
 #if defined(__AVX__)
-float InnerProductAndSquaredNormAVX(const uint8_t *lhs, const uint8_t *rhs, size_t size, float *sql, float *sqr);
+float InnerProductAndSquaredNormAVX(const uint8_t *lhs, const uint8_t *rhs,
+                                    size_t size, float *sql, float *sqr);
 #endif
 
 #if defined(__SSE__)
-float InnerProductAndSquaredNormSSE(const uint8_t *lhs, const uint8_t *rhs, size_t size, float *sql, float *sqr);
+float InnerProductAndSquaredNormSSE(const uint8_t *lhs, const uint8_t *rhs,
+                                    size_t size, float *sql, float *sqr);
 #endif
 
 //! Compute the distance between matrix and query by SphericalInjection

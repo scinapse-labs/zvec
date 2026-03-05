@@ -128,12 +128,10 @@ class VecBufferPool {
   moodycamel::ConcurrentQueue<char *> free_buffers_;
 };
 
-struct VecBufferPoolHandle {
-  VecBufferPoolHandle(VecBufferPool &pool) : pool(pool), hit_num_(0) {};
-  VecBufferPoolHandle(VecBufferPoolHandle &&other)
-      : pool(other.pool), hit_num_(other.hit_num_) {
-    other.hit_num_ = 0;
-  }
+class VecBufferPoolHandle {
+ public:
+  VecBufferPoolHandle(VecBufferPool &pool) : pool(pool) {};
+  VecBufferPoolHandle(VecBufferPoolHandle &&other) : pool(other.pool) {};
 
   ~VecBufferPoolHandle() = default;
 
@@ -146,9 +144,8 @@ struct VecBufferPoolHandle {
   void release_one(block_id_t block_id);
 
   void acquire_one(block_id_t block_id);
-
+ private:
   VecBufferPool &pool;
-  int hit_num_;
 };
 
 }  // namespace ailego

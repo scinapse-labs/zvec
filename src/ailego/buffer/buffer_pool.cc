@@ -34,12 +34,12 @@ bool LRUCache::add_single_block(const LPMap *lp_map, const BlockType &block,
 }
 
 void LRUCache::clear_dead_node(const LPMap *lp_map) {
-  for (int i = 0; i < CATCH_QUEUE_NUM; i++) {
-    int clear_size = block_size_ * 2;
+  for (size_t i = 0; i < CATCH_QUEUE_NUM; i++) {
+    size_t clear_size = block_size_ * 2;
     if (queues_[i].size_approx() < clear_size * 4) {
       continue;
     }
-    int clear_count = 0;
+    size_t clear_count = 0;
     ConcurrentQueue tmp(block_size_);
     BlockType item;
     while (queues_[i].try_dequeue(item) && (clear_count++ < clear_size)) {
@@ -156,7 +156,7 @@ int VecBufferPool::init(size_t pool_capacity, size_t block_size) {
   for (size_t i = 0; i < buffer_num; i++) {
     char *buffer = (char *)aligned_alloc(64, block_size);
     if (buffer != nullptr) {
-      bool ok = free_buffers_.try_enqueue(buffer);
+      free_buffers_.try_enqueue(buffer);
     }
   }
   LOG_DEBUG("Buffer pool num: %zu, entry num: %zu", buffer_num,

@@ -157,6 +157,9 @@ int VecBufferPool::init(size_t pool_capacity, size_t block_size) {
     char *buffer = (char *)aligned_alloc(64, block_size);
     if (buffer != nullptr) {
       free_buffers_.try_enqueue(buffer);
+    } else {
+      LOG_ERROR("aligned_alloc %zu(size: %zu) failed", i, block_size);
+      return -1;
     }
   }
   LOG_DEBUG("Buffer pool num: %zu, entry num: %zu", buffer_num,

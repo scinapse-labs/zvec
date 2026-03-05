@@ -35,9 +35,9 @@ float InnerProductAndSquaredNormAVX(const Float16 *lhs, const Float16 *rhs, size
 //! Compute the distance between matrix and query by SphericalInjection
 void MipsSquaredEuclideanDistanceMatrix<Float16, 1, 1>::Compute(
     const ValueType *p, const ValueType *q, size_t dim, float e2, float *out) {
-  float u2;
-  float v2;
-  float sum;
+  float u2{0.0f};
+  float v2{0.0f};
+  float sum{0.0f};
 
 #if defined(__ARM_NEON)
   sum = InnerProductAndSquaredNormNEON(p, q, dim, &u2, &v2);
@@ -58,9 +58,9 @@ void MipsSquaredEuclideanDistanceMatrix<Float16, 1, 1>::Compute(
 void MipsSquaredEuclideanDistanceMatrix<Float16, 1, 1>::Compute(
     const ValueType *p, const ValueType *q, size_t dim, size_t m, float e2,
     float *out) {
-  float u2;
-  float v2;
-  float sum;
+  float u2{0.0f};
+  float v2{0.0f};
+  float sum{0.0f};
 
 #if defined(__ARM_NEON)
   sum = InnerProductAndSquaredNormNEON(p, q, dim, &u2, &v2);

@@ -44,9 +44,9 @@ float MipsInnerProductSparseInSegment(uint32_t m_sparse_count, const uint16_t *m
 //! Compute the distance between matrix and query by SphericalInjection
 void MipsSquaredEuclideanDistanceMatrix<float, 1, 1>::Compute(
     const ValueType *p, const ValueType *q, size_t dim, float e2, float *out) {
-  float u2;
-  float v2;
-  float sum;
+  float u2{0.0f};
+  float v2{0.0f};
+  float sum{0.0f};
 
 #if defined(__AVX512F__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX512F && dim > 15) {
@@ -69,9 +69,9 @@ void MipsSquaredEuclideanDistanceMatrix<float, 1, 1>::Compute(
 void MipsSquaredEuclideanDistanceMatrix<float, 1, 1>::Compute(
     const ValueType *p, const ValueType *q, size_t dim, size_t m, float e2,
     float *out) {
-  float u2;
-  float v2;
-  float sum;
+  float u2{0.0f};
+  float v2{0.0f};
+  float sum{0.0f};
 
 #if defined(__AVX512F__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX512F && dim > 15) {

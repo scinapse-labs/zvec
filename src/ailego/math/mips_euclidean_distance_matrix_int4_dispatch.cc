@@ -32,9 +32,9 @@ float InnerProductAndSquaredNormSSE(const uint8_t *lhs, const uint8_t *rhs, size
 //! Compute the distance between matrix and query by SphericalInjection
 void MipsSquaredEuclideanDistanceMatrix<uint8_t, 1, 1>::Compute(
     const ValueType *p, const ValueType *q, size_t dim, float e2, float *out) {
-  float u2;
-  float v2;
-  float sum;
+  float u2{0.0f};
+  float v2{0.0f};
+  float sum{0.0f};
 
 #if defined(__AVX2__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX2) {
@@ -52,9 +52,9 @@ void MipsSquaredEuclideanDistanceMatrix<uint8_t, 1, 1>::Compute(
 void MipsSquaredEuclideanDistanceMatrix<uint8_t, 1, 1>::Compute(
     const ValueType *p, const ValueType *q, size_t dim, size_t m, float e2,
     float *out) {
-  float u2;
-  float v2;
-  float sum;
+  float u2{0.0f};
+  float v2{0.0f};
+  float sum{0.0f};
 
 #if defined(__AVX2__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX2) {

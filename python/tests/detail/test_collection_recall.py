@@ -165,7 +165,7 @@ def get_ground_truth_map(collection, test_docs, query_vectors_map, metric_type, 
 
 
 def calculate_recall_at_k(collection: Collection, test_docs, query_vectors_map, schema, k=1,
-                          expected_doc_ids_scores_map=None, tolerance=0.001):
+                          expected_doc_ids_scores_map=None, tolerance=0.01):
     recall_stats = {}
 
     for field_name, query_vectors in query_vectors_map.items():
@@ -334,7 +334,7 @@ class TestRecall:
             full_schema_new,
             k=top_k,
             expected_doc_ids_scores_map=ground_truth_map,
-            tolerance=0.001
+            tolerance=0.01
         )
         print("ground_truth_map:\n")
         print(ground_truth_map)

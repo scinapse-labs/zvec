@@ -116,14 +116,18 @@ function(_detect_armv8_best)
   message(WARNING "No ARMv8 architecture flag supported by compiler.")
 endfunction()
 
-function(setup_compiler_best_for_x86_avx512 VAR_NAME)
+function(setup_compiler_march_for_x86 VAR_NAME_AVX2 VAR_NAME_AVX512)
+  #avx 2
+  set(${VAR_NAME_AVX2} "-march=core-avx2" PARENT_SCOPE)
+
+  #avx512
   set(_x86_flags
     "graniterapids" "emeraldrapids" "sapphirerapids" "skylake-avx512" 
   )
   foreach(_arch IN LISTS _x86_flags)
     check_c_compiler_flag("-march=${_arch}" _COMP_SUPP_${_arch})
     if(_COMP_SUPP_${_arch})
-      set(${VAR_NAME} "-march=${_arch}" PARENT_SCOPE)
+      set(${VAR_NAME_AVX512} "-march=${_arch}" PARENT_SCOPE)
       return()
     endif()
   endforeach()

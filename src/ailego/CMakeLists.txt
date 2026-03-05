@@ -23,11 +23,8 @@ if(UNIX AND NOT APPLE)
     set(CMAKE_CXX_FLAGS "-march=broadwell")
     set(CMAKE_C_FLAGS "-march=broadwell")
 
-    set(MATH_MARCH_FLAG_AVX2 "-march=core-avx2")
-
-    set(MATH_MARCH_FLAG_AVX512 "-march=broadwell")
-    setup_compiler_best_for_x86_avx512(MATH_MARCH_FLAG_AVX512)
-    message(STATUS "avx512 march: " ${MATH_MARCH_FLAG_AVX512})
+    setup_compiler_march_for_x86(MATH_MARCH_FLAG_AVX2 MATH_MARCH_FLAG_AVX512)
+    message(STATUS "best compiler avx2 march: " ${MATH_MARCH_FLAG_AVX2} ", avx512 march: " ${MATH_MARCH_FLAG_AVX512})
 else()
     set(CMAKE_CXX_FLAGS "-march=native")
     set(CMAKE_C_FLAGS "-march=native")

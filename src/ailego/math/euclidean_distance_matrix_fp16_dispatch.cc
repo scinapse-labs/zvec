@@ -19,23 +19,30 @@ namespace zvec {
 namespace ailego {
 
 #if defined(__ARM_NEON)
-void SquaredEuclideanDistanceNEON(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
-void EuclideanDistanceNEON(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
+void SquaredEuclideanDistanceNEON(const Float16 *lhs, const Float16 *rhs,
+                                  size_t size, float *out);
+void EuclideanDistanceNEON(const Float16 *lhs, const Float16 *rhs, size_t size,
+                           float *out);
 #endif
 
 #if defined(__AVX512FP16__)
-float SquaredEuclideanDistanceAVX512FP16(const Float16 *lhs,const Float16 *rhs, size_t size);
+float SquaredEuclideanDistanceAVX512FP16(const Float16 *lhs, const Float16 *rhs,
+                                         size_t size);
 #endif
 
 #if defined(__AVX512F__)
-void SquaredEuclideanDistanceAVX512(const Float16 *lhs, const Float16 *rhs, size_t size, float* out);
+void SquaredEuclideanDistanceAVX512(const Float16 *lhs, const Float16 *rhs,
+                                    size_t size, float *out);
 
-void EuclideanDistanceAVX512(const Float16 *lhs, const Float16 *rhs, size_t size, float* out);
+void EuclideanDistanceAVX512(const Float16 *lhs, const Float16 *rhs,
+                             size_t size, float *out);
 #endif
 
 #if defined(__AVX__)
-void SquaredEuclideanDistanceAVX(const Float16 *lhs, const Float16 *rhs, size_t size, float *out);
-void EuclideanDistanceAVX(const Float16 *lhs, const Float16 *rhs, size_t size, float* out);
+void SquaredEuclideanDistanceAVX(const Float16 *lhs, const Float16 *rhs,
+                                 size_t size, float *out);
+void EuclideanDistanceAVX(const Float16 *lhs, const Float16 *rhs, size_t size,
+                          float *out);
 #endif
 
 #if (defined(__F16C__) && defined(__AVX__)) || \
@@ -57,12 +64,12 @@ void SquaredEuclideanDistanceMatrix<Float16, 1, 1>::Compute(const ValueType *m,
 #if defined(__AVX512F__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX512F) {
     SquaredEuclideanDistanceAVX512(m, q, dim, out);
-    //ACCUM_FP16_1X1_AVX512(m, q, dim, out, 0ull, )
+    // ACCUM_FP16_1X1_AVX512(m, q, dim, out, 0ull, )
     return;
   }
 #endif
   SquaredEuclideanDistanceAVX(m, q, dim, out);
-  //ACCUM_FP16_1X1_AVX(m, q, dim, out, 0ull, )
+  // ACCUM_FP16_1X1_AVX(m, q, dim, out, 0ull, )
 #endif  //__ARM_NEON
 }
 

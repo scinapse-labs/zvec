@@ -96,8 +96,7 @@ static const __m128i INT4_LOOKUP_SSE =
 
 #if defined(__SSE4_1__)
 //! Inner Product
-float InnerProductSSE(const uint8_t *lhs, const uint8_t *rhs,
-                                    size_t size) {
+float InnerProductSSE(const uint8_t *lhs, const uint8_t *rhs, size_t size) {
   const uint8_t *last = lhs + size;
   const uint8_t *last_aligned = lhs + ((size >> 4) << 4);
   __m128i xmm_sum = _mm_setzero_si128();
@@ -166,7 +165,8 @@ float InnerProductSSE(const uint8_t *lhs, const uint8_t *rhs,
   return result;
 }
 
-float MinusInnerProductSSE(const uint8_t *lhs, const uint8_t *rhs, size_t size){
+float MinusInnerProductSSE(const uint8_t *lhs, const uint8_t *rhs,
+                           size_t size) {
   return -InnerProductSSE(lhs, rhs, size);
 }
 

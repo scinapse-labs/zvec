@@ -64,8 +64,7 @@ static const __m256 NEGZEROS_FP32_AVX = _mm256_set1_ps(-0.0f);
 
 #if defined(__AVX__)
 //! Inner Product
-float InnerProductAVX(const float *lhs, const float *rhs,
-                                    size_t size) {
+float InnerProductAVX(const float *lhs, const float *rhs, size_t size) {
   const float *last = lhs + size;
   const float *last_aligned = lhs + ((size >> 4) << 4);
 

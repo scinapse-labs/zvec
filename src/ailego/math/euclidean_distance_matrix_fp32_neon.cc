@@ -40,7 +40,8 @@ namespace ailego {
 
 #if defined(__ARM_NEON)
 //! Squared Euclidean Distance
-void SquaredEuclideanDistanceNEON(const float *lhs, const float *rhs, size_t size, float *out) {
+void SquaredEuclideanDistanceNEON(const float *lhs, const float *rhs,
+                                  size_t size, float *out) {
   const float *last = lhs + size;
   const float *last_aligned = lhs + ((size >> 3) << 3);
 

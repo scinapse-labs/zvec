@@ -19,10 +19,10 @@
 namespace zvec {
 namespace ailego {
 
-#define   ACCUM_FP32_STEP_SSE SSD_FP32_SSE
-#define   ACCUM_FP32_STEP_AVX SSD_FP32_AVX
-#define   ACCUM_FP32_STEP_AVX512 SSD_FP32_AVX512
-#define   ACCUM_FP32_STEP_NEON SSD_FP32_NEON
+#define ACCUM_FP32_STEP_SSE SSD_FP32_SSE
+#define ACCUM_FP32_STEP_AVX SSD_FP32_AVX
+#define ACCUM_FP32_STEP_AVX512 SSD_FP32_AVX512
+#define ACCUM_FP32_STEP_NEON SSD_FP32_NEON
 
 //! Calculate sum of squared difference (GENERAL)
 #define SSD_FP32_GENERAL(m, q, sum) \
@@ -54,7 +54,8 @@ namespace ailego {
 
 #if defined(__AVX512F__)
 //! Squared Euclidean Distance
-float SquaredEuclideanDistanceAVX512(const float *lhs, const float *rhs, size_t size) {
+float SquaredEuclideanDistanceAVX512(const float *lhs, const float *rhs,
+                                     size_t size) {
   const float *last = lhs + size;
   const float *last_aligned = lhs + ((size >> 5) << 5);
 

@@ -27,8 +27,7 @@ namespace ailego {
 #define FMA_FP32_GENERAL(m, q, sum) sum += (m * q);
 #if defined(__ARM_NEON)
 //! Inner Product
-float InnerProductNEON(const float *lhs, const float *rhs,
-                                     size_t size) {
+float InnerProductNEON(const float *lhs, const float *rhs, size_t size) {
   const float *last = lhs + size;
   const float *last_aligned = lhs + ((size >> 3) << 3);
 

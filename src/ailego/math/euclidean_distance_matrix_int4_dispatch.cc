@@ -19,14 +19,17 @@ namespace zvec {
 namespace ailego {
 
 #if defined(__AVX2__)
-float SquaredEuclideanDistanceAVX2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float EuclideanDistanceAVX2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
+float SquaredEuclideanDistanceAVX2(const uint8_t *lhs, const uint8_t *rhs,
+                                   size_t size);
+float EuclideanDistanceAVX2(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size);
 #endif
 
 #if defined(__SSE4_1__)
-float SquaredEuclideanDistanceSSE(const uint8_t *lhs, const uint8_t *rhs, size_t size);
+float SquaredEuclideanDistanceSSE(const uint8_t *lhs, const uint8_t *rhs,
+                                  size_t size);
 float EuclideanDistanceSSE(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-#endif 
+#endif
 
 #if defined(__SSE4_1__)
 //! Compute the distance between matrix and query (INT4, M=1, N=1)

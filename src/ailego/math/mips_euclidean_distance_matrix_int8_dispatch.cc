@@ -19,11 +19,13 @@ namespace zvec {
 namespace ailego {
 
 #if defined(__AVX2__)
-float InnerProductAndSquaredNormAVX2(const int8_t *lhs, const int8_t *rhs, size_t size, float *sql, float *sqr);
+float InnerProductAndSquaredNormAVX2(const int8_t *lhs, const int8_t *rhs,
+                                     size_t size, float *sql, float *sqr);
 #endif
 
 #if defined(__SSE__)
-float InnerProductAndSquaredNormSSE(const int8_t *lhs, const int8_t *rhs, size_t size, float *sql, float *sqr);
+float InnerProductAndSquaredNormSSE(const int8_t *lhs, const int8_t *rhs,
+                                    size_t size, float *sql, float *sqr);
 #endif
 
 #if defined(__SSE4_1__)
@@ -37,14 +39,14 @@ void MipsSquaredEuclideanDistanceMatrix<int8_t, 1, 1>::Compute(
 #if defined(__AVX2__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX2) {
     sum = InnerProductAndSquaredNormAVX2(p, q, dim, &u2, &v2);
-  } else 
+  } else
 #else
   {
     sum = InnerProductAndSquaredNormSSE(p, q, dim, &u2, &v2);
   }
 #endif
 
-  *out = ComputeSphericalInjection(sum, u2, v2, e2);
+    *out = ComputeSphericalInjection(sum, u2, v2, e2);
 }
 
 //! Compute the distance between matrix and query by RepeatedQuadraticInjection
@@ -58,14 +60,14 @@ void MipsSquaredEuclideanDistanceMatrix<int8_t, 1, 1>::Compute(
 #if defined(__AVX2__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX2) {
     sum = InnerProductAndSquaredNormAVX2(p, q, dim, &u2, &v2);
-  } else 
+  } else
 #else
   {
     sum = InnerProductAndSquaredNormSSE(p, q, dim, &u2, &v2);
   }
 #endif
 
-  sum = e2 * (u2 + v2 - 2 * sum);
+    sum = e2 * (u2 + v2 - 2 * sum);
   u2 *= e2;
   v2 *= e2;
   for (size_t i = 0; i < m; ++i) {
@@ -75,7 +77,7 @@ void MipsSquaredEuclideanDistanceMatrix<int8_t, 1, 1>::Compute(
   }
   *out = sum;
 }
-#endif // __SSE4_1__
+#endif  // __SSE4_1__
 
 }  // namespace ailego
 }  // namespace zvec

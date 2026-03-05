@@ -90,9 +90,8 @@ static const __m256i ONES_INT16_AVX = _mm256_set1_epi32(0x00010001);
 
 #if defined(__AVX2__)
 //! Squared Euclidean Distance
-float SquaredEuclideanDistanceAVX2(const int8_t *lhs,
-                                                const int8_t *rhs,
-                                                size_t size) {
+float SquaredEuclideanDistanceAVX2(const int8_t *lhs, const int8_t *rhs,
+                                   size_t size) {
   const int8_t *last = lhs + size;
   const int8_t *last_aligned = lhs + ((size >> 6) << 6);
   float result = 0.0;

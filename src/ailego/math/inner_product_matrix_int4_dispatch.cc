@@ -20,7 +20,8 @@ namespace ailego {
 
 #if defined(__AVX2__)
 float InnerProductAVX2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
-float MinusInnerProductAVX2(const uint8_t *lhs, const uint8_t *rhs, size_t size);
+float MinusInnerProductAVX2(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size);
 #endif
 
 #if defined(__SSE4_1__)
@@ -55,7 +56,7 @@ void MinusInnerProductMatrix<uint8_t, 1, 1>::Compute(const ValueType *m,
   *out = MinusInnerProductSSE(m, q, dim);
 }
 
-#endif //__SSE4_1__
+#endif  //__SSE4_1__
 
 }  // namespace ailego
 }  // namespace zvec

@@ -77,8 +77,8 @@ static const __m512 NEGZEROS_FP32_AVX512 = _mm512_set1_ps(-0.0f);
 
 #if defined(__AVX512FP16__)
 //! Inner Product
-float InnerProductAVX512FP16(const Float16 *lhs,
-                                           const Float16 *rhs, size_t size) {
+float InnerProductAVX512FP16(const Float16 *lhs, const Float16 *rhs,
+                             size_t size) {
   const Float16 *last = lhs + size;
   const Float16 *last_aligned = lhs + ((size >> 6) << 6);
 
@@ -804,14 +804,16 @@ do_scalar:
 #endif  // __AVX512FP16__
 
 #if defined(__AVX512F__)
-void InnerProductAVX512(const Float16 *lhs,const Float16 *rhs, size_t size, float *out)  {
+void InnerProductAVX512(const Float16 *lhs, const Float16 *rhs, size_t size,
+                        float *out) {
   ACCUM_FP16_1X1_AVX512(lhs, rhs, size, out, 0ull, )
 }
 
-void MinusInnerProductAVX512(const Float16 *lhs,const Float16 *rhs, size_t size, float *out)  {
+void MinusInnerProductAVX512(const Float16 *lhs, const Float16 *rhs,
+                             size_t size, float *out) {
   ACCUM_FP16_1X1_AVX512(lhs, rhs, size, out, 0ull, NEGATE_FP32_GENERAL)
 }
-#endif //__AVX512F__
+#endif  //__AVX512F__
 
 
 }  // namespace ailego

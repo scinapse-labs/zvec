@@ -21,11 +21,13 @@ namespace zvec {
 namespace ailego {
 
 #if defined(__AVX__)
-float InnerProductAndSquaredNormAVX(const uint8_t *lhs, const uint8_t *rhs, size_t size, float *sql, float *sqr);
+float InnerProductAndSquaredNormAVX(const uint8_t *lhs, const uint8_t *rhs,
+                                    size_t size, float *sql, float *sqr);
 #endif
 
 #if defined(__SSE__)
-float InnerProductAndSquaredNormSSE(const uint8_t *lhs, const uint8_t *rhs, size_t size, float *sql, float *sqr);
+float InnerProductAndSquaredNormSSE(const uint8_t *lhs, const uint8_t *rhs,
+                                    size_t size, float *sql, float *sqr);
 #endif
 
 #if defined(__SSE4_1__)
@@ -39,7 +41,7 @@ void MipsSquaredEuclideanDistanceMatrix<uint8_t, 1, 1>::Compute(
 #if defined(__AVX2__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX2) {
     sum = InnerProductAndSquaredNormAVX(p, q, dim >> 1, &u2, &v2);
-  } else 
+  } else
 #endif
   {
     sum = InnerProductAndSquaredNormSSE(p, q, dim >> 1, &u2, &v2);

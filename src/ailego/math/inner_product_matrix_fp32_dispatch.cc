@@ -35,7 +35,7 @@ float MinusInnerProductAVX(const float *lhs, const float *rhs, size_t size);
 #if defined(__SSE__)
 float InnerProductSSE(const float *lhs, const float *rhs, size_t size);
 float MinusInnerProductSSE(const float *lhs, const float *rhs, size_t size);
-#endif 
+#endif
 
 #if defined(__SSE__) || defined(__ARM_NEON)
 //! Compute the distance between matrix and query (FP32, M=1, N=1)

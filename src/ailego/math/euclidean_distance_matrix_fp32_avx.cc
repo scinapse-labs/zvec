@@ -44,7 +44,8 @@ namespace ailego {
   }
 
 #if defined(__AVX__)
-float SquaredEuclideanDistanceAVX(const float *lhs, const float *rhs, size_t size) {
+float SquaredEuclideanDistanceAVX(const float *lhs, const float *rhs,
+                                  size_t size) {
   const float *last = lhs + size;
   const float *last_aligned = lhs + ((size >> 4) << 4);
 

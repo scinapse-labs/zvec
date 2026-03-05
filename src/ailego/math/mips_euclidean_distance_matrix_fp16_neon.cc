@@ -39,10 +39,8 @@ namespace ailego {
 #if defined(__ARM_NEON) && defined(__aarch64__)
 #if defined(__ARM_FEATURE_FP16_VECTOR_ARITHMETIC)
 //! Compute the Inner Product between p and q, and each Squared L2-Norm value
-float InnerProductAndSquaredNormNEON(const Float16 *lhs,
-                                                   const Float16 *rhs,
-                                                   size_t size, float *sql,
-                                                   float *sqr) {
+float InnerProductAndSquaredNormNEON(const Float16 *lhs, const Float16 *rhs,
+                                     size_t size, float *sql, float *sqr) {
   const Float16 *last = lhs + size;
   const Float16 *last_aligned = lhs + ((size >> 3) << 3);
   float16x8_t v_sum = vdupq_n_f16(0);
@@ -88,10 +86,8 @@ float InnerProductAndSquaredNormNEON(const Float16 *lhs,
 }
 #else
 //! Compute the Inner Product between p and q, and each Squared L2-Norm value
-float InnerProductAndSquaredNormNEON(const Float16 *lhs,
-                                                   const Float16 *rhs,
-                                                   size_t size, float *sql,
-                                                   float *sqr) {
+float InnerProductAndSquaredNormNEON(const Float16 *lhs, const Float16 *rhs,
+                                     size_t size, float *sql, float *sqr) {
   const Float16 *last = lhs + size;
   const Float16 *last_aligned = lhs + ((size >> 3) << 3);
   float32x4_t v_sum_0 = vdupq_n_f32(0);

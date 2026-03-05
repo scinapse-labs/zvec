@@ -19,26 +19,40 @@ namespace zvec {
 namespace ailego {
 
 #if defined(__ARM_NEON)
-float InnerProductAndSquaredNormNEON(const float *lhs, const float *rhs, size_t size, float *sql, float *sqr);
+float InnerProductAndSquaredNormNEON(const float *lhs, const float *rhs,
+                                     size_t size, float *sql, float *sqr);
 #endif
 
 #if defined(__AVX512F__)
-float InnerProductAndSquaredNormAVX512(const float *lhs, const float *rhs, size_t size, float *sql, float *sqr);
+float InnerProductAndSquaredNormAVX512(const float *lhs, const float *rhs,
+                                       size_t size, float *sql, float *sqr);
 #endif
 
 #if defined(__AVX__)
-float InnerProductAndSquaredNormAVX(const float *lhs, const float *rhs, size_t size, float *sql, float *sqr);
+float InnerProductAndSquaredNormAVX(const float *lhs, const float *rhs,
+                                    size_t size, float *sql, float *sqr);
 #endif
 
 #if defined(__SSE__)
-float InnerProductAndSquaredNormSSE(const float *lhs, const float *rhs, size_t size, float *sql, float *sqr);
+float InnerProductAndSquaredNormSSE(const float *lhs, const float *rhs,
+                                    size_t size, float *sql, float *sqr);
 #endif
 
 #if defined(__SSE4_1__)
-float MipsInnerProductSparseInSegmentSSE(uint32_t m_sparse_count, const uint16_t *m_sparse_index, const float *m_sparse_value, uint32_t q_sparse_count, const uint16_t *q_sparse_index, const float *q_sparse_value);
-#endif 
+float MipsInnerProductSparseInSegmentSSE(uint32_t m_sparse_count,
+                                         const uint16_t *m_sparse_index,
+                                         const float *m_sparse_value,
+                                         uint32_t q_sparse_count,
+                                         const uint16_t *q_sparse_index,
+                                         const float *q_sparse_value);
+#endif
 
-float MipsInnerProductSparseInSegment(uint32_t m_sparse_count, const uint16_t *m_sparse_index, const float *m_sparse_value, uint32_t q_sparse_count, const uint16_t *q_sparse_index, const float *q_sparse_value);
+float MipsInnerProductSparseInSegment(uint32_t m_sparse_count,
+                                      const uint16_t *m_sparse_index,
+                                      const float *m_sparse_value,
+                                      uint32_t q_sparse_count,
+                                      const uint16_t *q_sparse_index,
+                                      const float *q_sparse_value);
 
 #if defined(__SSE__)
 //! Compute the distance between matrix and query by SphericalInjection
@@ -54,7 +68,7 @@ void MipsSquaredEuclideanDistanceMatrix<float, 1, 1>::Compute(
   } else
 #endif  // __AVX512F__
 #if defined(__AVX__)
-  if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX && dim > 7) {
+      if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX && dim > 7) {
     sum = InnerProductAndSquaredNormAVX(p, q, dim, &u2, &v2);
   } else
 #endif  // __AVX__
@@ -79,7 +93,7 @@ void MipsSquaredEuclideanDistanceMatrix<float, 1, 1>::Compute(
   } else
 #endif  // __AVX512F__
 #if defined(__AVX__)
-  if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX && dim > 7) {
+      if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX && dim > 7) {
     sum = InnerProductAndSquaredNormAVX(p, q, dim, &u2, &v2);
   } else
 #endif  // __AVX__

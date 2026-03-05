@@ -41,10 +41,8 @@ namespace ailego {
 
 #if defined(__AVX512F__)
 //! Compute the Inner Product between p and q, and each Squared L2-Norm value
-float InnerProductAndSquaredNormAVX512(const Float16 *lhs,
-                                                     const Float16 *rhs,
-                                                     size_t size, float *sql,
-                                                     float *sqr) {
+float InnerProductAndSquaredNormAVX512(const Float16 *lhs, const Float16 *rhs,
+                                       size_t size, float *sql, float *sqr) {
   __m512 zmm_sum_0 = _mm512_setzero_ps();
   __m512 zmm_sum_1 = _mm512_setzero_ps();
   __m512 zmm_sum_norm1 = _mm512_setzero_ps();

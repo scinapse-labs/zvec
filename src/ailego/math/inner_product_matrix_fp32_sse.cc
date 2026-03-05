@@ -37,8 +37,7 @@ static const __m128 NEGZEROS_FP32_SSE = _mm_set1_ps(-0.0f);
 
 #if defined(__SSE__)
 //! Inner Product
-float InnerProductSSE(const float *lhs, const float *rhs,
-                                    size_t size) {
+float InnerProductSSE(const float *lhs, const float *rhs, size_t size) {
   const float *last = lhs + size;
   const float *last_aligned = lhs + ((size >> 3) << 3);
 

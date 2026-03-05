@@ -19,14 +19,16 @@ namespace zvec {
 namespace ailego {
 
 #if defined(__AVX2__)
-float SquaredEuclideanDistanceAVX2(const int8_t *lhs, const int8_t *rhs, size_t size);
+float SquaredEuclideanDistanceAVX2(const int8_t *lhs, const int8_t *rhs,
+                                   size_t size);
 float EuclideanDistanceAVX2(const int8_t *lhs, const int8_t *rhs, size_t size);
 #endif
 
 #if defined(__SSE4_1__)
-float SquaredEuclideanDistanceSSE(const int8_t *lhs, const int8_t *rhs, size_t size);
+float SquaredEuclideanDistanceSSE(const int8_t *lhs, const int8_t *rhs,
+                                  size_t size);
 float EuclideanDistanceSSE(const int8_t *lhs, const int8_t *rhs, size_t size);
-#endif 
+#endif
 
 
 #if defined(__SSE4_1__)

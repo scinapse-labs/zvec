@@ -737,11 +737,13 @@ do_scalar:
 
 
 #if defined(__AVX__)
-void InnerProductAVX(const Float16 *lhs, const Float16 *rhs, size_t size, float *out) {
+void InnerProductAVX(const Float16 *lhs, const Float16 *rhs, size_t size,
+                     float *out) {
   ACCUM_FP16_1X1_AVX(lhs, rhs, size, out, 0ull, )
 }
 
-void MinusInnerProductAVX(const Float16 *lhs, const Float16 *rhs, size_t size, float *out){
+void MinusInnerProductAVX(const Float16 *lhs, const Float16 *rhs, size_t size,
+                          float *out) {
   ACCUM_FP16_1X1_AVX(lhs, rhs, size, out, 0ull, NEGATE_FP32_GENERAL)
 }
 #endif

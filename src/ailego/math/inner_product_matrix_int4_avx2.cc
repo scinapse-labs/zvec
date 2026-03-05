@@ -165,8 +165,7 @@ static const __m256i INT4_LOOKUP_AVX =
 
 #if defined(__AVX2__)
 //! Inner Product
-float InnerProductAVX2(const uint8_t *lhs, const uint8_t *rhs,
-                                    size_t size) {
+float InnerProductAVX2(const uint8_t *lhs, const uint8_t *rhs, size_t size) {
   const uint8_t *last = lhs + size;
   const uint8_t *last_aligned = lhs + ((size >> 5) << 5);
   __m256i ymm_sum = _mm256_setzero_si256();
@@ -257,7 +256,8 @@ float InnerProductAVX2(const uint8_t *lhs, const uint8_t *rhs,
   return result;
 }
 
-float MinusInnerProductAVX2(const uint8_t *lhs, const uint8_t *rhs, size_t size){
+float MinusInnerProductAVX2(const uint8_t *lhs, const uint8_t *rhs,
+                            size_t size) {
   return -InnerProductAVX2(lhs, rhs, size);
 }
 

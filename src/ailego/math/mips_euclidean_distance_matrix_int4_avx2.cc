@@ -117,10 +117,8 @@ static const __m256i INT4_LOOKUP_AVX =
 
 #if defined(__AVX2__)
 //! Compute the Inner Product between p and q, and each Squared L2-Norm value
-float InnerProductAndSquaredNormAVX(const uint8_t *lhs,
-                                                  const uint8_t *rhs,
-                                                  size_t size, float *sql,
-                                                  float *sqr) {
+float InnerProductAndSquaredNormAVX(const uint8_t *lhs, const uint8_t *rhs,
+                                    size_t size, float *sql, float *sqr) {
   const uint8_t *last = lhs + size;
   const uint8_t *last_aligned = lhs + ((size >> 5) << 5);
   __m256i ymm_sum_0 = _mm256_setzero_si256();

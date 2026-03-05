@@ -237,7 +237,7 @@ float InnerProductAVX2(const int8_t *lhs, const int8_t *rhs, size_t size) {
   return result;
 }
 
-float MinusInnerProductAVX2(const int8_t *lhs, const int8_t *rhs, size_t size){
+float MinusInnerProductAVX2(const int8_t *lhs, const int8_t *rhs, size_t size) {
   return -InnerProductAVX2(lhs, rhs, size);
 }
 

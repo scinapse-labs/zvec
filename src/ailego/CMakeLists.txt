@@ -22,30 +22,18 @@ endif()
 if(UNIX AND NOT APPLE)
     set(CMAKE_CXX_FLAGS "-march=broadwell")
     set(CMAKE_C_FLAGS "-march=broadwell")
+
+    set(MATH_MARCH_FLAG_AVX2 "-march=core-avx2")
+
+    set(MATH_MARCH_FLAG_AVX512 "-march=broadwell")
+    setup_compiler_best_for_x86_avx512(MATH_MARCH_FLAG_AVX512)
+    message(STATUS "avx512 march: " ${MATH_MARCH_FLAG_AVX512})
 else()
     set(CMAKE_CXX_FLAGS "-march=native")
     set(CMAKE_C_FLAGS "-march=native")
-endif()
 
-#for AVX2
-if(UNIX AND NOT APPLE)
-    set(MATH_MARCH_FLAG_AVX2 "-march=core-avx2")
-else()
     set(MATH_MARCH_FLAG_AVX2 "-march=native")
-endif()
-
-
-#for AVX512
-#_detect_x86_best_for_avx512(MATH_MARCH_FLAG_AVX512)
-if(UNIX AND NOT APPLE)
-    set(MATH_MARCH_FLAG_AVX512 "-march=sapphirerapids")
-else()
     set(MATH_MARCH_FLAG_AVX512 "-march=native")
-endif()
-
-if(UNIX AND NOT APPLE)
-    # set(MATH_MARCH_FLAG_NEON "-march=sapphirerapids")
-else()
     set(MATH_MARCH_FLAG_NEON "-march=native")
 endif()
 

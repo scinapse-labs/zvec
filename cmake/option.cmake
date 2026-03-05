@@ -116,22 +116,18 @@ function(_detect_armv8_best)
   message(WARNING "No ARMv8 architecture flag supported by compiler.")
 endfunction()
 
-function(_detect_x86_best_for_avx512 _FLAGS)
+function(setup_compiler_best_for_x86_avx512 VAR_NAME)
   set(_x86_flags
-    "graniterapids" "emeraldrapids" "sapphirerapids"
-    "skylake-avx512" "skylake"
-    "broadwell" "haswell" "sandybridge" "nehalem"
-    "znver3" "znver2" "znver1"
+    "graniterapids" "emeraldrapids" "sapphirerapids" "skylake-avx512" 
   )
   foreach(_arch IN LISTS _x86_flags)
     check_c_compiler_flag("-march=${_arch}" _COMP_SUPP_${_arch})
     if(_COMP_SUPP_${_arch})
-      _AppendFlags(_FLAGS "-march=${_arch}")
-      _AppendFlags(_FLAGS "-march=${_arch}")
+      set(${VAR_NAME} "-march=${_arch}" PARENT_SCOPE)
       return()
     endif()
   endforeach()
-  message(WARNING "No known x86 microarchitecture flag supported; falling back to generic.")
+  message(WARNING "No known avx512 microarchitecture flag found.")
 endfunction()
 
 if(MSVC)

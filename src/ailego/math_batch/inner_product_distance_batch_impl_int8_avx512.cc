@@ -52,7 +52,7 @@ static void compute_one_to_many_inner_product_avx512_vnni_int8(
     const int8_t *query, const int8_t **ptrs,
     std::array<const int8_t *, dp_batch> &prefetch_ptrs, size_t dimensionality,
     float *results) {
-  __m512i accs[dp_batch];
+  std::vector<__m512i> accs(dp_batch);
   for (size_t i = 0; i < dp_batch; ++i) {
     accs[i] = _mm512_setzero_si512();
   }
@@ -60,7 +60,7 @@ static void compute_one_to_many_inner_product_avx512_vnni_int8(
   for (; dim + 64 <= dimensionality; dim += 64) {
     __m512i q =
         _mm512_loadu_si512(reinterpret_cast<const __m512i *>(query + dim));
-    __m512i data_regs[dp_batch];
+    std::vector<__m512i> data_regs(dp_batch);
     for (size_t i = 0; i < dp_batch; ++i) {
       data_regs[i] =
           _mm512_loadu_si512(reinterpret_cast<const __m512i *>(ptrs[i] + dim));

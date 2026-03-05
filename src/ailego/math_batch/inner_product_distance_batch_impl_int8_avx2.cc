@@ -27,14 +27,14 @@ compute_one_to_many_inner_product_avx2_int8(
     const int8_t *query, const int8_t **ptrs,
     std::array<const int8_t *, dp_batch> &prefetch_ptrs, size_t dimensionality,
     float *results) {
-  __m256i accs[dp_batch];
+  std::vector<__m256i> accs(dp_batch);
   for (size_t i = 0; i < dp_batch; ++i) {
     accs[i] = _mm256_setzero_si256();
   }
   size_t dim = 0;
   for (; dim + 32 <= dimensionality; dim += 32) {
     __m256i q = _mm256_loadu_si256((const __m256i *)(query + dim));
-    __m256i data_regs[dp_batch];
+    std::vector<__m256i> data_regs(dp_batch);
     for (size_t i = 0; i < dp_batch; ++i) {
       data_regs[i] = _mm256_loadu_si256((const __m256i *)(ptrs[i] + dim));
     }

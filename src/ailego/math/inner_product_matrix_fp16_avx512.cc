@@ -813,5 +813,6 @@ void MinusInnerProductAVX512(const Float16 *lhs,const Float16 *rhs, size_t size,
 }
 #endif //__AVX512F__
 
+
 }  // namespace ailego
 }  // namespace zvec

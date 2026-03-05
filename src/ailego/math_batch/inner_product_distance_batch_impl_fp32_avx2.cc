@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#pragma once
-
 #include <vector>
 #include <ailego/utility/math_helper.h>
 #include <zvec/ailego/internal/platform.h>

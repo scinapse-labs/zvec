@@ -55,6 +55,30 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|i686|i386|x64")
       ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx512.cc
       ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx512.c
   )
+
+  foreach(MATH_FILE ${MATH_FILES_SSE})
+    set_source_files_properties(
+        ${MATH_FILE}
+        PROPERTIES
+        COMPILE_FLAGS "${MATH_MARCH_FLAG_SSE}"
+    )
+  endforeach()
+
+  foreach(MATH_FILE ${MATH_FILES_AVX2})
+      set_source_files_properties(
+          ${MATH_FILE}
+          PROPERTIES
+          COMPILE_FLAGS "${MATH_MARCH_FLAG_AVX2}"
+      )
+  endforeach()
+
+  foreach(MATH_FILE ${MATH_FILES_AVX512})
+      set_source_files_properties(
+          ${MATH_FILE}
+          PROPERTIES
+          COMPILE_FLAGS "${MATH_MARCH_FLAG_AVX512}"
+      )
+  endforeach()
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64|ARM64")
   file(GLOB_RECURSE MATH_FILES_NEON
       ${CMAKE_CURRENT_SOURCE_DIR}/math/*_dispatch.cc
@@ -66,31 +90,15 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64|ARM64")
       ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_neon.cc
       ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_neon.c
   )
+
+  foreach(MATH_FILE ${MATH_FILES_NEON})
+      set_source_files_properties(
+          ${MATH_FILE}
+          PROPERTIES
+          COMPILE_FLAGS "${MATH_MARCH_FLAG_NEON}"
+      )
+  endforeach()
 endif()
-
-foreach(MATH_FILE ${MATH_FILES_AVX2})
-    set_source_files_properties(
-        ${MATH_FILE}
-        PROPERTIES
-        COMPILE_FLAGS "${MATH_MARCH_FLAG_AVX2}"
-    )
-endforeach()
-
-foreach(MATH_FILE ${MATH_FILES_AVX512})
-    set_source_files_properties(
-        ${MATH_FILE}
-        PROPERTIES
-        COMPILE_FLAGS "${MATH_MARCH_FLAG_AVX512}"
-    )
-endforeach()
-
-foreach(MATH_FILE ${MATH_FILES_NEON})
-    set_source_files_properties(
-        ${MATH_FILE}
-        PROPERTIES
-        COMPILE_FLAGS "${MATH_MARCH_FLAG_NEON}"
-    )
-endforeach()
 
 cc_library(
     NAME zvec_ailego STATIC STRICT PACKED

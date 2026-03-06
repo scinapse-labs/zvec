@@ -161,6 +161,10 @@ jobs:
             adb shell getprop ro.product.cpu.abi
             adb shell getprop ro.product.cpu.abilist
 
+            echo "=== CPU ISA / Instruction Set Support ==="
+            echo "--- /proc/cpuinfo flags ---"
+            adb shell 'cat /proc/cpuinfo | grep -E "^(Features|flags)"'
+
             echo "Checking binary sizes:"
             ls -lah examples/c++/build-android-examples-${{ matrix.abi }}/
 

@@ -33,35 +33,39 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64|ARM64")
     set(MATH_MARCH_FLAG_NEON "-march=native")
 endif()
 
-file(GLOB_RECURSE MATH_FILES_AVX2
-    ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx2.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx2.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx2.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx2.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx.c
-)
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|i686|i386|x64")
+  file(GLOB_RECURSE MATH_FILES_AVX2
+      ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx2.cc
+      ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx2.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx2.cc
+      ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx2.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx.cc
+      ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx.cc
+      ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx.c
+  )
 
-file(GLOB_RECURSE MATH_FILES_AVX512
-    ${CMAKE_CURRENT_SOURCE_DIR}/math/*_dispatch.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/math/*_dispatch.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx512.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx512.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_dispatch.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_dispatch.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx512.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx512.c
-)
-
-if(UNIX AND NOT APPLE)
-    file(GLOB_RECURSE MATH_FILES_NEON
-        ${CMAKE_CURRENT_SOURCE_DIR}/math/*_neon.cc
-        ${CMAKE_CURRENT_SOURCE_DIR}/math/*_neon.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_neon.cc
-        ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_neon.c
-    )
+  file(GLOB_RECURSE MATH_FILES_AVX512
+      ${CMAKE_CURRENT_SOURCE_DIR}/math/*_dispatch.cc
+      ${CMAKE_CURRENT_SOURCE_DIR}/math/*_dispatch.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx512.cc
+      ${CMAKE_CURRENT_SOURCE_DIR}/math/*_avx512.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_dispatch.cc
+      ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_dispatch.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx512.cc
+      ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_avx512.c
+  )
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64|ARM64")
+  file(GLOB_RECURSE MATH_FILES_NEON
+      ${CMAKE_CURRENT_SOURCE_DIR}/math/*_dispatch.cc
+      ${CMAKE_CURRENT_SOURCE_DIR}/math/*_dispatch.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_dispatch.cc
+      ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_dispatch.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/math/*_neon.cc
+      ${CMAKE_CURRENT_SOURCE_DIR}/math/*_neon.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_neon.cc
+      ${CMAKE_CURRENT_SOURCE_DIR}/math_batch/*_neon.c
+  )
 endif()
 
 foreach(MATH_FILE ${MATH_FILES_AVX2})

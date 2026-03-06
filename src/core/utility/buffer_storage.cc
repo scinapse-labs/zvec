@@ -165,7 +165,7 @@ class BufferStorage : public IndexStorage {
   }
 
   //! Initialize storage
-  int init(const ailego::Params & params) override {
+  int init(const ailego::Params &params) override {
     params.get(MMAPFILE_STORAGE_COPY_ON_WRITE, &buffer_size_);
     return 0;
   }
@@ -483,7 +483,7 @@ class BufferStorage : public IndexStorage {
   ailego::VecBufferPool::Pointer buffer_pool_{nullptr};
   ailego::VecBufferPoolHandle::Pointer buffer_pool_handle_{nullptr};
   uint64_t current_header_start_offset_{0u};
-  uint64_t buffer_size_{200lu * 1024 * 1024}; // 200M
+  uint64_t buffer_size_{200lu * 1024 * 1024};  // 200M
 };
 
 INDEX_FACTORY_REGISTER_STORAGE(BufferStorage);

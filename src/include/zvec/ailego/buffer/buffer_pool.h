@@ -130,8 +130,8 @@ class VecBufferPool {
 
 class VecBufferPoolHandle {
  public:
-  VecBufferPoolHandle(VecBufferPool &pool) : pool(pool) {};
-  VecBufferPoolHandle(VecBufferPoolHandle &&other) : pool(other.pool) {};
+  VecBufferPoolHandle(VecBufferPool &pool) : pool(pool){};
+  VecBufferPoolHandle(VecBufferPoolHandle &&other) : pool(other.pool){};
 
   ~VecBufferPoolHandle() = default;
 
@@ -144,6 +144,7 @@ class VecBufferPoolHandle {
   void release_one(block_id_t block_id);
 
   void acquire_one(block_id_t block_id);
+
  private:
   VecBufferPool &pool;
 };

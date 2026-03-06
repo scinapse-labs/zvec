@@ -1,6 +1,6 @@
 #include <zvec/ailego/buffer/buffer_pool.h>
-#include <zvec/core/framework/index_logger.h>
 #include <zvec/ailego/internal/platform.h>
+#include <zvec/core/framework/index_logger.h>
 
 namespace zvec {
 namespace ailego {

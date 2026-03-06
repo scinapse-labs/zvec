@@ -130,8 +130,8 @@ class VecBufferPool {
 
 class VecBufferPoolHandle {
  public:
-  VecBufferPoolHandle(VecBufferPool &pool) : pool(pool){};
-  VecBufferPoolHandle(VecBufferPoolHandle &&other) : pool(other.pool){};
+  VecBufferPoolHandle(VecBufferPool &pool) : pool(pool) {}
+  VecBufferPoolHandle(VecBufferPoolHandle &&other) : pool(other.pool) {}
 
   ~VecBufferPoolHandle() = default;
 

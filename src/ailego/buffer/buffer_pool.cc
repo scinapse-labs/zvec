@@ -144,6 +144,7 @@ VecBufferPool::VecBufferPool(const std::string &filename) {
   }
   struct stat st;
   if (fstat(fd_, &st) < 0) {
+    ::close(fd_);
     throw std::runtime_error("Failed to stat file: " + filename);
   }
   file_size_ = st.st_size;

@@ -301,7 +301,7 @@ void InnerProductDistanceBatchImpl<int8_t, 12>::compute_one_to_many(
 //         query, ptrs, prefetch_ptrs, dim, sums);
 #if defined(__AVX512VNNI__)
   if (zvec::ailego::internal::CpuFeatures::static_flags_.AVX512_VNNI) {
-    return compute_one_to_many_ainner_product_vx512_vnni_int8_12(
+    return compute_one_to_many_inner_product_avx512_vnni_int8_12(
         query, ptrs, prefetch_ptrs, dim, sums);
   }
 #endif

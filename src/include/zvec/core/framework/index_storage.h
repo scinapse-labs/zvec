@@ -68,6 +68,7 @@ class IndexStorage : public IndexModule {
         case MemoryBlockType::MBT_BUFFERPOOL:
           this->reset(std::move(rhs.buffer_pool_handle_),
                       std::move(rhs.buffer_block_id_), std::move(rhs.data_));
+          rhs.buffer_pool_handle_ = nullptr;
           break;
         default:
           break;
@@ -101,6 +102,7 @@ class IndexStorage : public IndexModule {
           case MemoryBlockType::MBT_BUFFERPOOL:
             this->reset(std::move(rhs.buffer_pool_handle_),
                         std::move(rhs.buffer_block_id_), std::move(rhs.data_));
+            rhs.buffer_pool_handle_ = nullptr;
             break;
           default:
             break;

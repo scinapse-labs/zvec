@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <vector>
+#include <array>
 #include <ailego/utility/math_helper.h>
 #include <zvec/ailego/internal/platform.h>
 #include <zvec/ailego/utility/type_helper.h>
@@ -52,7 +52,7 @@ static void compute_one_to_many_inner_product_avx512_vnni_int8(
     const int8_t *query, const int8_t **ptrs,
     std::array<const int8_t *, dp_batch> &prefetch_ptrs, size_t dimensionality,
     float *results) {
-  std::vector<__m512i> accs(dp_batch);
+  std::array<__m512i, dp_batch> accs;
   for (size_t i = 0; i < dp_batch; ++i) {
     accs[i] = _mm512_setzero_si512();
   }
@@ -60,7 +60,7 @@ static void compute_one_to_many_inner_product_avx512_vnni_int8(
   for (; dim + 64 <= dimensionality; dim += 64) {
     __m512i q =
         _mm512_loadu_si512(reinterpret_cast<const __m512i *>(query + dim));
-    std::vector<__m512i> data_regs(dp_batch);
+    std::array<__m512i, dp_batch> data_regs;
     for (size_t i = 0; i < dp_batch; ++i) {
       data_regs[i] =
           _mm512_loadu_si512(reinterpret_cast<const __m512i *>(ptrs[i] + dim));
@@ -97,12 +97,12 @@ static void compute_one_to_many_inner_product_avx512_vnni_int8(
 //     const int8_t *query, const int8_t **ptrs,
 //     std::array<const int8_t *, dp_batch> &prefetch_ptrs, size_t
 //     dimensionality, float *results) {
-//   __m512i accs[dp_batch];
+//   std::array<__m512i, dp_batch> accs;
 //   size_t dim = 0;
 //   for (; dim + 64 <= dimensionality; dim += 64) {
 //     __m512i q =
 //         _mm512_loadu_si512(reinterpret_cast<const __m512i *>(query + dim));
-//     __m512i data_regs[dp_batch];
+//     std::array<__m512i, dp_batch> data_regs;
 //     for (size_t i = 0; i < dp_batch; ++i) {
 //       data_regs[i] =
 //           _mm512_loadu_si512(reinterpret_cast<const __m512i *>(ptrs[i] +
@@ -115,16 +115,16 @@ static void compute_one_to_many_inner_product_avx512_vnni_int8(
 //     }
 //     __m512i q_lo = _mm512_cvtepi8_epi16(_mm512_extracti64x4_epi64(q, 0));
 //     __m512i q_hi = _mm512_cvtepi8_epi16(_mm512_extracti64x4_epi64(q, 1));
-//     __m512i data_lo[dp_batch];
-//     __m512i data_hi[dp_batch];
+//     std::array<__m512i, dp_batch> data_lo;
+//     std::array<__m512i, dp_batch> data_hi;
 //     for (size_t i = 0; i < dp_batch; ++i) {
 //       data_lo[i] =
 //           _mm512_cvtepi8_epi16(_mm512_extracti64x4_epi64(data_regs[i], 0));
 //       data_hi[i] =
 //           _mm512_cvtepi8_epi16(_mm512_extracti64x4_epi64(data_regs[i], 1));
 //     }
-//     __m512i prod_lo[dp_batch];
-//     __m512i prod_hi[dp_batch];
+//     std::array<__m512i, dp_batch> prod_lo;
+//     std::array<__m512i, dp_batch> prod_hi;
 //     for (size_t i = 0; i < dp_batch; ++i) {
 //       prod_lo[i] = _mm512_madd_epi16(q_lo, data_lo[i]);
 //       prod_hi[i] = _mm512_madd_epi16(q_hi, data_hi[i]);

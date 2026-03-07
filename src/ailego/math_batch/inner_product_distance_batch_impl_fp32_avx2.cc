@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <vector>
+#include <array>
+#include <ailego/math/inner_product_matrix.h>
 #include <ailego/utility/math_helper.h>
 #include <zvec/ailego/internal/platform.h>
 #include <zvec/ailego/utility/type_helper.h>
@@ -38,14 +39,14 @@ compute_one_to_many_inner_product_avx2_fp32(
     const ValueType *query, const ValueType **ptrs,
     std::array<const ValueType *, dp_batch> &prefetch_ptrs,
     size_t dimensionality, float *results) {
-  std::vector<__m256> accs(dp_batch);
+  std::array<__m256, dp_batch> accs;
   for (size_t i = 0; i < dp_batch; ++i) {
     accs[i] = _mm256_setzero_ps();
   }
   size_t dim = 0;
   for (; dim + 8 <= dimensionality; dim += 8) {
     __m256 q = _mm256_loadu_ps(query + dim);
-    std::vector<__m256> data_regs(dp_batch);
+    std::array<__m256, dp_batch> data_regs;
     for (size_t i = 0; i < dp_batch; ++i) {
       data_regs[i] = _mm256_loadu_ps(ptrs[i] + dim);
     }
@@ -58,13 +59,13 @@ compute_one_to_many_inner_product_avx2_fp32(
       accs[i] = _mm256_fnmadd_ps(q, data_regs[i], accs[i]);
     }
   }
-  std::vector<__m128> sum128_regs(dp_batch);
+  std::array<__m128, dp_batch> sum128_regs;
   for (size_t i = 0; i < dp_batch; ++i) {
     sum128_regs[i] = sum_top_bottom_avx(accs[i]);
   }
   if (dim + 4 <= dimensionality) {
     __m128 q = _mm_loadu_ps(query + dim);
-    std::vector<__m128> data_regs(dp_batch);
+    std::array<__m128, dp_batch> data_regs;
     for (size_t i = 0; i < dp_batch; ++i) {
       data_regs[i] = _mm_loadu_ps(ptrs[i] + dim);
     }
@@ -80,7 +81,7 @@ compute_one_to_many_inner_product_avx2_fp32(
   }
   if (dim + 2 <= dimensionality) {
     __m128 q = _mm_setzero_ps();
-    std::vector<__m128> data_regs(dp_batch);
+    std::array<__m128, dp_batch> data_regs;
     for (size_t i = 0; i < dp_batch; ++i) {
       data_regs[i] = _mm_setzero_ps();
     }

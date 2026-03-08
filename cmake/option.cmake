@@ -13,7 +13,7 @@ option(ENABLE_SAPPHIRERAPIDS "Enable Intel Sapphire Rapids Server CPU microarchi
 option(ENABLE_EMERALDRAPIDS "Enable Intel Emerald Rapids Server CPU microarchitecture" OFF)
 option(ENABLE_GRANITERAPIDS "Enable Intel Granite Rapids Server CPU microarchitecture" OFF)
 
-option(ENABLE_NATIVE "Enable native CPU microarchitecture" ON)
+option(ENABLE_NATIVE "Enable native CPU microarchitecture" OFF)
 
 ## AMD Microarchitectures
 option(ENABLE_ZEN1 "Enable AMD Zen+ Family 17h CPU microarchitecture" OFF)

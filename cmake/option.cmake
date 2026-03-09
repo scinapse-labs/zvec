@@ -107,22 +107,22 @@ function(setup_compiler_march_for_x86 VAR_NAME_SSE VAR_NAME_AVX2 VAR_NAME_AVX512
   set(${VAR_NAME_SSE} "-march=x86-64" PARENT_SCOPE)
 
   #avx 2
-  set(${VAR_NAME_AVX2} "-march=core-avx2" PARENT_SCOPE)
+  set(${VAR_NAME_AVX2} "-march=x86-64" PARENT_SCOPE)
 
   #avx512
-  set(_x86_flags
-    "graniterapids" "emeraldrapids" "sapphirerapids" "skylake-avx512" 
-  )
-  foreach(_arch IN LISTS _x86_flags)
-    check_c_compiler_flag("-march=${_arch}" _COMP_SUPP_${_arch})
-    if(_COMP_SUPP_${_arch})
-      set(${VAR_NAME_AVX512} "-march=${_arch}" PARENT_SCOPE)
-      return()
-    endif()
-  endforeach()
+  # set(_x86_flags
+  #   "graniterapids" "emeraldrapids" "sapphirerapids" "skylake-avx512" 
+  # )
+  # foreach(_arch IN LISTS _x86_flags)
+  #   check_c_compiler_flag("-march=${_arch}" _COMP_SUPP_${_arch})
+  #   if(_COMP_SUPP_${_arch})
+  #     set(${VAR_NAME_AVX512} "-march=${_arch}" PARENT_SCOPE)
+  #     return()
+  #   endif()
+  # endforeach()
 
 
-  set(${VAR_NAME_AVX512} "-march=core-avx2" PARENT_SCOPE)
+  set(${VAR_NAME_AVX512} "-march=x86-64" PARENT_SCOPE)
   message(WARNING "No known avx512 microarchitecture flag found. Set up as core-avx2")
 
 endfunction()

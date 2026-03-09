@@ -152,7 +152,6 @@ TEST(IndexInterface, General) {
 }
 
 TEST(IndexInterface, BufferGeneral) {
-  zvec::ailego::BufferManager::Instance().init(100 * 1024 * 1024, 1);
   constexpr uint32_t kDimension = 64;
   const std::string index_name{"test.index"};
   char cmd_buf[100];

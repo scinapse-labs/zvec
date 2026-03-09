@@ -50,7 +50,6 @@ void FlatStreamerTest::TearDown(void) {
 }
 
 TEST_F(FlatStreamerTest, TestLinearSearchMMap) {
-  BufferManager::Instance().init(50 * 1024 * 1024, 1);
   IndexStreamer::Pointer write_streamer =
       IndexFactory::CreateStreamer("FlatStreamer");
   ASSERT_TRUE(write_streamer != nullptr);

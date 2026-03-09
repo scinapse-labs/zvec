@@ -498,8 +498,8 @@ class BufferStorage : public IndexStorage {
 
   // buffer manager
   std::string file_name_;
-  IndexFormat::MetaHeader header_;
-  IndexFormat::MetaFooter footer_;
+  IndexFormat::MetaHeader header_{};
+  IndexFormat::MetaFooter footer_{};
   std::map<std::string, IndexMapping::SegmentInfo> segments_{};
   std::map<std::string, size_t> id_hash_{};
   uint64_t max_segment_size_{0};

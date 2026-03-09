@@ -19,14 +19,9 @@ if(UNIX AND NOT APPLE)
 endif()
 
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|i686|i386|x64")
-    setup_compiler_march_for_x86(MATH_MARCH_FLAG_SSE MATH_MARCH_FLAG_AVX2 MATH_MARCH_FLAG_AVX512)
-    message(STATUS "best compiler march, sse: " ${MATH_MARCH_FLAG_SSE} ", avx2: " ${MATH_MARCH_FLAG_AVX2} ", avx512: " ${MATH_MARCH_FLAG_AVX512})
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64|ARM64")
-    set(CMAKE_CXX_FLAGS "-march=armv8-a")
-    set(CMAKE_C_FLAGS "-march=armv8-a")
-endif()
+  setup_compiler_march_for_x86(MATH_MARCH_FLAG_SSE MATH_MARCH_FLAG_AVX2 MATH_MARCH_FLAG_AVX512)
+  message(STATUS "best compiler march, sse: " ${MATH_MARCH_FLAG_SSE} ", avx2: " ${MATH_MARCH_FLAG_AVX2} ", avx512: " ${MATH_MARCH_FLAG_AVX512})
 
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|i686|i386|x64")
   file(GLOB_RECURSE MATH_FILES_SSE
     ${CMAKE_CURRENT_SOURCE_DIR}/math/*_sse.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/math/*_sse.c
@@ -80,6 +75,9 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|i686|i386|x64")
       )
   endforeach()
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64|ARM64")
+  set(CMAKE_CXX_FLAGS "-march=armv8-a")
+  set(CMAKE_C_FLAGS "-march=armv8-a")
+
   file(GLOB_RECURSE MATH_FILES_NEON
       ${CMAKE_CURRENT_SOURCE_DIR}/math/*_dispatch.cc
       ${CMAKE_CURRENT_SOURCE_DIR}/math/*_dispatch.c

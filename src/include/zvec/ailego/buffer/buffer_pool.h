@@ -17,6 +17,7 @@
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
+#include <zvec/ailego/internal/platform.h>
 #include "concurrentqueue.h"
 
 namespace zvec {
@@ -67,13 +68,10 @@ class LPMap {
 
   void release_block(block_id_t block_id);
 
-  // need be called under lock
   char *evict_block(block_id_t block_id);
 
-  // need be called under lock
   char *set_block_acquired(block_id_t block_id, char *buffer);
 
-  // need be called under lock
   void recycle(moodycamel::ConcurrentQueue<char *> &free_buffers);
 
   size_t entry_num() const {
@@ -99,6 +97,16 @@ class VecBufferPool {
 
   VecBufferPool(const std::string &filename);
   ~VecBufferPool() {
+    // Free all buffers in the free list
+    char *buf = nullptr;
+    while (free_buffers_.try_dequeue(buf)) {
+      ailego_free(buf);
+    }
+    // Free any buffers still pinned in the map
+    for (size_t i = 0; i < lp_map_.entry_num(); ++i) {
+      char *b = lp_map_.evict_block(i);
+      if (b) ailego_free(b);
+    }
     close(fd_);
   }
 

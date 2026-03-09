@@ -395,7 +395,6 @@ class BufferStorage : public IndexStorage {
     if (!segment_info) {
       return WrappedSegment::Pointer{};
     }
-    std::lock_guard<std::mutex> latch(mapping_mutex_);
     return std::make_shared<WrappedSegment>(
         this, &segment_info->segment, segment_info->segment_header_start_offset,
         segment_info->segment_header, id_hash_[id]);

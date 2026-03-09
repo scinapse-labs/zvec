@@ -150,6 +150,10 @@ VecBufferPool::VecBufferPool(const std::string &filename) {
 }
 
 int VecBufferPool::init(size_t pool_capacity, size_t block_size) {
+  if (block_size == 0) {
+    LOG_ERROR("block_size must not be 0");
+    return -1;
+  }
   pool_capacity_ = pool_capacity;
   size_t buffer_num = pool_capacity_ / block_size + 10;
   size_t block_num = file_size_ / block_size + 10;

@@ -402,6 +402,7 @@ int Index::Search(const VectorData &vector_data,
 
   if (_prepare_for_search(vector_data, search_param, context) != 0) {
     LOG_ERROR("Failed to prepare for search");
+    context->reset();
     return core::IndexError_Runtime;
   }
 
@@ -415,15 +416,18 @@ int Index::Search(const VectorData &vector_data,
   int ret = 0;
   if (search_param->refiner_param == nullptr) {
     ret = _dense_search(vector_data, search_param, result, context);
+    context->reset();
   } else {
     auto &reference_index = search_param->refiner_param->reference_index;
     if (reference_index == nullptr) {
       LOG_ERROR("Reference index is not set");
+      context->reset();
       return core::IndexError_Runtime;
     }
     // TODO: tackle query_param's type info loss to loosen the constraint
     if (reference_index->param_.index_type != IndexType::kFlat) {
       LOG_ERROR("Reference index is not flat");
+      context->reset();
       return core::IndexError_Runtime;
     }
 
@@ -431,6 +435,7 @@ int Index::Search(const VectorData &vector_data,
     context->set_fetch_vector(false);  // no need to fetch vector
     if (_dense_search(vector_data, search_param, result, context) != 0) {
       LOG_ERROR("Failed to search");
+      context->reset();
       return core::IndexError_Runtime;
     }
 

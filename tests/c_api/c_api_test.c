@@ -19,7 +19,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <_printf.h>
 #ifdef _POSIX_C_SOURCE
 #include <sys/time.h>
 #endif

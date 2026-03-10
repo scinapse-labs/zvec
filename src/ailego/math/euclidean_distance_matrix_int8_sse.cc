@@ -13,48 +13,11 @@
 // limitations under the License.
 
 #include "distance_matrix_accum_int8.i"
+#include "distance_matrix_euclidean_utility.i"
 #include "euclidean_distance_matrix.h"
 
 namespace zvec {
 namespace ailego {
-
-#define ACCUM_INT8_STEP_SSE SSD_INT8_SSE
-
-#if defined(__SSE4_1__)
-static const __m128i ONES_INT16_SSE = _mm_set1_epi32(0x00010001);
-#endif  // __SSE4_1__
-
-//! Calculate sum of squared difference (GENERAL)
-#define SSD_INT8_GENERAL(m, q, sum)   \
-  {                                   \
-    int32_t x = m - q;                \
-    sum += static_cast<float>(x * x); \
-  }
-
-//! Calculate sum of squared difference (SSE)
-#define SSD_INT8_SSE(xmm_m, xmm_q, xmm_sum)                                \
-  {                                                                        \
-    xmm_sum = _mm_add_epi32(                                               \
-        _mm_madd_epi16(_mm_maddubs_epi16(_mm_abs_epi8(xmm_m),              \
-                                         _mm_sign_epi8(xmm_m, xmm_m)),     \
-                       ONES_INT16_SSE),                                    \
-        xmm_sum);                                                          \
-    xmm_sum = _mm_add_epi32(                                               \
-        _mm_madd_epi16(_mm_maddubs_epi16(_mm_abs_epi8(xmm_q),              \
-                                         _mm_sign_epi8(xmm_q, xmm_q)),     \
-                       ONES_INT16_SSE),                                    \
-        xmm_sum);                                                          \
-    xmm_sum = _mm_sub_epi32(                                               \
-        xmm_sum,                                                           \
-        _mm_slli_epi32(                                                    \
-            _mm_madd_epi16(_mm_maddubs_epi16(_mm_abs_epi8(xmm_q),          \
-                                             _mm_sign_epi8(xmm_m, xmm_q)), \
-                           ONES_INT16_SSE),                                \
-            1));                                                           \
-  }
-
-//! Compute the square root of value (SSE)
-#define SQRT_FP32_SSE(v, ...) _mm_sqrt_ps(_mm_cvtepi32_ps(v))
 
 #if defined(__SSE4_1__)
 //! Squared Euclidean Distance

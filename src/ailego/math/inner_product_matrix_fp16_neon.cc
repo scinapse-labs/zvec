@@ -12,28 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <ailego/internal/cpu_features.h>
 #include "distance_matrix_accum_fp16.i"
+#include "distance_matrix_inner_product_utility.i"
 #include "inner_product_matrix.h"
 
 namespace zvec {
 namespace ailego {
-
-#define ACCUM_FP32_STEP_NEON FMA_FP32_NEON
-#define ACCUM_FP16_STEP_GENERAL FMA_FP16_GENERAL
-#define ACCUM_FP16_STEP_NEON FMA_FP16_NEON
-
-//! Reverse sign of value (GENERAL)
-#define NEGATE_FP32_GENERAL(v) -(v)
-
-//! Calculate Fused-Multiply-Add (GENERAL)
-#define FMA_FP16_GENERAL(m, q, sum) sum += (m * q);
-
-//! Calculate Fused-Multiply-Add (NEON)
-#define FMA_FP16_NEON(v_m, v_q, v_sum) v_sum = vfmaq_f16(v_sum, v_m, v_q);
-
-//! Calculate Fused-Multiply-Add (NEON)
-#define FMA_FP32_NEON(v_m, v_q, v_sum) v_sum = vfmaq_f32(v_sum, v_m, v_q);
 
 #if defined(__ARM_NEON)
 float InnerProductNEON(const Float16 *lhs, const Float16 *rhs, size_t size) {

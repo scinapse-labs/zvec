@@ -13,70 +13,11 @@
 // limitations under the License.
 
 #include "distance_matrix_accum_int8.i"
+#include "distance_matrix_inner_product_utility.i"
 #include "inner_product_matrix.h"
 
 namespace zvec {
 namespace ailego {
-
-#define ACCUM_INT8_STEP_SSE FMA_INT8_SSE
-#define ACCUM_INT8_STEP_AVX FMA_INT8_AVX
-
-#if defined(__AVX512F__) && !defined(__AVX512DQ__)
-#define _mm512_xor_ps(a, b) \
-  _mm512_castsi512_ps(      \
-      _mm512_xor_epi32(_mm512_castps_si512(a), _mm512_castps_si512(b)))
-#endif  // __AVX512DQ__
-
-#if defined(__SSE__)
-static const __m128 NEGZEROS_FP32_SSE = _mm_set1_ps(-0.0f);
-#endif  // __SSE__
-
-#if defined(__AVX__)
-static const __m256 NEGZEROS_FP32_AVX = _mm256_set1_ps(-0.0f);
-#endif  // __AVX__
-
-#if defined(__AVX512F__)
-static const __m512 NEGZEROS_FP32_AVX512 = _mm512_set1_ps(-0.0f);
-#endif  // __AVX512F__
-
-#if defined(__SSE4_1__)
-static const __m128i ONES_INT16_SSE = _mm_set1_epi32(0x00010001);
-#endif  // __SSE4_1__
-
-#if defined(__AVX2__)
-static const __m256i ONES_INT16_AVX = _mm256_set1_epi32(0x00010001);
-#endif  // __AVX2__
-
-//! Reverse sign of value (SSE)
-#define NEGATE_FP32_SSE(v, ...) \
-  _mm_xor_ps(_mm_cvtepi32_ps(v), NEGZEROS_FP32_SSE)
-
-//! Reverse sign of value (AVX)
-#define NEGATE_FP32_AVX(v, ...) \
-  _mm256_xor_ps(_mm256_cvtepi32_ps(v), NEGZEROS_FP32_AVX)
-
-//! Reverse sign of value (AVX512)
-#define NEGATE_FP32_AVX512(v, ...) \
-  _mm512_xor_ps(_mm512_cvtepi32_ps(v), NEGZEROS_FP32_AVX512)
-
-//! Calculate Fused-Multiply-Add (GENERAL)
-#define FMA_INT8_GENERAL(m, q, sum) sum += static_cast<float>(m * q);
-
-//! Calculate Fused-Multiply-Add (SSE)
-#define FMA_INT8_SSE(xmm_m, xmm_q, xmm_sum)                                    \
-  xmm_sum = _mm_add_epi32(                                                     \
-      _mm_madd_epi16(                                                          \
-          _mm_maddubs_epi16(_mm_abs_epi8(xmm_q), _mm_sign_epi8(xmm_m, xmm_q)), \
-          ONES_INT16_SSE),                                                     \
-      xmm_sum);
-
-//! Calculate Fused-Multiply-Add (AVX)
-#define FMA_INT8_AVX(ymm_m, ymm_q, ymm_sum)                                   \
-  ymm_sum = _mm256_add_epi32(                                                 \
-      _mm256_madd_epi16(_mm256_maddubs_epi16(_mm256_abs_epi8(ymm_q),          \
-                                             _mm256_sign_epi8(ymm_m, ymm_q)), \
-                        ONES_INT16_AVX),                                      \
-      ymm_sum);
 
 #if defined(__AVX2__)
 //! Inner Product

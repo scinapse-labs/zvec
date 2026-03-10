@@ -12,28 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <ailego/internal/cpu_features.h>
 #include "distance_matrix_accum_fp32.i"
+#include "distance_matrix_euclidean_utility.i"
 #include "euclidean_distance_matrix.h"
 
 namespace zvec {
 namespace ailego {
-
-#define ACCUM_FP32_STEP_SSE SSD_FP32_SSE
-
-//! Calculate sum of squared difference (GENERAL)
-#define SSD_FP32_GENERAL(m, q, sum) \
-  {                                 \
-    float x = m - q;                \
-    sum += (x * x);                 \
-  }
-
-//! Calculate sum of squared difference (SSE)
-#define SSD_FP32_SSE(xmm_m, xmm_q, xmm_sum)        \
-  {                                                \
-    __m128 xmm_d = _mm_sub_ps(xmm_m, xmm_q);       \
-    xmm_sum = _mm_fmadd_ps(xmm_d, xmm_d, xmm_sum); \
-  }
 
 #if defined(__SSE__)
 float SquaredEuclideanDistanceSSE(const float *lhs, const float *rhs,

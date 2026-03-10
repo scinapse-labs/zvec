@@ -12,31 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <ailego/internal/cpu_features.h>
 #include "distance_matrix_accum_fp32.i"
+#include "distance_matrix_euclidean_utility.i"
 #include "euclidean_distance_matrix.h"
 
 namespace zvec {
 namespace ailego {
-
-#define ACCUM_FP32_STEP_SSE SSD_FP32_SSE
-#define ACCUM_FP32_STEP_AVX SSD_FP32_AVX
-#define ACCUM_FP32_STEP_AVX512 SSD_FP32_AVX512
-#define ACCUM_FP32_STEP_NEON SSD_FP32_NEON
-
-//! Calculate sum of squared difference (GENERAL)
-#define SSD_FP32_GENERAL(m, q, sum) \
-  {                                 \
-    float x = m - q;                \
-    sum += (x * x);                 \
-  }
-
-//! Calculate sum of squared difference (NEON)
-#define SSD_FP32_NEON(v_m, v_q, v_sum)     \
-  {                                        \
-    float32x4_t v_d = vsubq_f32(v_m, v_q); \
-    v_sum = vfmaq_f32(v_sum, v_d, v_d);    \
-  }
 
 #if defined(__ARM_NEON)
 //! Squared Euclidean Distance

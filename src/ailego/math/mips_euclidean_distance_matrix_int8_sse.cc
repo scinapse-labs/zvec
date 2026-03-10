@@ -13,47 +13,11 @@
 // limitations under the License.
 
 #include "distance_matrix_accum_int8.i"
+#include "distance_matrix_mips_utility.i"
 #include "mips_euclidean_distance_matrix.h"
 
 namespace zvec {
 namespace ailego {
-
-#if defined(__SSE4_1__)
-static const __m128i ONES_INT16_SSE = _mm_set1_epi32(0x00010001);
-#endif  // __SSE4_1__
-
-//! Calculate Fused-Multiply-Add (GENERAL)
-#define FMA_INT8_GENERAL(lhs, rhs, sum, norm1, norm2) \
-  {                                                   \
-    sum += static_cast<float>(lhs * rhs);             \
-    norm1 += static_cast<float>(lhs * lhs);           \
-    norm2 += static_cast<float>(rhs * rhs);           \
-  }
-
-//! Calculate Fused-Multiply-Add (AVX)
-#define FMA_INT8_AVX(ymm_lhs, ymm_rhs, ymm_sum)                     \
-  ymm_sum = _mm256_add_epi32(                                       \
-      _mm256_madd_epi16(                                            \
-          _mm256_maddubs_epi16(_mm256_abs_epi8(ymm_rhs),            \
-                               _mm256_sign_epi8(ymm_lhs, ymm_rhs)), \
-          ONES_INT16_AVX),                                          \
-      ymm_sum)
-#define FMA_INT8_AVX_SSE_HYBRID(xmm_lhs, xmm_rhs, ymm_sum)                   \
-  ymm_sum = _mm256_add_epi32(                                                \
-      _mm256_set_m128i(                                                      \
-          _mm_setzero_si128(),                                               \
-          _mm_madd_epi16(_mm_maddubs_epi16(_mm_abs_epi8(xmm_rhs),            \
-                                           _mm_sign_epi8(xmm_lhs, xmm_rhs)), \
-                         ONES_INT16_SSE)),                                   \
-      ymm_sum)
-
-//! Calculate Fused-Multiply-Add (SSE)
-#define FMA_INT8_SSE(xmm_lhs, xmm_rhs, xmm_sum)                          \
-  xmm_sum = _mm_add_epi32(                                               \
-      _mm_madd_epi16(_mm_maddubs_epi16(_mm_abs_epi8(xmm_rhs),            \
-                                       _mm_sign_epi8(xmm_lhs, xmm_rhs)), \
-                     ONES_INT16_SSE),                                    \
-      xmm_sum)
 
 #if defined(__SSE4_1__)
 //! Compute the Inner Product between p and q, and each Squared L2-Norm value

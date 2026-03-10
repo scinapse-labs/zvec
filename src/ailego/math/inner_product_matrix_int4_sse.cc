@@ -12,87 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <ailego/internal/cpu_features.h>
 #include "distance_matrix_accum_int4.i"
+#include "distance_matrix_inner_product_utility.i"
 #include "inner_product_matrix.h"
 
 namespace zvec {
 namespace ailego {
-
-#define ACCUM_INT4_STEP_SSE FMA_INT4_SSE
-
-#if defined(__SSE4_1__)
-//! Four-bits Convert Table
-static const AILEGO_ALIGNED(32) int8_t Int4ConvertTable[32] = {
-    0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, -1,
-    0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, -1};
-#endif  // __SSE4_1__
-
-#if defined(__SSE4_1__)
-static const __m128 NEGZEROS_FP32_SSE = _mm_set1_ps(-0.0f);
-static const __m128i MASK_INT4_SSE = _mm_set1_epi32(0x0f0f0f0f);
-static const __m128i ONES_INT16_SSE = _mm_set1_epi32(0x00010001);
-static const __m128i INT4_LOOKUP_SSE =
-    _mm_load_si128((const __m128i *)Int4ConvertTable);
-#endif  // __SSE4_1__
-
-//! Calculate Fused-Multiply-Add (GENERAL)
-#define FMA_INT4_GENERAL(m, q, sum)                               \
-  sum += Int4MulTable[(((m) << 4) & 0xf0) | (((q) >> 0) & 0xf)] + \
-         Int4MulTable[(((m) >> 0) & 0xf0) | (((q) >> 4) & 0xf)];
-
-//! Calculate Fused-Multiply-Add (SSE)
-#define FMA_INT4_SSE(xmm_m, xmm_q, xmm_sum)                                    \
-  {                                                                            \
-    __m128i xmm_lhs = _mm_shuffle_epi8(INT4_LOOKUP_SSE,                        \
-                                       _mm_and_si128((xmm_m), MASK_INT4_SSE)); \
-    __m128i xmm_rhs = _mm_shuffle_epi8(INT4_LOOKUP_SSE,                        \
-                                       _mm_and_si128((xmm_q), MASK_INT4_SSE)); \
-    xmm_sum = _mm_add_epi32(                                                   \
-        _mm_madd_epi16(_mm_maddubs_epi16(_mm_abs_epi8(xmm_rhs),                \
-                                         _mm_sign_epi8(xmm_lhs, xmm_rhs)),     \
-                       ONES_INT16_SSE),                                        \
-        xmm_sum);                                                              \
-    xmm_lhs = _mm_shuffle_epi8(                                                \
-        INT4_LOOKUP_SSE,                                                       \
-        _mm_and_si128(_mm_srli_epi32((xmm_m), 4), MASK_INT4_SSE));             \
-    xmm_rhs = _mm_shuffle_epi8(                                                \
-        INT4_LOOKUP_SSE,                                                       \
-        _mm_and_si128(_mm_srli_epi32((xmm_q), 4), MASK_INT4_SSE));             \
-    xmm_sum = _mm_add_epi32(                                                   \
-        _mm_madd_epi16(_mm_maddubs_epi16(_mm_abs_epi8(xmm_rhs),                \
-                                         _mm_sign_epi8(xmm_lhs, xmm_rhs)),     \
-                       ONES_INT16_SSE),                                        \
-        xmm_sum);                                                              \
-  }
-
-//! Compute the distance between matrix and query
-#define FMA_INT4_ITER_SSE(xmm_lhs, xmm_rhs, xmm_sum)                       \
-  {                                                                        \
-    __m128i xmm_lhs_0 = _mm_shuffle_epi8(                                  \
-        INT4_LOOKUP_SSE, _mm_and_si128((xmm_lhs), MASK_INT4_SSE));         \
-    __m128i xmm_rhs_0 = _mm_shuffle_epi8(                                  \
-        INT4_LOOKUP_SSE, _mm_and_si128((xmm_rhs), MASK_INT4_SSE));         \
-    __m128i xmm_lhs_1 = _mm_shuffle_epi8(                                  \
-        INT4_LOOKUP_SSE,                                                   \
-        _mm_and_si128(_mm_srli_epi32((xmm_lhs), 4), MASK_INT4_SSE));       \
-    __m128i xmm_rhs_1 = _mm_shuffle_epi8(                                  \
-        INT4_LOOKUP_SSE,                                                   \
-        _mm_and_si128(_mm_srli_epi32((xmm_rhs), 4), MASK_INT4_SSE));       \
-    xmm_lhs_0 = _mm_sign_epi8(xmm_lhs_0, xmm_rhs_0);                       \
-    xmm_lhs_1 = _mm_sign_epi8(xmm_lhs_1, xmm_rhs_1);                       \
-    xmm_rhs_0 = _mm_abs_epi8(xmm_rhs_0);                                   \
-    xmm_rhs_1 = _mm_abs_epi8(xmm_rhs_1);                                   \
-    xmm_lhs_0 = _mm_madd_epi16(_mm_maddubs_epi16(xmm_rhs_0, xmm_lhs_0),    \
-                               ONES_INT16_SSE);                            \
-    xmm_lhs_1 = _mm_madd_epi16(_mm_maddubs_epi16(xmm_rhs_1, xmm_lhs_1),    \
-                               ONES_INT16_SSE);                            \
-    xmm_sum = _mm_add_epi32(_mm_add_epi32(xmm_lhs_0, xmm_lhs_1), xmm_sum); \
-  }
-
-//! Reverse sign of value (SSE)
-#define NEGATE_FP32_SSE(v, ...) \
-  _mm_xor_ps(_mm_cvtepi32_ps(v), NEGZEROS_FP32_SSE)
 
 #if defined(__SSE4_1__)
 //! Inner Product

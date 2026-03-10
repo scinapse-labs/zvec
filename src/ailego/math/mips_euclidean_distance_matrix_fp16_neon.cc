@@ -13,28 +13,11 @@
 // limitations under the License.
 
 #include "distance_matrix_accum_fp16.i"
+#include "distance_matrix_mips_utility.i"
 #include "mips_euclidean_distance_matrix.h"
 
 namespace zvec {
 namespace ailego {
-
-#define HorizontalAdd_FP16_NEON(v) \
-  vaddvq_f32(vaddq_f32(vcvt_f32_f16(vget_low_f16(v)), vcvt_high_f32_f16(v)))
-
-#define HorizontalAdd_FP32_V512_TO_V256(zmm) \
-  _mm256_add_ps(                             \
-      _mm512_castps512_ps256(zmm),           \
-      _mm256_castpd_ps(_mm512_extractf64x4_pd(_mm512_castps_pd(zmm), 1)))
-
-//! Calculate Fused-Multiply-Add (AVX, FP16)
-#define FMA_FP16_GENERAL(lhs, rhs, sum, norm1, norm2) \
-  {                                                   \
-    float v1 = lhs;                                   \
-    float v2 = rhs;                                   \
-    sum += v1 * v2;                                   \
-    norm1 += v1 * v1;                                 \
-    norm2 += v2 * v2;                                 \
-  }
 
 #if defined(__ARM_NEON) && defined(__aarch64__)
 #if defined(__ARM_FEATURE_FP16_VECTOR_ARITHMETIC)

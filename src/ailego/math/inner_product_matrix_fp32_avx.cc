@@ -12,55 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <ailego/internal/cpu_features.h>
 #include "distance_matrix_accum_fp32.i"
+#include "distance_matrix_inner_product_utility.i"
 #include "inner_product_matrix.h"
 
 namespace zvec {
 namespace ailego {
-
-#define ACCUM_FP32_STEP_SSE FMA_FP32_SSE
-#define ACCUM_FP32_STEP_AVX FMA_FP32_AVX
-#define ACCUM_FP32_STEP_AVX512 FMA_FP32_AVX512
-#define ACCUM_FP32_STEP_NEON FMA_FP32_NEON
-
-#if defined(__AVX512F__) && !defined(__AVX512DQ__)
-#define _mm512_xor_ps(a, b) \
-  _mm512_castsi512_ps(      \
-      _mm512_xor_epi32(_mm512_castps_si512(a), _mm512_castps_si512(b)))
-#endif  // __AVX512DQ__
-
-#if defined(__SSE__)
-static const __m128 NEGZEROS_FP32_SSE = _mm_set1_ps(-0.0f);
-#endif  // __SSE__
-
-#if defined(__AVX__)
-static const __m256 NEGZEROS_FP32_AVX = _mm256_set1_ps(-0.0f);
-#endif  // __AVX__
-
-#if defined(__AVX512F__)
-#define NEGZEROS_FP32_AVX512 _mm512_set1_ps(-0.0f)
-#endif  // __AVX512F__
-
-//! Reverse sign of value (SSE)
-#define NEGATE_FP32_SSE(v, ...) _mm_xor_ps(v, NEGZEROS_FP32_SSE)
-
-//! Reverse sign of value (AVX)
-#define NEGATE_FP32_AVX(v, ...) _mm256_xor_ps(v, NEGZEROS_FP32_AVX)
-
-//! Calculate Fused-Multiply-Add (GENERAL)
-#define FMA_FP32_GENERAL(m, q, sum) sum += (m * q);
-
-//! Calculate Fused-Multiply-Add (SSE)
-#define FMA_FP32_SSE(xmm_m, xmm_q, xmm_sum) \
-  xmm_sum = _mm_fmadd_ps(xmm_m, xmm_q, xmm_sum);
-
-//! Calculate Fused-Multiply-Add (AVX)
-#define FMA_FP32_AVX(ymm_m, ymm_q, ymm_sum) \
-  ymm_sum = _mm256_fmadd_ps(ymm_m, ymm_q, ymm_sum);
-
-//! Calculate Fused-Multiply-Add (NEON)
-#define FMA_FP32_NEON(v_m, v_q, v_sum) v_sum = vfmaq_f32(v_sum, v_m, v_q);
 
 #if defined(__AVX__)
 //! Inner Product

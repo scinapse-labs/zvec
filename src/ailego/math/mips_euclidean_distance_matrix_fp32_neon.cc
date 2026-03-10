@@ -13,18 +13,11 @@
 // limitations under the License.
 
 #include "distance_matrix_accum_fp32.i"
+#include "distance_matrix_mips_utility.i"
 #include "mips_euclidean_distance_matrix.h"
 
 namespace zvec {
 namespace ailego {
-
-//! Calculate Fused-Multiply-Add (GENERAL)
-#define FMA_FP32_GENERAL(lhs, rhs, sum, norm1, norm2) \
-  {                                                   \
-    sum += (lhs) * (rhs);                             \
-    norm1 += (lhs) * (lhs);                           \
-    norm2 += (rhs) * (rhs);                           \
-  }
 
 #if defined(__ARM_NEON)
 //! Compute the Inner Product between p and q, and each Squared L2-Norm value

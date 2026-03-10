@@ -13,35 +13,11 @@
 // limitations under the License.
 
 #include "distance_matrix_accum_int8.i"
+#include "distance_matrix_inner_product_utility.i"
 #include "inner_product_matrix.h"
 
 namespace zvec {
 namespace ailego {
-
-#define ACCUM_INT8_STEP_SSE FMA_INT8_SSE
-
-#if defined(__SSE__)
-static const __m128 NEGZEROS_FP32_SSE = _mm_set1_ps(-0.0f);
-#endif  // __SSE__
-
-#if defined(__SSE4_1__)
-static const __m128i ONES_INT16_SSE = _mm_set1_epi32(0x00010001);
-#endif  // __SSE4_1__
-
-//! Reverse sign of value (SSE)
-#define NEGATE_FP32_SSE(v, ...) \
-  _mm_xor_ps(_mm_cvtepi32_ps(v), NEGZEROS_FP32_SSE)
-
-//! Calculate Fused-Multiply-Add (GENERAL)
-#define FMA_INT8_GENERAL(m, q, sum) sum += static_cast<float>(m * q);
-
-//! Calculate Fused-Multiply-Add (SSE)
-#define FMA_INT8_SSE(xmm_m, xmm_q, xmm_sum)                                    \
-  xmm_sum = _mm_add_epi32(                                                     \
-      _mm_madd_epi16(                                                          \
-          _mm_maddubs_epi16(_mm_abs_epi8(xmm_q), _mm_sign_epi8(xmm_m, xmm_q)), \
-          ONES_INT16_SSE),                                                     \
-      xmm_sum);
 
 #if defined(__SSE4_1__)
 //! Inner Product

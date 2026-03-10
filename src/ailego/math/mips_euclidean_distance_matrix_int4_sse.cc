@@ -13,69 +13,13 @@
 // limitations under the License.
 
 #include "distance_matrix_accum_int8.i"
+#include "distance_matrix_mips_utility.i"
 #include "inner_product_matrix.h"
 #include "mips_euclidean_distance_matrix.h"
 #include "norm_matrix.h"
 
 namespace zvec {
 namespace ailego {
-
-#if defined(__SSE4_1__)
-//! Four-bits Convert Table
-static const AILEGO_ALIGNED(32) int8_t Int4ConvertTable[32] = {
-    0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, -1,
-    0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, -1};
-#endif  // __SSE4_1__
-
-#if defined(__SSE4_1__)
-static const __m128i MASK_INT4_SSE = _mm_set1_epi32(0x0f0f0f0f);
-static const __m128i ONES_INT16_SSE = _mm_set1_epi32(0x00010001);
-static const __m128i INT4_LOOKUP_SSE =
-    _mm_load_si128((const __m128i *)Int4ConvertTable);
-#endif  // __SSE4_1__
-
-//! Calculate Fused-Multiply-Add (GENERAL)
-#define FMA_INT4_GENERAL(lhs, rhs, sum, norm1, norm2)                   \
-  {                                                                     \
-    sum += Int4MulTable[(((lhs) << 4) & 0xf0) | (((rhs) >> 0) & 0xf)] + \
-           Int4MulTable[(((lhs) >> 0) & 0xf0) | (((rhs) >> 4) & 0xf)];  \
-    norm1 += static_cast<float>(                                        \
-        ((int8_t)((lhs) << 4) >> 4) * ((int8_t)((lhs) << 4) >> 4) +     \
-        ((int8_t)((lhs) & 0xf0) >> 4) * ((int8_t)((lhs) & 0xf0) >> 4)); \
-    norm2 += static_cast<float>(                                        \
-        ((int8_t)((rhs) << 4) >> 4) * ((int8_t)((rhs) << 4) >> 4) +     \
-        ((int8_t)((rhs) & 0xf0) >> 4) * ((int8_t)((rhs) & 0xf0) >> 4)); \
-  }
-
-//! Calculate Fused-Multiply-Add (SSE)
-#define FMA_INT8_SSE(xmm_lhs, xmm_rhs, xmm_sum)                          \
-  xmm_sum = _mm_add_epi32(                                               \
-      _mm_madd_epi16(_mm_maddubs_epi16(_mm_abs_epi8(xmm_rhs),            \
-                                       _mm_sign_epi8(xmm_lhs, xmm_rhs)), \
-                     ONES_INT16_SSE),                                    \
-      xmm_sum)
-
-//! Compute the distance between matrix and query (SSE)
-#define FMA_INT4_ITER_SSE(xmm_lhs, xmm_rhs, xmm_sum_0, xmm_sum_norm1, \
-                          xmm_sum_norm2)                              \
-  {                                                                   \
-    __m128i xmm_lhs_0 = _mm_shuffle_epi8(                             \
-        INT4_LOOKUP_SSE, _mm_and_si128((xmm_lhs), MASK_INT4_SSE));    \
-    __m128i xmm_rhs_0 = _mm_shuffle_epi8(                             \
-        INT4_LOOKUP_SSE, _mm_and_si128((xmm_rhs), MASK_INT4_SSE));    \
-    __m128i xmm_lhs_1 = _mm_shuffle_epi8(                             \
-        INT4_LOOKUP_SSE,                                              \
-        _mm_and_si128(_mm_srli_epi32((xmm_lhs), 4), MASK_INT4_SSE));  \
-    __m128i xmm_rhs_1 = _mm_shuffle_epi8(                             \
-        INT4_LOOKUP_SSE,                                              \
-        _mm_and_si128(_mm_srli_epi32((xmm_rhs), 4), MASK_INT4_SSE));  \
-    FMA_INT8_SSE(xmm_lhs_0, xmm_rhs_0, xmm_sum_0);                    \
-    FMA_INT8_SSE(xmm_lhs_0, xmm_lhs_0, xmm_sum_norm1);                \
-    FMA_INT8_SSE(xmm_rhs_0, xmm_rhs_0, xmm_sum_norm2);                \
-    FMA_INT8_SSE(xmm_lhs_1, xmm_rhs_1, xmm_sum_0);                    \
-    FMA_INT8_SSE(xmm_lhs_1, xmm_lhs_1, xmm_sum_norm1);                \
-    FMA_INT8_SSE(xmm_rhs_1, xmm_rhs_1, xmm_sum_norm2);                \
-  }
 
 #if defined(__SSE4_1__)
 //! Compute the Inner Product between p and q, and each Squared L2-Norm value

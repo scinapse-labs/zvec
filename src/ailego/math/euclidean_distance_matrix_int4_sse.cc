@@ -13,73 +13,11 @@
 // limitations under the License.
 
 #include "distance_matrix_accum_int4.i"
+#include "distance_matrix_euclidean_utility.i"
 #include "euclidean_distance_matrix.h"
 
 namespace zvec {
 namespace ailego {
-
-#define ACCUM_INT4_STEP_SSE SSD_INT4_SSE
-
-#if defined(__SSE4_1__)
-static const __m128i MASK_INT4_SSE = _mm_set1_epi32(0xf0f0f0f0);
-static const __m128i ONES_INT16_SSE = _mm_set1_epi32(0x00010001);
-#endif  // __SSE4_1__
-
-//! Calculate sum of squared difference (GENERAL)
-#define SSD_INT4_GENERAL(m, q, sum)                                       \
-  sum += Int4SquaredDiffTable[(((m) << 4) & 0xf0) | (((q) >> 0) & 0xf)] + \
-         Int4SquaredDiffTable[(((m) >> 0) & 0xf0) | (((q) >> 4) & 0xf)];
-
-//! Calculate sum of squared difference (SSE)
-#define SSD_INT4_SSE(xmm_m, xmm_q, xmm_sum)                                  \
-  {                                                                          \
-    __m128i xmm_lhs =                                                        \
-        _mm_and_si128(_mm_slli_epi32((xmm_m), 4), MASK_INT4_SSE);            \
-    __m128i xmm_rhs =                                                        \
-        _mm_and_si128(_mm_slli_epi32((xmm_q), 4), MASK_INT4_SSE);            \
-    xmm_lhs = _mm_srli_epi32(_mm_sub_epi8(_mm_max_epi8(xmm_lhs, xmm_rhs),    \
-                                          _mm_min_epi8(xmm_lhs, xmm_rhs)),   \
-                             4);                                             \
-    xmm_sum = _mm_add_epi32(                                                 \
-        _mm_madd_epi16(_mm_maddubs_epi16(xmm_lhs, xmm_lhs), ONES_INT16_SSE), \
-        xmm_sum);                                                            \
-    xmm_lhs = _mm_and_si128((xmm_m), MASK_INT4_SSE);                         \
-    xmm_rhs = _mm_and_si128((xmm_q), MASK_INT4_SSE);                         \
-    xmm_lhs = _mm_srli_epi32(_mm_sub_epi8(_mm_max_epi8(xmm_lhs, xmm_rhs),    \
-                                          _mm_min_epi8(xmm_lhs, xmm_rhs)),   \
-                             4);                                             \
-    xmm_sum = _mm_add_epi32(                                                 \
-        _mm_madd_epi16(_mm_maddubs_epi16(xmm_lhs, xmm_lhs), ONES_INT16_SSE), \
-        xmm_sum);                                                            \
-  }
-
-//! Compute the distance between matrix and query
-#define SSD_INT4_ITER_SSE(xmm_lhs, xmm_rhs, xmm_sum)                       \
-  {                                                                        \
-    __m128i xmm_lhs_0 =                                                    \
-        _mm_and_si128(_mm_slli_epi32((xmm_lhs), 4), MASK_INT4_SSE);        \
-    __m128i xmm_rhs_0 =                                                    \
-        _mm_and_si128(_mm_slli_epi32((xmm_rhs), 4), MASK_INT4_SSE);        \
-    __m128i xmm_lhs_1 = _mm_and_si128((xmm_lhs), MASK_INT4_SSE);           \
-    __m128i xmm_rhs_1 = _mm_and_si128((xmm_rhs), MASK_INT4_SSE);           \
-    xmm_lhs_0 =                                                            \
-        _mm_srli_epi32(_mm_sub_epi8(_mm_max_epi8(xmm_lhs_0, xmm_rhs_0),    \
-                                    _mm_min_epi8(xmm_lhs_0, xmm_rhs_0)),   \
-                       4);                                                 \
-    xmm_rhs_0 =                                                            \
-        _mm_srli_epi32(_mm_sub_epi8(_mm_max_epi8(xmm_lhs_1, xmm_rhs_1),    \
-                                    _mm_min_epi8(xmm_lhs_1, xmm_rhs_1)),   \
-                       4);                                                 \
-    xmm_lhs_0 = _mm_madd_epi16(_mm_maddubs_epi16(xmm_lhs_0, xmm_lhs_0),    \
-                               ONES_INT16_SSE);                            \
-    xmm_rhs_0 = _mm_madd_epi16(_mm_maddubs_epi16(xmm_rhs_0, xmm_rhs_0),    \
-                               ONES_INT16_SSE);                            \
-    xmm_sum = _mm_add_epi32(_mm_add_epi32(xmm_lhs_0, xmm_rhs_0), xmm_sum); \
-  }
-
-
-//! Compute the square root of value (SSE)
-#define SQRT_FP32_SSE(v, ...) _mm_sqrt_ps(_mm_cvtepi32_ps(v))
 
 #if defined(__SSE4_1__)
 //! Squared Euclidean Distance

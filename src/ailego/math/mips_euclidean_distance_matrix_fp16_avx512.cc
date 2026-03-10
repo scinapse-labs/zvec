@@ -13,31 +13,11 @@
 // limitations under the License.
 
 #include "distance_matrix_accum_fp16.i"
+#include "distance_matrix_mips_utility.i"
 #include "mips_euclidean_distance_matrix.h"
 
 namespace zvec {
 namespace ailego {
-
-//! Calculate Fused-Multiply-Add (AVX512)
-#define FMA_FP32_AVX512(zmm_m, zmm_q, zmm_sum) \
-  zmm_sum = _mm512_fmadd_ps(zmm_m, zmm_q, zmm_sum);
-#define FMA_MASK_FP32_AVX512(zmm_m, zmm_q, zmm_sum, mask) \
-  zmm_sum = _mm512_mask3_fmadd_ps(zmm_m, zmm_q, zmm_sum, mask);
-
-#define HorizontalAdd_FP32_V512_TO_V256(zmm) \
-  _mm256_add_ps(                             \
-      _mm512_castps512_ps256(zmm),           \
-      _mm256_castpd_ps(_mm512_extractf64x4_pd(_mm512_castps_pd(zmm), 1)))
-
-//! Calculate Fused-Multiply-Add (AVX, FP16)
-#define FMA_FP16_GENERAL(lhs, rhs, sum, norm1, norm2) \
-  {                                                   \
-    float v1 = lhs;                                   \
-    float v2 = rhs;                                   \
-    sum += v1 * v2;                                   \
-    norm1 += v1 * v1;                                 \
-    norm2 += v2 * v2;                                 \
-  }
 
 #if defined(__AVX512F__)
 //! Compute the Inner Product between p and q, and each Squared L2-Norm value

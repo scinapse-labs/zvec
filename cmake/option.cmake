@@ -76,7 +76,7 @@ endmacro()
 
 function(_setup_armv8_march)
   set(_arch "armv8")
-  check_c_compiler_flag("-march=${_ver}" _COMP_SUPP_${_arch})
+  check_c_compiler_flag("-march=${_arch}" _COMP_SUPP_${_arch})
   if(_COMP_SUPP_${_arch})
     _AppendFlags(CMAKE_C_FLAGS "-march=${_arch}")
     _AppendFlags(CMAKE_CXX_FLAGS "-march=${_arch}")

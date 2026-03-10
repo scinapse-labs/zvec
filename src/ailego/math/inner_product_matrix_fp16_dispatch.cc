@@ -142,14 +142,15 @@ float MinusInnerProductSparseMatrix<Float16>::
                                        uint32_t q_sparse_count,
                                        const uint16_t *q_sparse_index,
                                        const ValueType *q_sparse_value) {
-#if defined(__AVX__)
-  return InnerProductSparseInSegmentAVX(m_sparse_count, m_sparse_index,
-                                        m_sparse_value, q_sparse_count,
-                                        q_sparse_index, q_sparse_value);
-#elif defined(__AVX512FP16__)
+#if defined(__AVX512FP16__)
   return InnerProductSparseInSegmentAVX512FP16(m_sparse_count, m_sparse_index,
                                                m_sparse_value, q_sparse_count,
                                                q_sparse_index, q_sparse_value);
+#elif defined(__AVX__)
+  return InnerProductSparseInSegmentAVX(m_sparse_count, m_sparse_index,
+                                        m_sparse_value, q_sparse_count,
+                                        q_sparse_index, q_sparse_value);
+
 #else
   return InnerProductSparseInSegment(m_sparse_count, m_sparse_index,
                                      m_sparse_value, q_sparse_count,

@@ -125,6 +125,7 @@ class BufferStorage : public IndexStorage {
                              segment_->meta()->data_index;
       auto *raw = owner_->get_buffer(buffer_offset, capacity_, segment_id_);
       if (!raw) {
+        LOG_ERROR("buffer_offset: %zu, capacity_:%zu, segment_id_:%zu", buffer_offset, capacity_, segment_id_);
         return 0;
       }
 
@@ -196,7 +197,7 @@ class BufferStorage : public IndexStorage {
     if (ret != 0) {
       return ret;
     }
-    ret = buffer_pool_->init(buffer_size_, max_segment_size_);
+    ret = buffer_pool_->init(buffer_size_, max_segment_size_, segments_.size());
     if (ret != 0) {
       return ret;
     }

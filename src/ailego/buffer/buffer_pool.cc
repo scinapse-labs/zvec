@@ -149,14 +149,14 @@ VecBufferPool::VecBufferPool(const std::string &filename) {
   file_size_ = st.st_size;
 }
 
-int VecBufferPool::init(size_t pool_capacity, size_t block_size) {
+int VecBufferPool::init(size_t pool_capacity, size_t block_size, size_t segment_count) {
   if (block_size == 0) {
     LOG_ERROR("block_size must not be 0");
     return -1;
   }
   pool_capacity_ = pool_capacity;
   size_t buffer_num = pool_capacity_ / block_size + 10;
-  size_t block_num = file_size_ / block_size + 10;
+  size_t block_num = segment_count + 10;
   lp_map_.init(block_num);
   for (size_t i = 0; i < buffer_num; i++) {
     char *buffer = (char *)ailego_malloc(block_size);
@@ -167,7 +167,7 @@ int VecBufferPool::init(size_t pool_capacity, size_t block_size) {
       return -1;
     }
   }
-  LOG_DEBUG("Buffer pool num: %zu, entry num: %zu", buffer_num,
+  LOG_INFO("Buffer pool num: %zu, entry num: %zu", buffer_num,
             lp_map_.entry_num());
   return 0;
 }

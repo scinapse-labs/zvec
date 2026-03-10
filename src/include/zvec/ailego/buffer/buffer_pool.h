@@ -110,7 +110,7 @@ class VecBufferPool {
     close(fd_);
   }
 
-  int init(size_t pool_capacity, size_t block_size);
+  int init(size_t pool_capacity, size_t block_size, size_t segment_count);
 
   VecBufferPoolHandle get_handle();
 

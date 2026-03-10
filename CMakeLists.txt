@@ -34,10 +34,6 @@ message(STATUS "USE_OSS_MIRROR:${USE_OSS_MIRROR}")
 option(BUILD_EXAMPLES "Build examples" ON)
 message(STATUS "BUILD_EXAMPLES:${BUILD_EXAMPLES}")
 
-# Option to build static libraries for RPM packaging
-option(BUILD_STATIC_LIBS "Build static libraries" OFF)
-message(STATUS "BUILD_STATIC_LIBS:${BUILD_STATIC_LIBS}")
-
 # Option to enable RPM packaging
 option(ENABLE_RPM_PACKAGING "Enable RPM packaging support" OFF)
 message(STATUS "ENABLE_RPM_PACKAGING:${ENABLE_RPM_PACKAGING}")
@@ -66,7 +62,7 @@ set(CPACK_PACKAGE_NAME zvec)
 # =============================================================================
 # RPM Packaging Configuration
 # =============================================================================
-if(ENABLE_RPM_PACKAGING OR BUILD_STATIC_LIBS)
+if(ENABLE_RPM_PACKAGING)
     include(GNUInstallDirs)
     include(CMakePackageConfigHelpers)
 
@@ -129,7 +125,7 @@ endif()
 # Import target: zvec::zvec_c_api_static (if available)
 # This is a 'fat' static library that includes all zvec code (core, db, ailego)
 # But you still need to link third-party dependencies separately
-if(BUILD_STATIC_LIBS AND EXISTS \"\${CMAKE_CURRENT_LIST_DIR}/../../../${CMAKE_INSTALL_LIBDIR}/libzvec_c_api_static.a\")
+if(ENABLE_RPM_PACKAGING AND EXISTS "${CMAKE_CURRENT_LIST_DIR}/../../../${CMAKE_INSTALL_LIBDIR}/libzvec_c_api_static.a")
     if(NOT TARGET zvec::zvec_c_api_static)
         add_library(zvec::zvec_c_api_static STATIC IMPORTED)
         set_target_properties(zvec::zvec_c_api_static PROPERTIES

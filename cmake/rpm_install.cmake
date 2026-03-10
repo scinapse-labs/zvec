@@ -33,7 +33,7 @@ endif()
 
 # Install static library only in NON-FAT mode
 # In FAT mode, we only build the self-contained shared library
-if(BUILD_STATIC_LIBS AND NOT BUILD_FAT_LIBS)
+if(ENABLE_RPM_PACKAGING AND NOT BUILD_FAT_LIBS)
     if(TARGET zvec_c_api_static)
         install(TARGETS zvec_c_api_static
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

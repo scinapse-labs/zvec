@@ -171,7 +171,7 @@ install(FILES ${PROJECT_SOURCE_DIR}/src/include/zvec/c_api.h
 # Note: In FAT mode (BUILD_FAT_LIBS=ON), we only build shared library because
 # creating a self-contained fat static library is complex and error-prone.
 # Users who need static linking should use the shared library or link third-party libs manually.
-if(BUILD_STATIC_LIBS AND NOT BUILD_FAT_LIBS)
+if(ENABLE_RPM_PACKAGING AND NOT BUILD_FAT_LIBS)
     # NON-FAT mode only: Create static library without third-party dependencies
     # User needs to link third-party libraries manually
 

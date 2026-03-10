@@ -15,10 +15,8 @@ file(GLOB_RECURSE ALL_DB_SRCS *.cc *.c *.h)
 
 # Build both OBJECT and STATIC library
 # OBJECT library allows other targets to extract object files
-# Note: No PACKED flag - this library is not installed separately,
-# it's included in libzvec_c_api_static.a
 cc_library(
-  NAME zvec_db SHARED STATIC STRICT SRCS_NO_GLOB
+  NAME zvec_db SHARED STATIC STRICT SRCS_NO_GLOB PACKED
   SRCS ${ALL_DB_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/proto/zvec.pb.cc
   INCS . ${CMAKE_CURRENT_BINARY_DIR}
   LIBS

@@ -15,8 +15,8 @@
 #pragma once
 
 #include <algorithm>
+#include <array>
 #include <random>
-#include <vector>
 #include <ailego/parallel/lock.h>
 #include <zvec/ailego/parallel/thread_pool.h>
 #include <zvec/ailego/utility/type_helper.h>
@@ -248,7 +248,7 @@ class LloydCluster {
  protected:
   //! Cluster the cache features
   void cluster_cache_features(void) {
-    std::vector<float> scores(BatchCount);
+    std::array<float, BatchCount> scores;
 
     for (size_t i = 0, n = feature_cache_.count(); i != n; ++i) {
       size_t count = centroids_matrix_.count() / BatchCount * BatchCount;
@@ -286,7 +286,7 @@ class LloydCluster {
 
   //! Cluster the matrix features
   void cluster_matrix_features(size_t first, size_t last) {
-    std::vector<float> scores(BatchCount * BatchCount, 0);
+    std::array<float, BatchCount * BatchCount> scores;
     ContainerType rows(centroids_matrix_.dimension());
 
     auto comp = [](float i, float j) {
@@ -296,8 +296,8 @@ class LloydCluster {
       return i < j;
     };
 
-    std::vector<float> nearest_scores(BatchCount);
-    std::vector<size_t> nearest_indexes(BatchCount);
+    std::array<float, BatchCount> nearest_scores;
+    std::array<size_t, BatchCount> nearest_indexes;
 
     rows.resize(BatchCount);
     for (size_t i = first * BatchCount; i != last * BatchCount;

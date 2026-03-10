@@ -12,7 +12,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 endif()
 
 if(NOT DEFINED PROJECT_ROOT_DIR OR NOT PROJECT_ROOT_DIR)
-    set(PROJECT_ROOT_DIR ${CMAKE_SOURCE_DIR} CACHE PATH "Root directory of the project" FORCE)
+    set(PROJECT_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR} CACHE PATH "Root directory of the project" FORCE)
 endif()
 
 message(STATUS "PROJECT_ROOT_DIR = ${PROJECT_ROOT_DIR}")
@@ -27,6 +27,12 @@ message(STATUS "BUILD_PYTHON_BINDINGS:${BUILD_PYTHON_BINDINGS}")
 
 option(BUILD_TOOLS "Build tools" ON)
 message(STATUS "BUILD_TOOLS:${BUILD_TOOLS}")
+
+option(USE_OSS_MIRROR "Use OSS mirror for faster third-party downloads" OFF)
+if(DEFINED ENV{USE_OSS_MIRROR} AND NOT "$ENV{USE_OSS_MIRROR}" STREQUAL "")
+  set(USE_OSS_MIRROR "$ENV{USE_OSS_MIRROR}" CACHE BOOL "Use OSS mirror for faster third-party downloads" FORCE)
+endif()
+message(STATUS "USE_OSS_MIRROR:${USE_OSS_MIRROR}")
 
 cc_directory(thirdparty)
 cc_directories(src)
@@ -56,6 +62,6 @@ if(BUILD_PYTHON_BINDINGS)
         set(ZVEC_PY_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}")
     endif()
 
-    MESSAGE(STATUS "Zvec install path: ${ZVEC_PY_INSTALL_DIR}")
+    message(STATUS "Zvec install path: ${ZVEC_PY_INSTALL_DIR}")
     install(TARGETS _zvec LIBRARY DESTINATION ${ZVEC_PY_INSTALL_DIR})
 endif()

@@ -374,14 +374,10 @@ option(CLANG_USE_LIBCXX "Use libc++ instead of libstdc++" ${_clang_use_libcxx_de
 unset(_clang_use_libcxx_default)
 
 set(CLANG_STDLIB_OPTION "")
-if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    if(CLANG_USE_LIBCXX)
-        set(CLANG_STDLIB_OPTION "-stdlib=libc++")
-    else()
-        if(NOT APPLE)
-            set(CLANG_STDLIB_OPTION "-stdlib=libstdc++")
-        endif()
-    endif()
+if(CLANG_USE_LIBCXX)
+    set(CLANG_STDLIB_OPTION "-stdlib=libc++")
+else()
+    set(CLANG_STDLIB_OPTION "-stdlib=libstdc++")
 endif()
 
 if(NOT MSVC)

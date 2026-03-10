@@ -37,8 +37,8 @@ class IndexStorage : public IndexModule {
     };
 
     MemoryBlock() {}
-    MemoryBlock(ailego::VecBufferPoolHandle *buffer_pool_handle, size_t block_id,
-                void *data)
+    MemoryBlock(ailego::VecBufferPoolHandle *buffer_pool_handle,
+                size_t block_id, void *data)
         : type_(MemoryBlockType::MBT_BUFFERPOOL) {
       buffer_pool_handle_ = buffer_pool_handle;
       buffer_block_id_ = block_id;
